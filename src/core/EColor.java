@@ -7,11 +7,11 @@ package core;
  */
 public enum EColor {
     
-    AZUL(0,"azul",false),
-    ROJO(1,"rojo",false),
-    VERDE(2,"verde",false),
-    AMARILLO(3,"amarillo",false),
-	NEGRO(4,"",true);
+    BLUE(0,"BLUE",false),
+    RED(1,"RED",false),
+    GREEN(2,"GREEN",false),
+    YELLOW(3,"YELLOW",false),
+	BLACK(4,"BLACK",true);
     
     private final String name;
     private final boolean special; /**Las cartas especiales solo pueden ser de color negro.*/

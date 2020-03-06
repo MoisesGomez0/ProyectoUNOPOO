@@ -7,11 +7,14 @@ package core;
  */
 public class Hand extends Deck{
     
-    private boolean hiddenCards = false;
+    private Deck deck; /**Baraja de la que tomará cartas.*/
+	private boolean hiddenCards = false;
+    
     
     /**Constructor vacío.*/
-    public Hand() {
+    public Hand(Deck deck) {
     	this.cards.clear();/**Sin cartas en la mano al iniciar.*/
+    	this.setDeck(deck);
     }
     
     /**Métodos.*/
@@ -20,8 +23,8 @@ public class Hand extends Deck{
      * Toma la primera carta de una baraja específica.
      * @param deck Baraja de donde se tomará la carta.
      */
-    public void takeCard(Deck deck){
-        this.cards.add(deck.giveCard());
+    public void takeCard(){
+        this.cards.add(this.getDeck().giveCard());
     }
     
     /**
@@ -48,6 +51,20 @@ public class Hand extends Deck{
 	 */
 	public void setHiddenCards(boolean hiddenCards) {
 		this.hiddenCards = hiddenCards;
+	}
+
+	/**
+	 * @return the deck
+	 */
+	public Deck getDeck() {
+		return deck;
+	}
+
+	/**
+	 * @param deck the deck to set
+	 */
+	public void setDeck(Deck deck) {
+		this.deck = deck;
 	}
 
 	//Pruebas con la clase.

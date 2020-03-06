@@ -27,7 +27,7 @@ public class Card {
         this.setHidden(false);        
         
         /**Se espera que el nombre del archivo de la imagen como (value_figuer.png)*/
-        this.setImage(String.format("src/Imagenes/%s_%s.png",value,color));
+        this.setImage(String.format("src/Images/%s_%s.png",value,color));
             
     }
     
@@ -36,10 +36,10 @@ public class Card {
         String result = null;
         
         if (isHidden() == false) {
-        	if (this.color == EColor.NEGRO) {
+        	if (this.color == EColor.BLACK) {
         		result = getValue().getName();
         	}
-            result = String.format("%s %s", getValue().getName(), getColor().getName());           
+            result = String.format("%s_%s", getValue().getName(), getColor().getName());           
         }else{
             result = String.format("???");
         }
@@ -118,9 +118,9 @@ public class Card {
 
 	//Pruebas con la clase.
     public static void main(String[] args){
-        Card card = new Card(ENumber.CERO,EColor.AZUL);
-        System.out.println(card.toString());
-        System.out.println(card.getImage());
+        Card card = new Card(ENumber.CERO,EColor.BLUE);
+        System.out.printf("\t%s",card.toString());
+        System.out.printf("\n\t%s",card.toString());
     }
 
 

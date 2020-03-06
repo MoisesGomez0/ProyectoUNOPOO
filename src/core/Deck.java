@@ -28,7 +28,7 @@ public class Deck {
     	 * Por cada color (excepto el negro) de EColor una carta con valor cero, dos del uno al nueve y dos comodines
     	 * de color (Draw two card, Reverse card, Skip card).
     	 */
-    	for (EColor color: EnumSet.range(EColor.AZUL, EColor.AMARILLO)) {
+    	for (EColor color: EnumSet.range(EColor.BLUE, EColor.YELLOW)) {
     		this.getCards().add(new Card(ENumber.CERO,color));/**Agrega una carta con el número cero a la baraja.*/
     		
     		for (int i = 0; i < 2; i++) {/**Dos de cada número.*/
@@ -39,8 +39,8 @@ public class Deck {
         }
     	
     	for (int i = 0; i < 4; i++) {/**Cuatro cartas de especiales (de color negro).*/
-    		this.getCards().add(new Card(ENumber.WILD,EColor.NEGRO));/**Agrega cuatro cartas "cambiar color" a la baraja.*/
-    		this.getCards().add(new Card(ENumber.DFOUR,EColor.NEGRO));/**Agrega cuatro cartas "toma cuatro" a la baraja.*/
+    		this.getCards().add(new Card(ENumber.WILD,EColor.BLACK));/**Agrega cuatro cartas "cambiar color" a la baraja.*/
+    		this.getCards().add(new Card(ENumber.DFOUR,EColor.BLACK));/**Agrega cuatro cartas "toma cuatro" a la baraja.*/
 			
 		}
     }
@@ -176,23 +176,11 @@ public class Deck {
     public static void main(String[] args){
         Deck deck = new Deck();
     	
-    	
     	deck.shuffle();
-    	//Card a = baraja.giveCard();
     	System.out.println("======Shuffle=====");
     	System.out.println(deck);
     	
-    	/*Deck a = new Deck();
-        
-        for (int i = 1; i <= 40; i++) {
-            try {
-                System.out.println(a.darCartaAleatoria().toString() + "         " + i);
-            }catch (IllegalArgumentException e){
-                System.out.println(e.getMessage());
-            }    
-        }
-        a.mostrarBaraja();
-        */
+
     }
 
 

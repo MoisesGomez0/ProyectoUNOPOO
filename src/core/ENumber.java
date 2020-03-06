@@ -7,21 +7,21 @@ package core;
  */
 public enum ENumber {
     
-    CERO(0,0,"cero",0),
-    ONE(1,1,"uno",1), 
-    TWO(2,2,"dos",2),
-    THREE(3,3,"tres",3),
-    FOUR(4,4,"cuatro",4),
-    FIVE(5,5,"cinco",5),
-    SIX(6,6,"seis",6),
-    SEVEN(7,7,"siete",7),
-    EIGHT(8,8,"ocho",8),
-    NINE(9,9,"nueve",9),
-    DTWO(10,0,"Draw two",20),/**Las cartas especiales no tienen valor numérico.*/
-    REVERSE(11,0,"Reverse",20),
-    SKIP(12,0,"Skip",20),
-    WILD(13,0,"Wild",50),
-    DFOUR(14,0,"Draw four",50);
+    CERO(0,0,"CERO",0),
+    ONE(1,1,"ONE",1), 
+    TWO(2,2,"TWO",2),
+    THREE(3,3,"THREE",3),
+    FOUR(4,4,"FOUR",4),
+    FIVE(5,5,"FIVE",5),
+    SIX(6,6,"SIX",6),
+    SEVEN(7,7,"SEVEN",7),
+    EIGHT(8,8,"EIGHT",8),
+    NINE(9,9,"NINE",9),
+    DTWO(10,0,"DTWO",20),/**Las cartas especiales no tienen valor numérico.*/
+    REVERSE(11,0,"REVERSE",20),
+    SKIP(12,0,"SKIP",20),
+    WILD(13,0,"WILD",50),
+    DFOUR(14,0,"DFOUR",50);
 	
     
     private final int value;

@@ -60,11 +60,11 @@ public abstract class RandomGenerator {
      */
     public static EColor cardColor(){
         EColor[] colors = {
-        		EColor.AZUL,
-        		EColor.ROJO, 
-        		EColor.VERDE,
-        		EColor.AMARILLO,
-        		EColor.NEGRO
+        		EColor.BLUE,
+        		EColor.RED, 
+        		EColor.GREEN,
+        		EColor.YELLOW,
+        		EColor.BLACK
         };
         
         return colors[randomInt(0, 4)];    
@@ -76,10 +76,10 @@ public abstract class RandomGenerator {
      */
     public static EColor noBlackCardColor() {
         EColor[] colors = {
-        		EColor.AZUL,
-        		EColor.ROJO, 
-        		EColor.VERDE,
-        		EColor.AMARILLO,
+        		EColor.BLUE,
+        		EColor.RED, 
+        		EColor.GREEN,
+        		EColor.YELLOW,
         };
         
         return colors[randomInt(0, 3)];    
