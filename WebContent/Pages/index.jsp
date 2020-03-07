@@ -89,6 +89,7 @@
 
     //Función usada por la funcíon verifyLogin para establece el nombre del jugador adversario
     var setAdversayName = function (data){
+    	console.log(data);
         data = JSON.parse(data);
         adversaryName = data.j2;
     }

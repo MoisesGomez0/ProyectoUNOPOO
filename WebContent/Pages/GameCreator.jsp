@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="clases.FileManager"%>
 <%
-FileManager fm = new FileManager("/home/moises/Documentos/Prototipos/Prototipos/WebContent/Pages/");
+FileManager fm = new FileManager();
 
 fm.create("game.json", String.format("{\"ID\":\"%s\",\"j1\":\"%s\",\"j2\":\"%s\"}",
 		request.getParameter("ID"),
