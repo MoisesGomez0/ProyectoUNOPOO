@@ -151,15 +151,42 @@ public class Deck {
     }
     
     
-    
+    /**
+     * @return Una representación String de un arreglo de cartas.
+     */
     @Override
     public String toString(){
+    	if (this.cards.isEmpty()) {
+    		return "null";
+    	}
+    	int size = this.cards.size();
     	StringBuilder result = new StringBuilder();
-    	int i = 0;
-    	for (Card card : getCards()) {
-    		i += 1;
-    		result.append(String.format("%s %s\n",card,i));
+    	result.append("[\n");
+    	for (Card card : getCards().subList(0, size-2)) {
+    		result.append(String.format("%s%s,\n", "\t".repeat(1),card));
 		}
+    	result.append(String.format("%s%s\n", "\t".repeat(1),this.cards.get(size-1)));
+    	result.append("]");  
+    	
+    	return result.toString();
+    }
+    /**
+     * 
+     * @param tab Cantidad de tabs que estará corrido.
+     * @return Una representación String de un arreglo de cartas
+     */
+    public String toString(int tab){
+    	if (this.cards.isEmpty()) {
+    		return String.format("%snull", "\t".repeat(tab));
+    	}
+    	int size = this.cards.size();
+    	StringBuilder result = new StringBuilder();
+    	result.append(String.format("%s[\n", "\t".repeat(tab)));
+    	for (Card card : getCards().subList(0, size-2)) {
+    		result.append(String.format("%s%s,\n", "\t".repeat(tab+1),card));
+		}
+    	result.append(String.format("%s%s\n", "\t".repeat(tab+1),this.cards.get(size-1)));
+    	result.append(String.format("%s]", "\t".repeat(tab)));  
     	
     	return result.toString();
     }
@@ -174,12 +201,14 @@ public class Deck {
 
 	/**Pruebas con la clase.*/
     public static void main(String[] args){
-        Deck deck = new Deck();
+        
+    	Deck deck = new Deck();
     	
     	deck.shuffle();
     	System.out.println("======Shuffle=====");
     	System.out.println(deck);
-    	
+    	System.out.println(deck.toString(2));
+  
 
     }
 
