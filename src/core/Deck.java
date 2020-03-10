@@ -163,9 +163,9 @@ public class Deck {
     	StringBuilder result = new StringBuilder();
     	result.append("[\n");
     	for (Card card : getCards().subList(0, size-2)) {
-    		result.append(String.format("%s%s,\n", "\t".repeat(1),card));
+    		result.append(String.format("\"%s%s\",\n", "\t".repeat(1),card));
 		}
-    	result.append(String.format("%s%s\n", "\t".repeat(1),this.cards.get(size-1)));
+    	result.append(String.format("%s\"%s\"\n", "\t".repeat(1),this.cards.get(size-1)));
     	result.append("]");  
     	
     	return result.toString();
