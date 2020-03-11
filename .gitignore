@@ -6,3 +6,4 @@ WEB-INF/
 .settings/
 .classpath
 .project
+/bin/

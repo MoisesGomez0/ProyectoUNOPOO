@@ -5,8 +5,6 @@ public class Player {
 	private String name;
 	private int id;
 	private Hand hand = new Hand();
-	private boolean turn = false; /**Al momento de generar el juego se manejaran los estados de turn.*/
-	
 	
 	/**Construnctor vacío de la clase.*/
 	public Player() {
@@ -19,11 +17,21 @@ public class Player {
 	 * @param hand Mano que administra las cartas del jugador.
 	 * @param turn Estado booleano que especifica si el jugador está en turno.
 	 */
-	public Player(String name, int id, Hand hand, boolean turn) {
+	public Player(String name, int id, Hand hand) {
 		this.setName(name);
 		this.setId(id);
 		this.setHand(hand);
-		this.setTurn(turn);
+	}
+	
+	/**
+	 * Constructor sobrecargado de la clase.
+	 * @param name Nombre del jugador.
+	 * @param hand Mano que administra las cartas del jugador.
+	 * @param turn Estado booleano que especifica si el jugador está en turno.
+	 */
+	public Player(String name, Hand hand) {
+		this.setName(name);
+		this.setHand(hand);
 	}
 	
 	/**
@@ -45,30 +53,49 @@ public class Player {
 		return true;
 	}
 	
+	/**
+	 * Crea una representación JSON del objeto.
+	 * @param tab Cantidad de tabs que tendrá al inicio.
+	 * @return JSON del objeto.
+	 */
 	public String toJSON(int tab) {
 		StringBuilder result = new StringBuilder("");
 		
 		result.append(String.format("%s{\n", "\t".repeat(tab)));
-		result.append(String.format("%s\"id\":%s,\n", "\t".repeat(tab),this.id));
-		result.append(String.format("%s\"name\":%s,\n", "\t".repeat(tab),this.name));
-		result.append(String.format("%s\"turn\":%s,\n", "\t".repeat(tab),this.turn));
-		result.append(String.format("%s\"hand\":%s", "\t".repeat(tab),(this.hand.getCards().isEmpty())?"null\n":String.format("\n   %s\n", this.hand.toString(tab+2))));
-		result.append(String.format("%s}\n", "\t".repeat(tab)));
+		result.append(String.format("%s\"id\":%s,\n", "\t".repeat(tab+1),this.id));
+		result.append(String.format("%s\"name\":\"%s\",\n", "\t".repeat(tab+1),this.name));
+		result.append(String.format("%s\"hand\":%s", "\t".repeat(tab+1),(this.hand.getCards().isEmpty())?"null\n":String.format("\n   %s\n", this.hand.toString(tab+2))));
+		result.append(String.format("%s}", "\t".repeat(tab)));
 
 		return result.toString();
 	}
 	
+	/**
+	 * Crea una representación JSON del objeto.
+	 * @return JSON del objeto.
+	 */	
 	public String toJSON() {
 		StringBuilder result = new StringBuilder("");
 		
 		result.append("{\n");
 		result.append(String.format("\t\"id\":%s,\n", this.id));
-		result.append(String.format("\t\"name\":%s,\n", this.name));
-		result.append(String.format("\t\"turn\":%s,\n", this.turn));
+		result.append(String.format("\t\"name\":\"%s\",\n", this.name));
 		result.append(String.format("\t\"hand\":%s", (this.hand.getCards().isEmpty())?"null\n":String.format("\n   %s\n", this.hand.toString(2))));
-		result.append("}\n");
+		result.append("}");
 
 		return result.toString();
+	}
+	/**
+	 * Verifica si dos objetos son iguales.
+	 * @param player Objeto a comparar.
+	 * @return true si son iguales.
+	 */
+	public boolean equals(Player player) {
+		if (this.name == player.name && this.id == player.id && this.hand.equals(player.hand)) {
+			return true;
+		}
+		
+		return false;
 	}
 	/**
 	 * @return the name
@@ -105,18 +132,6 @@ public class Player {
 	 */
 	public void setHand(Hand hand) {
 		this.hand = hand;
-	}
-	/**
-	 * @return the turn
-	 */
-	public boolean isTurn() {
-		return turn;
-	}
-	/**
-	 * @param turn the turn to set
-	 */
-	public void setTurn(boolean turn) {
-		this.turn = turn;
 	}
 	
 	/**Pruebas de la clase.*/

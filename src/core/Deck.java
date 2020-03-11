@@ -116,15 +116,21 @@ public class Deck {
     }
     /**
      * Ordena la baraja aleatoriamente.
+     * @return Un objeto Deck con las cartas desordenadas.
      */
-    public void shuffle() {
+    public Deck shuffle() {
     	ArrayList<Card> newCards = new ArrayList<>();
 
     	while (!this.getCards().isEmpty()) {/**Mientras la baraja no esté vacía.*/
     		/**Seleciona una carta aleatoria de la baraja y la añade a una nueva.*/
     		newCards.add(this.giveCard(RandomGenerator.randomInt(0, this.getCards().size()-1)));
     	}
-    	this.cards = newCards;/**Se remplaza el arreglo de cartas por el nuevo ordenado aleatoriamente.*/  	
+    	this.cards = newCards;/**Se remplaza el arreglo de cartas por el nuevo ordenado aleatoriamente.*/ 
+    	
+    	Deck result = new Deck();
+    	result.cards = this.cards;
+    	return result;
+    	
     }
     
     /**
@@ -162,10 +168,14 @@ public class Deck {
     	int size = this.cards.size();
     	StringBuilder result = new StringBuilder();
     	result.append("[\n");
-    	for (Card card : getCards().subList(0, size-2)) {
-    		result.append(String.format("%s%s,\n", "\t".repeat(1),card));
-		}
-    	result.append(String.format("%s%s\n", "\t".repeat(1),this.cards.get(size-1)));
+    	if (this.cards.size() == 1) {
+    		result.append(String.format("%s%s\n", "\t".repeat(1),this.cards.get(0)));
+    	}else {
+    		for (Card card : getCards().subList(0, this.cards.size()-2)) {
+    			result.append(String.format("%s%s,\n", "\t".repeat(1),card));
+    		}  		
+    		result.append(String.format("%s%s\n", "\t".repeat(1),this.cards.get(size-1)));
+    	}
     	result.append("]");  
     	
     	return result.toString();
@@ -182,13 +192,30 @@ public class Deck {
     	int size = this.cards.size();
     	StringBuilder result = new StringBuilder();
     	result.append(String.format("%s[\n", "\t".repeat(tab)));
-    	for (Card card : getCards().subList(0, size-2)) {
-    		result.append(String.format("%s%s,\n", "\t".repeat(tab+1),card));
-		}
-    	result.append(String.format("%s%s\n", "\t".repeat(tab+1),this.cards.get(size-1)));
+    	if (this.cards.size() == 1) {
+    		result.append(String.format("%s%s\n", "\t".repeat(tab+1),this.cards.get(0)));
+    	}else {
+    		for (Card card : getCards().subList(0, this.cards.size()-1)) {
+    			result.append(String.format("%s%s,\n", "\t".repeat(tab+1),card));
+    		}  		
+    		result.append(String.format("%s%s\n", "\t".repeat(tab+1),this.cards.get(size-1)));
+    	}
     	result.append(String.format("%s]", "\t".repeat(tab)));  
     	
     	return result.toString();
+    }
+    
+    /**
+     * Varifica que dos objetos Deck sean iguales.
+     * @param deck Objeto deck a comparar.
+     * @return true si son iguales.
+     */
+    
+    public boolean equals(Deck deck) {
+    	if (this.cards.equals(deck.getCards())) {
+    		return true;
+    	}
+    	return false;
     }
       
     
@@ -202,12 +229,25 @@ public class Deck {
 	/**Pruebas con la clase.*/
     public static void main(String[] args){
         
+    	ArrayList<String> a = new ArrayList<>();
+    	ArrayList<String> b = new ArrayList<>();
+    	
+    	System.out.println(a.equals(b));
+    	
+    	b.add("buenas tardes.");
+    	
+    	System.out.println(a.equals(b));
+    	
+    	a.add("buenas tardes.");
+    	
+    	System.out.println(a.equals(b));
+    	
     	Deck deck = new Deck();
     	
-    	deck.shuffle();
+    	//deck.shuffle();
     	System.out.println("======Shuffle=====");
     	System.out.println(deck);
-    	System.out.println(deck.toString(2));
+
   
 
     }

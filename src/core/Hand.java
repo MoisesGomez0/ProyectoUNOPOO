@@ -7,8 +7,8 @@ package core;
  */
 public class Hand extends Deck{
     
-    private Deck deck; /**Baraja de la que tomará cartas.*/
-    private DiscardPile discardPile; /**Donde soltará las cartas.*/
+    private Deck deck = new Deck(); /**Baraja de la que tomará cartas.*/
+    private DiscardPile discardPile = new DiscardPile(this.deck); /**Donde soltará las cartas.*/
 	private boolean hiddenCards = false;
     
     
@@ -18,11 +18,9 @@ public class Hand extends Deck{
     }
     
     public Hand(Deck deck) {
-    	DiscardPile discardPile = new DiscardPile(this.deck);
+    	this.discardPile = new DiscardPile(this.deck);
     	this.cards.clear();/**Sin cartas en la mano al iniciar.*/
-    	
     	this.setDeck(deck);
-    	this.setDiscardPile(discardPile);
     }
     
     /**Métodos.*/
@@ -55,10 +53,16 @@ public class Hand extends Deck{
         }
     }
     
-    public String toHand() {
-    	StringBuilder result = new StringBuilder("");
-    	
-    	return result.toString();
+    /**
+     * Verifica si dos objetos son iguales.
+     * @param hand Objeto a comparar.
+     * @return true si son iguales.
+     */
+    public boolean equals(Hand hand) {
+    	if(this.deck.equals(hand.getDeck())&&this.discardPile.equals(hand.getDiscardPile())&&this.cards.equals(hand.getCards())) {
+    		return true;
+    	}
+    	return false;
     }
     
     /**
@@ -71,7 +75,7 @@ public class Hand extends Deck{
 	/**
 	 * @param hiddenCards the hiddenCards to set
 	 */
-	public void setHiddenCards(boolean hiddenCards) {
+	private void setHiddenCards(boolean hiddenCards) {
 		this.hiddenCards = hiddenCards;
 	}
 
@@ -104,6 +108,17 @@ public class Hand extends Deck{
 	}
 
 	//Pruebas con la clase.
-    public static void main(String[] args){}
+    public static void main(String[] args){
+    	Deck deck = new Deck();
+    	DiscardPile discardPile = new DiscardPile(deck);
+    	
+    	deck.shuffle();
+    	discardPile.receiveFirstCard();
+    	
+    	Hand a = new Hand(deck);
+    	Hand b = new Hand(deck);
+    	
+    	System.out.println(a.equals(b));
+    }
 
 }

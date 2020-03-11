@@ -39,7 +39,7 @@ public class Card {
         	if (this.color == EColor.BLACK) {
         		result = getValue().getName();
         	}
-            result = String.format("%s_%s", getValue().getName(), getColor().getName());           
+            result = String.format("\"%s_%s\"", getValue().getName(), getColor().getName());           
         }else{
             result = String.format("???");
         }
