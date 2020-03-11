@@ -66,7 +66,7 @@
                 } else {
                     //El jugador entró
                     oponent.name = data.guestPlayer;
-                    window.location="UNO.jsp"
+                    window.location=`gameMaker.jsp?gameID=\${game.ID}`
                     clearInterval(intervalID);
                 }
             });
@@ -104,7 +104,6 @@
                 oponent.name = data.hostPlayer;
                 $.get("logInMaker.jsp", { "gameID": game.ID, "hostPlayer": oponent.name, "guestPlayer": player.name }, redirect);
             }else{
-                doc.removeByID("")
                 doc.addContent("body","Ese es un ID de juego inválido");
             }
 
@@ -112,7 +111,8 @@
     }
     /**Function encargada de redirigir a la pagina de juego*/
     var redirect = function(data){
-        window.location = "UNO.jsp"
+        window.location = `lobby.jsp?gameID=\${game.ID}`
+
     }
 </script>
 
