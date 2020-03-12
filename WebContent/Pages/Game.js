@@ -5,6 +5,10 @@
  */
 
 function Game(){
+    /**@type {boolean} Determina si la dirección del juego es en contra o a favor de
+     * las agujas del reloj*/
+    this.clockWise = null;
+
     /**@type {string} Indetificador de la partida de juego*/
     this.ID = null;
 

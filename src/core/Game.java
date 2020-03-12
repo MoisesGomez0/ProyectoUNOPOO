@@ -95,7 +95,7 @@ public class Game {
 	}
 	
 	public void saveMemory() {
-		FileManager fm = new FileManager("src/memory/");
+		FileManager fm = new FileManager();
 		fm.write("game.json", this.toString());
 	}
 	
@@ -207,5 +207,11 @@ public class Game {
 		game.generateGame();
 		//System.out.println(game);
 		game.saveMemory();
+		
+		/**
+		FileManager fm = new FileManager();
+		System.out.println(fm.wpath());
+		*/
+		
 	}
 }
