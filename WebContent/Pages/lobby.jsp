@@ -10,20 +10,18 @@
 </head>
 
 <body>
-    <% out.print(String.format("<input type='hidden' id='gameID' value='%s'>",request.getParameter("gameID").toString().trim())); %>
+    <% out.print(String.format("<input type='hidden' id='guestPlayer' value='%s'>",request.getParameter("guestPlayer").toString().trim())); %>
+    
     <h1>Esperate un rato</h1>
     <h6>Debes lavarte las manos a menudo.</h6>
     <script>
-        var gameID = document.querySelector("#gameID").value;
-        console.log(gameID);
-        var intervalID;
 
         intervalID = setInterval(function () {
-            $.get("getContent.jsp",{"file":`${gameID}Hand.json`}, function (data) { 
+            $.get("getContent.jsp",{"file":"game.json"}, function (data) { 
                 if(data != null && data != undefined){
                     clearInterval(intervalID);
                     setTimeout( function () {
-                        window.location="UNO.jsp";
+                        window.location=`UNO.jsp?name=\${document.querySelector("#guestPlayer").value}`;
                     }, 4000);
                 }
              })

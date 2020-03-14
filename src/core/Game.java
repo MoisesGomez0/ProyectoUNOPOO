@@ -361,5 +361,11 @@ public class Game {
 		game.generateGame();
 		//System.out.println(game);
 		game.saveMemory();
+		
+		/**
+		FileManager fm = new FileManager();
+		System.out.println(fm.wpath());
+		*/
+		
 	}
 }

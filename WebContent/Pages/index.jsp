@@ -66,7 +66,7 @@
                 } else {
                     //El jugador entró
                     oponent.name = data.guestPlayer;
-                    window.location=`gameMaker.jsp?gameID=\${game.ID}`
+                    window.location=`gameMaker.jsp?gameID=\${game.ID}&hostPlayer=\${player.name}&guestPlayer=\${data.guestPlayer}`;
                     clearInterval(intervalID);
                 }
             });
@@ -111,7 +111,7 @@
     }
     /**Function encargada de redirigir a la pagina de juego*/
     var redirect = function(data){
-        window.location = `lobby.jsp?gameID=\${game.ID}`
+        window.location = `lobby.jsp?guestPlayer=\${player.name}`
 
     }
 </script>
