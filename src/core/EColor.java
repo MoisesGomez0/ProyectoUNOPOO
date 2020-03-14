@@ -22,6 +22,33 @@ public enum EColor {
         this.id = id;
         this.special= special;
     }
+    
+    /**
+     * Combierte un String a un objeto EColor.
+     * @param color
+     * @return Objeto EColor del color especificado.
+     */
+    public static EColor parse(String color) {
+    	switch (color.strip()) {
+		case ("BLUE"):
+			return EColor.BLUE;
+			
+		case ("RED"):
+			return EColor.RED;
+			
+		case ("GREEN"):
+			return EColor.GREEN;
+		
+		case ("YELLOW"):
+			return EColor.YELLOW;
+			
+		case ("BLACK"):
+			return EColor.BLACK;					
+
+		default:
+			throw new IllegalArgumentException("Parámetro no permitido.");
+		}
+    }
 
 	/**
 	 * @return the name

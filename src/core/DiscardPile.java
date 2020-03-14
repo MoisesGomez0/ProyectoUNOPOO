@@ -8,8 +8,7 @@ public class DiscardPile extends Deck{
 	
 	private Deck deck;
 	/**
-	 * Constructor de la clase. Se inicia con una carta no especial de la baraja que se está
-	 * utilizando en la partida.
+	 * Constructor de la clase.
 	 * @param deck Baraja que se utilizará en la partida.
 	 */
 	public DiscardPile(Deck deck) {
@@ -17,17 +16,22 @@ public class DiscardPile extends Deck{
 		this.setDeck(deck);
 		
 	}
+    /**
+     * Instancia la DiscardPile con las cartas especificadas.
+     * 
+     * @param card Cartas requeridas en la DiscardPile.
+     * Se debe validar con la expreción regula contenida en ERegex.DECK.
+     */	
+	public DiscardPile (String cards) {
+		super(cards);
+	}
 	/**
 	 * Recive una carta específica de la mano de un jugador.
 	 * @param hand Mano del jugador que dará la carta.
 	 * @param card Carta que el jugadoro dará.
 	 */
 	public void receiveCard(Hand hand, Card card) {
-		try {
-			this.cards.add(hand.giveCard(card));		
-		} catch (IllegalArgumentException e) {
-			System.out.println(e.getMessage());
-		}
+		this.cards.add(hand.giveCard(card));		
 	}
 	
 	/**

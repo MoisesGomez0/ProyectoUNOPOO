@@ -41,6 +41,63 @@ public enum ENumber {
         this.id = id;
         this.scoreValue = scoreValue;
     }
+    
+    /**
+     * Combierte un String a un objeto ENumber.
+     * @param number
+     * @return Objeto ENumber del valor especificado.
+     */
+    public static ENumber parse(String number) {
+    	switch (number.strip()) {
+		case ("CERO"):
+			return ENumber.CERO;
+		
+		case ("ONE"):
+			return ENumber.ONE;
+		
+		case ("TWO"):
+			return ENumber.TWO;
+		
+		case ("THREE"):
+			return ENumber.THREE;
+		
+		case ("FOUR"):
+			return ENumber.FOUR;
+		
+		case ("FIVE"):
+			return ENumber.FIVE;
+		
+		case ("SIX"):
+			return ENumber.SIX;
+		
+		case ("SEVEN"):
+			return ENumber.SEVEN;
+		
+		case ("EIGHT"):
+			return ENumber.EIGHT;
+		
+		case ("NINE"):
+			return ENumber.NINE;
+		
+		case ("DTWO"):
+			return ENumber.DTWO;
+		
+		case ("REVERSE"):
+			return ENumber.REVERSE;	
+		
+		case ("SKIP"):
+			return ENumber.SKIP;	
+		
+		case ("WILD"):
+			return ENumber.WILD;	
+		
+		case ("DFOUR"):
+			return ENumber.DFOUR;		
+		
+		default:
+			throw new IllegalArgumentException("Parámetro no permitido.");
+		}    	
+    }
 
 	/**
 	 * @return the value

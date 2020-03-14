@@ -8,10 +8,6 @@ import java.util.EnumSet;
  * @author Leonardo
  */
 public class Deck {
-   /**Constantes. */
-    final int COLORS = 5;
-    final int VALUES = 15;
-    
     
     /**Atributos.*/
  
@@ -42,6 +38,24 @@ public class Deck {
     		this.getCards().add(new Card(ENumber.WILD,EColor.BLACK));/**Agrega cuatro cartas "cambiar color" a la baraja.*/
     		this.getCards().add(new Card(ENumber.DFOUR,EColor.BLACK));/**Agrega cuatro cartas "toma cuatro" a la baraja.*/
 			
+		}
+    }
+    
+    /**
+     * Instancia el Deck con las cartas especificadas.
+     * 
+     * @param deckCards Cartas requeridas en el deck.
+     * Se debe validar con la expreción regula contenida en ERegex.DECK.
+     */
+    public Deck(String deckCards) {
+    	if (!deckCards.matches(String.format("^%s$", ERegex.DECK))) { /**Si no está en el formato correcto.*/
+    		throw new IllegalArgumentException("Formato para Deck no es el adecuado.");
+    	}
+    	
+    	this.cards.clear();
+    	String [] array = deckCards.split(",");
+    	for (String card : array) {
+			this.cards.add(new Card(card.strip()));
 		}
     }
     
@@ -85,7 +99,7 @@ public class Deck {
     	int searchResult = this.searchCard(card.getValue(), card.getColor());
     	
         if (searchResult == -1) { /**Sí la carta no está lanzará una excepción.*/
-            throw new IllegalArgumentException("La carta no se encuentra en la baraja");
+            throw new IllegalArgumentException("La carta no se encuentra en la baraja.");
         }
         
         Card result = this.getCards().get(searchResult);/**Guarda la carta requerida.*/
@@ -228,7 +242,7 @@ public class Deck {
 
 	/**Pruebas con la clase.*/
     public static void main(String[] args){
-        
+       /* 
     	ArrayList<String> a = new ArrayList<>();
     	ArrayList<String> b = new ArrayList<>();
     	
@@ -247,8 +261,7 @@ public class Deck {
     	//deck.shuffle();
     	System.out.println("======Shuffle=====");
     	System.out.println(deck);
-
-  
+		*/
 
     }
 

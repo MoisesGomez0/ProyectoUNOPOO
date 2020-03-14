@@ -1,6 +1,5 @@
 package core;
 
-
 /**
  *
  * @author Leonardo
@@ -26,9 +25,27 @@ public class Card {
         this.setValue(value);
         this.setHidden(false);        
         
-        /**Se espera que el nombre del archivo de la imagen como (value_figuer.png)*/
+        /**Se espera que el nombre del archivo de la imagen como (value_color.png)*/
         this.setImage(String.format("src/Images/%s_%s.png",value,color));
             
+    }
+    public Card(String card) {
+    	if (!card.matches(String.format("^%s$", ERegex.CARD))) {
+    		throw new IllegalArgumentException("Formato para Card no es el adecuado.");
+    	}
+    
+    	try {
+			this.value = ENumber.parse(card.split("_")[0].strip());
+		} catch (Exception e) {
+			throw new IllegalArgumentException("Falló el parse de value en Card.");
+		}
+    	
+    	try {
+    		this.color = EColor.parse(card.split("_")[1].strip());		
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException("Folló la función parse de color en Card.");
+		}
+    	
     }
     
     @Override
@@ -118,9 +135,14 @@ public class Card {
 
 	//Pruebas con la clase.
     public static void main(String[] args){
-        Card card = new Card(ENumber.CERO,EColor.BLUE);
-        System.out.printf("\t%s",card.toString());
-        System.out.printf("\n\t%s",card.toString());
+    	String a = "CERO_GREEN";
+    	
+    	Card card1= new Card("CERO_RED");
+    	Card card2 = new Card("CERO_GREEN");
+    	System.out.println(card1.equals(card2));
+    	System.out.println(card2.equals(new Card(a)));
+    	System.out.println("==");
+    	
     }
 
 

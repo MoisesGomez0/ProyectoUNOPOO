@@ -4,7 +4,7 @@ public class Player {
 
 	private String name;
 	private int id;
-	private Hand hand = new Hand();
+	private Hand hand;
 	
 	/**Construnctor vacío de la clase.*/
 	public Player() {
@@ -42,15 +42,43 @@ public class Player {
 	}
 	
 	/**
+	 * Toma las seis primeras cartas de la baraja.
+	 */
+	public void drawSix() {
+		for (int i = 0; i < 6; i++) {
+			this.hand.takeCard();
+		}
+	}
+	
+	/**
+	 * Toma las cuatro primeras cartas de la baraja.
+	 */
+	public void drawFour() {
+		for (int i = 0; i < 4; i++) {
+			this.hand.takeCard();
+		}
+	}
+	
+	/**
+	 * Toma las seis primeras cartas de la baraja.
+	 */
+	public void drawTwo() {
+		for (int i = 0; i < 2; i++) {
+			this.hand.takeCard();
+		}
+	}
+	
+	/**
 	 * Suelta una carta en la pila de descarte.
 	 * @param card Carta que soltará.
 	 */
 	public void dropCard(Card card) {
-		this.hand.dropCard(card);
-	}
-	
-	public boolean challenge(Player player) {
-		return true;
+		try {
+			this.hand.dropCard(card);
+			
+		} catch (IllegalArgumentException e) {
+			throw new IllegalArgumentException(String.format("El jugador no tiene la carta: %s", card));
+		}
 	}
 	
 	/**
