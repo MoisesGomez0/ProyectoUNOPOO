@@ -18,7 +18,7 @@ function DiscardPile(deck=null,generated=false){
         if (cardIndex == false){
             throw "La carta no se encuentra la mano.";
         }
-        this.cards.add(hand.giveCardbyIndex(cardIndex));
+        return this.cards.add(hand.giveCardbyIndex(cardIndex));
     }
 
 	/**
@@ -36,5 +36,6 @@ function DiscardPile(deck=null,generated=false){
         }
 
         this.cards.add(card);
+        return card;
     }
 }

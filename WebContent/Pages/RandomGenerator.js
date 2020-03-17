@@ -7,6 +7,7 @@ function RandomGenerator(){
         }
         return result;
     };
+    
     this.randomInt = function(min,max){
         return parseInt(Math.random()*(max-min) + min)
     }

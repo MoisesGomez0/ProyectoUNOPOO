@@ -33,10 +33,12 @@ function Deck(generated = false){
 	 * @param {Card} card Carta requerida.
 	 * @return La carta que se dará.
 	 */
-	this.giveCard = function(card){
+	this.giveCard = function(card=null){
+		if(!card){
+			return this.giveCardByIndex(0);
+		}
 		var indexCard = this.searchIndexCard(card);
-		console.log(indexCard);
-		return this.giveCardbyIndex(indexCard);
+		return this.giveCardByIndex(indexCard);
 	
 	}
 
@@ -45,7 +47,7 @@ function Deck(generated = false){
 	 * @param {int} card Índice de la carta requerida.
 	 * @return La carta que se dará.
 	 */
-	this.giveCardbyIndex = function(card=0){
+	this.giveCardByIndex = function(card=0){
 		if (this.cards.first == null){
 			return false;
 		}
@@ -59,17 +61,15 @@ function Deck(generated = false){
 	this.shuffle = function(){
 		var newCards = new LinkedList();
 		var r = new RandomGenerator();
-    	while (this.cards.first != null) {/**Mientras la baraja no esté vacía.*/
+    	while (this.cards.length() != 0) {/**Mientras la baraja no esté vacía.*/
 			/**Seleciona una carta aleatoria de la baraja y la añade a una nueva.*/
-			var card = this.giveCard(r.randomInt(0, this.cards.length()));
+			var card = this.giveCardByIndex(r.randomInt(0, this.cards.length()));
 			if (card != false){
 				newCards.add(card);
 			}
-
 		}
-		
+
 		this.cards = newCards;/**Se remplaza el arreglo de cartas por el nuevo ordenado aleatoriamente.*/ 
-    	
 	}
 
 	/**
@@ -101,9 +101,9 @@ function Deck(generated = false){
 
 		var result = `${"\t".repeat(tab)}[\n`;
 		for (let i = 0; i < this.cards.length()-1; i++) {
-			result += `${"\t".repeat(tab+1)}${this.cards.get(i)},\n`;         
+			result += `${"\t".repeat(tab+1)}\"${this.cards.get(i)}\",\n`;         
 		}
-		result += `${"\t".repeat(tab+1)}${this.cards.get(this.cards.length() - 1)}\n`;
+		result += `${"\t".repeat(tab+1)}\"${this.cards.get(this.cards.length() - 1)}\"\n`;
 		result += `${"\t".repeat(tab)}]`;
 		return result;
 	}

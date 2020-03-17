@@ -12,16 +12,20 @@
 	<script src = "Card.js"></script>
 	<script src = "Deck.js"></script>
 	<script src = "DiscardPile.js"></script>
+	<script src = "Player.js"></script>
+	<script src = "Game.js"></script>
+	<script src = "Hand.js"></script>
+
 	<script>
+		
+		var players = new LinkedList();
+		players.add(new Player("pedrito"));
+		players.add(new Player("pedritoSegundo"));
+		var g = new Game("1jad4",players);
+		g.generate();
 
-		var d = new Deck(true);
-		var r = new RandomGenerator();
-		var p = new DiscardPile(d);
-
-		p.receiveFirstCard();
-		console.log(p.toString());
-		console.log(d.toString());
-
+		console.log(g.toString());
+		
 
 	</script>
 </body>

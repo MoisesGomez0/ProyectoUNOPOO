@@ -23,7 +23,7 @@ function Player(){
      * cada elemento debe ser @type {string} de la forma "color_figura"
     */
     this.hand = [];
-
+    
     /**@method setID Establece el ID del jugador
      * @param {Integer} charactersNumber determina el número de caracteres
      * que debe tener el ID

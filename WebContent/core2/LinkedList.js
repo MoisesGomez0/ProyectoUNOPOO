@@ -2,7 +2,7 @@ function Node (value=null){
     this.value = value;
     this.next = null;
     this.previus = null;
-    this.index = 0;
+	this.index = 0;
 }
 
 function LinkedList(first = null){
@@ -156,15 +156,16 @@ function LinkedList(first = null){
 		return current.value;
 	}
 	
-	this.toString = function(){
-		var result = `[\n`;
+	this.toString = function(tab=0){
+		var tabs = "\t".repeat(tab);
+		var result = `${tabs}[\n`;
 		var current = this.first;
 		while (current.next.index != this.first.index){
-			result += `\t${current.value.toString()},\n`;
+			result += `${tabs}\t${current.value.toString(tab+1)},\n`;
 			current = current.next;
 		}
-		result += `\t${this.last.value.toString()}\n`;
-		result += "]";
+		result += `${tabs}\t${this.last.value.toString(tab+1)}\n`;
+		result += `${tabs}]`;
 
 		return result;
 	}
