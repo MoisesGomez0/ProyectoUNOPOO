@@ -6,30 +6,30 @@
  */
 function Card(value, color){
 
-    if(typeof(value) == typeof("bananas")){
-        for (const key in EValue) {
-            if (EValue[key].name = value) {
-                value = EValue.name;
+    if(typeof(color) == typeof("bananas")){
+        for (let key in EColor) {
+            if (EColor[key].name = color) {
+                color = EColor[key];
                 break;
             }
         }
 
     }
     if(typeof(value) == typeof("bananas")){
-        for (const key in EColor) {
-            if (EValue[key].name = color) {
-                value = EValue.name;
+        for (let key in EValue) {
+            if (EValue[key].name = value) {
+                value = EValue[key];
                 break;
             }
         }
     }
     this.value = value;
     this.color = color;
-    this.image = `src/images/\${value.name}_\${color.name}`;
+    this.image = `src/images/\${this.value.name}_\${this.color.name}`;
     this.div = new Div();
 
     this.toString = function(){
-        return (`${value.name}_${color.name}`);
+        return (`${this.value.name}_${this.color.name}`);
     }
 
     this.toDiv=function(){
