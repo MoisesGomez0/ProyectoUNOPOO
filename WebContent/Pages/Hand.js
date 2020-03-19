@@ -4,6 +4,7 @@ function Hand(deck,discardPile) {
     this.deck = deck;
     this.discardPile = discardPile;
 
+
     /**
      * Toma la primera carta de la baraja.
      * @param {Deck} deck Baraja donde se tomará la carta.
@@ -18,7 +19,9 @@ function Hand(deck,discardPile) {
      * @param {DiscardPile} discardPIle Pila donde soltará la carta.
      */
     this.dropCard = function(card, discardPile = this.discardPile){
-        return discardPile.receiveCard(this, card);
+        var receivedCard = discardPile.receiveCard(this, card);
+        receivedCard.div.moveToDiscardPile();
+        return receivedCard;
     }
 
     /**

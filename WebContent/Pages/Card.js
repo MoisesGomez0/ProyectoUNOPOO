@@ -26,10 +26,14 @@ function Card(value, color){
     this.value = value;
     this.color = color;
     this.image = `src/images/\${value.name}_\${color.name}`;
-    this.div = new Div(this.image);
+    this.div = new Div();
 
     this.toString = function(){
         return (`${value.name}_${color.name}`);
+    }
+
+    this.toDiv=function(){
+        return this.div.toHTML();
     }
     
 }   

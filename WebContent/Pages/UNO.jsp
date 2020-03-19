@@ -73,14 +73,7 @@
     <div id="hand"></div>
 
     <script>
-    var game = new game();
-    
-    function update(){
-    	$.get("getContent.jsp",{"file":"game.json"},function(data){
-    		data = JSON(data.trim());
-    		game.parse(data);
-    	});
-   	}
+   
     	
     </script>
 </body>

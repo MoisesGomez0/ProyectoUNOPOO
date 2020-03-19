@@ -1,7 +1,7 @@
 
 function Deck(generated = false){
 	
-	this.cards = new LinkedList;/**Cartas que contiene la baraja.*/
+	this.cards = new LinkedList();/**Cartas que contiene la baraja.*/
 		
 		
 	if (generated){/**Genera las cartas*/
