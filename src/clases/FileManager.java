@@ -55,7 +55,7 @@ public class FileManager {
 				br.close();
 			}
 		}catch(Exception e){
-			
+			return "fail";
 		}
 		System.out.println(content.toString());
 		return content.toString();

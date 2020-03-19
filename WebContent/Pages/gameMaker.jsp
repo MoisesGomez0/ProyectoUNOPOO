@@ -23,7 +23,7 @@
 <script>
 	var id = document.querySelector("#gameId").value;
 	var name = document.querySelector("#name").value;
-	$.get("getContent.jsp",{"file":"logIn.json"},function(data){
+	$.get("getContent.jsp",{"file":`logIn\${id}.json`},function(data){
 		data = JSON.parse(data.trim());
 		playersList = data.players;
 		
@@ -35,7 +35,7 @@
 		var game = new Game(id,players);
 		game.generate();/**Genera la partida.*/
 		console.log(game.toString());
-		$.get("write.jsp",{"file":"game.json","content":game.toString(),"override":true},function(){
+		$.get("write.jsp",{"file":`game\${id}.json`,"content":game.toString(),"override":true},function(){
 			window.location = `UNO.jsp?name=\${name}`;
 		})
 	});

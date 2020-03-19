@@ -7,30 +7,70 @@
     <meta charset="utf-8">
     <meta name="author" content="Moises">
     <meta name="description" content="Página de inicio del juego">
-    
-    <script src="RandomGenerator.js"></script>
-    <script src="docAdmin.js"></script>
+    <title>UNO</title>
+    <link rel="stylesheet" type="text/css" href="../styles/index.css">
     <script src="../jquery-3.4.1.min.js"></script>
+    <script src="../scripts/index.js"></script>
+    <script src="RandomGenerator.js"></script>
     
     <script>
         var gameId;
         var Nplayers;
         var playerName;
         var oponents = [];
-        var doc = new DocAdmin();
         var intervalID;
         var random = new RandomGenerator();
+        var formsManager = new FormsManager();
     </script>
 </head>
 </head>
 </head>
 
 <body>
-    <button id="newGame" onclick="makeGame();">Nuevo Juego</button>
+    <div id="unoImgContainer">
+        <img id="unoImg" src="../images/UNO.jpg">
+    </div>
+    <button id="newGame" class="initBtn" onclick="formsManager.showInputHost()">Nuevo Juego</button>
     <br>
-    <button id="getInToGame" onclick="getInGame();">Entrar a juego Existente</button>
+    <button id="getInToGame" class="initBtn" onclick="formsManager.showInputGuest()">Entrar a juego Existente</button>
     <br>
-    <button id="scoreTable">Tabla de score</button>
+    <button id="scoreTable" class="initBtn" >Estadísicas de puntuación</button>
+
+    <div id="backScreenHost" class="backScreen">
+        <div id="hostPopUp" class="popUp">
+            <form action="logInMaker.jsp" method="POST">
+                <h1>UNO</h1>
+                <h2>Crear un Nuevo Juego</h2>
+                <input type="text" placeholder="Escribe tu nombre" name="name">
+                <br>
+                 <select name="nPlayers" id="selectNPlayers" required>
+                     <option value=2>Dos jugadores</option>
+                     <option value=3>tres jugadores</option>
+                     <option value=4>Cuatro jugadores</option>
+                 </select>
+                <br>
+                <button type="submit" class="formBtn">Crear Juego</button>
+                <br>
+                <button class="formBtn" onclick="formsManager.hideInputHost();return false;">Cancelar</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="backScreenGuest" class="backScreen">
+        <div id="guestPopUp" class="popUp">
+            <h1>UNO</h1>
+            <h2>Entrar en un juego</h2>
+            <form action="lobby.jsp" method="POST">
+            <input name="name" type="text" placeholder="Escribe tu nombre">
+            <br>
+            <input name="gameId" type="text" placeholder="Código del juego">
+            <br>
+            <button type="submit" class="formBtn">Entrar en juego</button>
+            <br>
+            <button class="formBtn" onclick="formsManager.hideInputGuest();return false;">Cancelar</button>
+            </form>
+        </div>
+    </div>
 
 </body>
 <script>
