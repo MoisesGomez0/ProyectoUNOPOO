@@ -6,6 +6,7 @@
 <%@page import="core.Deck"%>
 <%@page import="clases.FileManager"%>
 <%
+	
 	Game game = new Game(
 			request.getParameter("gameId").toString().strip(),
 			new Player(request.getParameter("hostPlayer").toString().trim(), new Hand()),

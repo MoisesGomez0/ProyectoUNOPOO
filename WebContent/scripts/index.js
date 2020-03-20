@@ -41,6 +41,7 @@ function IndexManager(){
             cookiesManager.setCookie("name",guestName.value);
             cookiesManager.setCookie("gameId",gameId.value);
             location = "lobby.jsp";
+            [].forEach()
         }else{
             this.showError();
         }

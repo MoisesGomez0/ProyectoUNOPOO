@@ -18,6 +18,7 @@
 	<script src = "Game.js"></script>
 	<script src = "Hand.js"></script>
 	<script src="Div.js"></script>
+	<script src="../scripts/DataManager.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <style>
         div#oponentCards {
@@ -75,15 +76,10 @@
     <div id="hand"></div>
 
     <script>
-    var playerName = document.querySelector("#name").value;
-	var gameId = document.querySelector("#gameId").value;
-    var game = new Game();
-    $.get("getContent.jsp",{"file":`game\${gameId}.json`},function(data){
-        data = JSON.parse(data.trim());
-        console.log(data);
-    	game.parse(data);
-    	console.log(game.toString());
-    })
+    var info = {};
+    var dataManager = new DataManager();
+    console.log("Antes de update");
+    dataManager.update();
     	
     </script>
 </body>

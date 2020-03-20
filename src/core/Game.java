@@ -41,15 +41,19 @@ public class Game {
 		this.setCurrentColor(currentColor);
 		this.setHostPlayer(p1);
 		this.setGuestPlayer(p2);
-		
-		this.getHostPlayer().setId(0);
-		this.getGuestPlayer().setId(1);
-		this.hostPlayer.getHand().setDeck(this.deck);
-		this.guestPlayer.getHand().setDeck(this.deck);
-		
 		this.clockWise = clockWise;
 		this.deck = deck;
 		this.discardPile = discardPile;
+		this.discardPile.setDeck(this.deck); 
+		
+		this.getHostPlayer().setId(0);
+		this.getGuestPlayer().setId(1);
+		
+		this.hostPlayer.getHand().setDeck(this.deck);
+		this.guestPlayer.getHand().setDeck(this.deck);
+		this.hostPlayer.getHand().setDiscardPile(this.discardPile);
+		this.guestPlayer.getHand().setDiscardPile(this.discardPile);
+		
 		
 	}
 	
@@ -65,6 +69,7 @@ public class Game {
 		dealCards();/**Reparte las cartas.*/
 		this.getDeck().shuffle();/**Baraja la baraja.*/
 		this.getDiscardPile().receiveFirstCard();/**Agrega la primera carta a la DiscardPile.*/
+		this.currentColor = this.discardPile.cards.get(0).getColor();
 	}
 	
 	/**
@@ -188,7 +193,8 @@ public class Game {
 	 * Guarda la partida en un archivo JSON en memoria.
 	 */
 	public void saveMemory() {
-		FileManager fm = new FileManager("src/memory/");
+		//FileManager fm = new FileManager("src/memory/");
+		FileManager fm = new FileManager("");
 		fm.write("game.json", this.toString());
 	}
 	/**
@@ -203,6 +209,7 @@ public class Game {
 		result.append(String.format("{\n"));
 		result.append(String.format("%s\"id\": \"%s\",\n","\t".repeat(tab),this.getId()));
 		result.append(String.format("%s\"currentPlayerId\": %s,\n","\t".repeat(tab),this.getCurrentPlayerId()));
+		result.append(String.format("%s\"currentColor\": \"%s\",\n","\t".repeat(tab),this.currentColor.getName()));
 		result.append(String.format("%s\"clockWise\": %s,\n","\t".repeat(tab),this.isClockWise()));
 		result.append(String.format("%s\"hostPlayer\":\n%s,\n","\t".repeat(tab),this.getHostPlayer().toJSON(tab+1)));
 		result.append(String.format("%s\"guestPlayer\":\n%s,\n","\t".repeat(tab),this.getGuestPlayer().toJSON(tab+1)));
@@ -224,6 +231,7 @@ public class Game {
 		result.append(String.format("{\n"));
 		result.append(String.format("%s\"id\": \"%s\",\n","\t".repeat(tab),this.getId()));
 		result.append(String.format("%s\"currentPlayerId\": %s,\n","\t".repeat(tab),this.getCurrentPlayerId()));
+		result.append(String.format("%s\"currentColor\": \"%s\",\n","\t".repeat(tab),this.currentColor.getName()));
 		result.append(String.format("%s\"clockWise\": %s,\n","\t".repeat(tab),this.isClockWise()));
 		result.append(String.format("%s\"hostPlayer\":\n%s,\n","\t".repeat(tab),this.getHostPlayer().toJSON(tab+1)));
 		result.append(String.format("%s\"guestPlayer\":\n%s,\n","\t".repeat(tab),this.getGuestPlayer().toJSON(tab+1)));
@@ -357,6 +365,8 @@ public class Game {
 		game.generateGame();
 		//System.out.println(game);
 		game.saveMemory();
+		
+		System.out.println(game.toString());
 		
 		/**
 		FileManager fm = new FileManager();
