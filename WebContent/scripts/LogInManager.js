@@ -18,24 +18,20 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 	}
 
 	this.saveData = function () {
-		$.get("write.jsp", { "file": `logIn${this.gameId}.json`, "content": JSON.stringify(this.data), "override": true }, null);
+		$.get("write.jsp", { "file": "logIn.json", "content": JSON.stringify(this.data), "override": true }, null);
 	}
 
-	this.setDataToSubmit = function () {
-		document.querySelector("#formNPlayers").value = this.nPlayers;
-		document.querySelector("#formName").value = this.name;
-		document.querySelector("#gameId").value = this.gameId;
-	}
-
-	this.verifyLoginAndRedirect = function () {
+	this.verifyLoginAndRedirec = function () {
 		var id = this.gameId;
 		var intervalId = setInterval(function () {
-			$.get("getContent.jsp", { "file": `logIn${id}.json` }, function (data) {
+			$.get("getContent.jsp", { "file": "logIn.json" }, function (data) {
 				data = JSON.parse(data.trim());
 				console.log(data.players.length == data.nPlayers)
 				if (data.players.length == data.nPlayers) {
+					$.get("gameMaker.jsp", { "hostPlayer": data.players[0], "guestPlayer": data.players[1], "gameId": id },function(data){
+						console.log("redirijo a UNO.jsp");
+						location="UNO.jsp"});
 					clearInterval(intervalId);
-					document.querySelector("#dataForm").submit();
 				}
 			})
 		}, 100);
@@ -45,13 +41,17 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 	this.getIn = function () {
 		var playerName = this.name;
 		var id = this.gameId;
-		$.get("getContent.jsp", { "file": `logIn${id}.json` }, function (data) {
+		$.get("getContent.jsp", { "file": "logIn.json" }, function (data) {
 			if (data == "fail") {
-				/*Agregar rutina para cuando sea un id invalido */
+				document.querySelector("Ocurrió un eror, no se encontró el archivo.")
 			} else {
 				data = JSON.parse(data.trim());
-				data.players.push(playerName);
-				$.get("write.jsp", { "file": `logIn${id}.json`, "content": JSON.stringify(data), "override": true }, null);
+				if (data.gameId == id) {
+					data.players.push(playerName);
+					$.get("write.jsp", { "file": "logIn.json", "content": JSON.stringify(data), "override": true }, null);
+				}else{
+					document.querySelector("Al parecer el código es incorrecto.");
+				}
 			}
 		});
 	}
