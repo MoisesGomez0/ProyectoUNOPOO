@@ -16,6 +16,7 @@
 	<script src = "Player.js"></script>
 	<script src = "Game.js"></script>
 	<script src = "Hand.js"></script>
+	<script src="Div.js"></script>
 </head>
 <body>
 <% out.print(String.format("<input type='hidden' id='gameId' value='%s'>",request.getParameter("gameId"))); %>
@@ -34,9 +35,8 @@
 		}
 		var game = new Game(id,players);
 		game.generate();/**Genera la partida.*/
-		console.log(game.toString());
 		$.get("write.jsp",{"file":`game\${id}.json`,"content":game.toString(),"override":true},function(){
-			window.location = `UNO.jsp?name=\${name}`;
+			window.location = `UNO.jsp?name=\${name}&gameId=\${id}`;
 		})
 	});
 	

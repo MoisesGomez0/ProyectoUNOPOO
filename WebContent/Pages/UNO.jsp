@@ -17,6 +17,7 @@
 	<script src = "Player.js"></script>
 	<script src = "Game.js"></script>
 	<script src = "Hand.js"></script>
+	<script src="Div.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
     <style>
         div#oponentCards {
@@ -58,7 +59,8 @@
             background-color: bisque;
         }
     </style>
-    <%out.print(String.format("<input type='hidden' value='%s' id='nameHidden'>",request.getParameter("name")));%>
+    <%out.print(String.format("<input type='hidden' value='%s' id='name'>",request.getParameter("name")));%>
+    <%out.print(String.format("<input type='hidden' value='%s' id='gameId'>",request.getParameter("gameId"))); %>
 
 </head>
 
@@ -73,7 +75,15 @@
     <div id="hand"></div>
 
     <script>
-   
+    var playerName = document.querySelector("#name").value;
+	var gameId = document.querySelector("#gameId").value;
+    var game = new Game();
+    $.get("getContent.jsp",{"file":`game\${gameId}.json`},function(data){
+        data = JSON.parse(data.trim());
+        console.log(data);
+    	game.parse(data);
+    	console.log(game.toString());
+    })
     	
     </script>
 </body>

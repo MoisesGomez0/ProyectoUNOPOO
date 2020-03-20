@@ -109,13 +109,14 @@ function Deck(generated = false){
 	}
 	
 	this.parse=function(array){
-    	var cards = new LinkedList();
+    	var newCards = new LinkedList();
     	for ( var i in array) {
     		var banana = array[i].split("_");
-			cards.add(new Card(banana[0],banana[1]));
+			newCards.add(new Card(banana[0],banana[1]));
 		}
     	
-    	this.cards = deck;
+    	this.cards = newCards;
+    	return this;
 		
 	}
 

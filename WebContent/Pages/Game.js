@@ -174,26 +174,32 @@ function Game(id=null,players = new LinkedList(),currentNodePlayer=null,currentC
     
     this.parse =function(json){
  
-    	var id = json["id"];
-    	var playerDecision = json["playerDecision"];
+    	this.id = json["id"];
+    	this.playerDecision = json["playerDecision"];
+    	
+    	var d = new Deck();
+    	this.deck = d.parse(json["deck"]);
+    	
+    	var dp = new DiscardPile();
+    	this.discardPile = dp.parse(json["discardPile"]);
+    	this.discardPile.deck = this.deck;
     	
     	
     	var players = new LinkedList();
     	for ( var key in json["players"]) {
 			var player = new Player();
 			player.parse(json["players"][key]);
+			player.hand.deck = this.deck;
+			player.hand.discardPile = this.discardPile;
 			players.add(player);
-		}
+        }
+        
+        this.players=players;
+        
+    	this.currentNodePlayer = players.getNode(json["currentNodePlayer"]);
+    	this.clockWise = json["clockWise"];
+    	this.currentColor = new Card("CERO",json["currentColor"]).color;
     	
-    	var currentNodePlayer = players.getNode(json["currentNodePlayer"]);
-    	var clockWise = json["clockWise"];
-    	var currentColor = new Card("CERO",json["currentColor"]).color;
-    	
-    	var deck = new Deck();
-    	deck.parse(json["deck"]);
-    	
-    	var discardPile = new DiscardPile();
-    	discardPile.parse(json["discardPile"]);
     	
     }
 }
