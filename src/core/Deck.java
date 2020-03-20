@@ -48,12 +48,16 @@ public class Deck {
      * Se debe validar con la expreción regula contenida en ERegex.DECK.
      */
     public Deck(String deckCards) {
-    	if (!deckCards.matches(String.format("^%s$", ERegex.DECK))) { /**Si no está en el formato correcto.*/
+    	this.stringToCards(deckCards);
+    }
+    
+    protected void stringToCards(String stringCards) {
+    	if (!stringCards.matches(String.format("^%s$", ERegex.DECK))) { /**Si no está en el formato correcto.*/
     		throw new IllegalArgumentException("Formato para Deck no es el adecuado.");
     	}
     	
     	this.cards.clear();
-    	String [] array = deckCards.split(",");
+    	String [] array = stringCards.split(",");
     	for (String card : array) {
 			this.cards.add(new Card(card.strip()));
 		}

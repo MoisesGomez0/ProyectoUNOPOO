@@ -11,20 +11,27 @@ public class Game {
 	private int currentPlayerId; /**Id del jugador en turno.*/
 	private EColor currentColor; /**Color de carta que se está jugando.*/
 	private boolean clockWise = true;/**Sentido de juego horario por defecto.*/
-	private Player player1 = new Player();
-	private Player player2 = new Player();
+	private Player hostPlayer = new Player();
+	private Player guestPlayer = new Player();
 	private Deck deck = new Deck();
 	private DiscardPile discardPile = new DiscardPile(getDeck());
 	
 	public Game(String id, Player p1, Player p2) {
 		this.setId(id);
-		this.setPlayer1(p1);
-		this.setPlayer2(p2);
-		this.getPlayer1().setId(0);
-		this.getPlayer2().setId(1);
+		this.setHostPlayer(p1);
+		this.setGuestPlayer(p2);
+		this.getHostPlayer().setId(0);
+		this.getGuestPlayer().setId(1);
 	}
 	
-	public Game(String id, int currentPlayerId, EColor currentColor, boolean clockWise, Player p1, Player p2,  Deck deck, DiscardPile discardPile ) {
+	public Game(String id,
+				int currentPlayerId,
+				EColor currentColor,
+				boolean clockWise,
+				Player p1,
+				Player p2,
+				Deck deck,
+				DiscardPile discardPile ) {
 			
 		if (currentColor.getName() == EColor.BLACK.getName()) { /**Si es de color negro.*/
 			throw new IllegalArgumentException("El color BLACK no puede ser currentColor");
@@ -32,13 +39,13 @@ public class Game {
 		
 		this.setId(id);
 		this.setCurrentColor(currentColor);
-		this.setPlayer1(p1);
-		this.setPlayer2(p2);
+		this.setHostPlayer(p1);
+		this.setGuestPlayer(p2);
 		
-		this.getPlayer1().setId(0);
-		this.getPlayer2().setId(1);
-		this.player1.getHand().setDeck(this.deck);
-		this.player2.getHand().setDeck(this.deck);
+		this.getHostPlayer().setId(0);
+		this.getGuestPlayer().setId(1);
+		this.hostPlayer.getHand().setDeck(this.deck);
+		this.guestPlayer.getHand().setDeck(this.deck);
 		
 		this.clockWise = clockWise;
 		this.deck = deck;
@@ -65,13 +72,15 @@ public class Game {
 	 */
 	private void dealCards() {
 		this.deck.shuffle();
-		this.getPlayer1().getHand().setDeck(this.getDeck());
+		
+		this.hostPlayer.getHand().setDeck(this.getDeck());
 		for (int i = 0; i < 7; i++) {
-			this.getPlayer1().takeCard();
+			this.hostPlayer.takeCard();
 		}
-		this.getPlayer2().getHand().setDeck(this.getDeck());
+		
+		this.guestPlayer.getHand().setDeck(this.getDeck());
 		for (int i = 0; i < 7; i++) {
-			this.getPlayer2().takeCard();
+			this.guestPlayer.takeCard();
 		}
 	}
 	
@@ -80,10 +89,10 @@ public class Game {
 	 * @param playerId Id del jugador en turno.
 	 */
 	public void playerTakeCard() {
-		if (this.currentPlayerId == this.player1.getId()) {
-			this.player1.takeCard();
-		}else if(this.currentPlayerId == this.player2.getId()){
-			this.player2.takeCard();
+		if (this.currentPlayerId == this.hostPlayer.getId()) {
+			this.hostPlayer.takeCard();
+		}else if(this.currentPlayerId == this.guestPlayer.getId()){
+			this.guestPlayer.takeCard();
 		}
 		
 		this.saveMemory();
@@ -104,12 +113,12 @@ public class Game {
 		if (this.currentPlayerId != playerId) {
 			throw new IllegalArgumentException("El jugador no puede soltar una carta si no es su turno.");
 		}else {
-			if (this.currentPlayerId == this.player1.getId()) {
-				currentPlayer = this.player1;
-				oponent=this.player2;
+			if (this.currentPlayerId == this.hostPlayer.getId()) {
+				currentPlayer = this.hostPlayer;
+				oponent=this.guestPlayer;
 			}else{
-				currentPlayer = this.player2;
-				oponent = this.player1;
+				currentPlayer = this.guestPlayer;
+				oponent = this.hostPlayer;
 			}
 		}
 		
@@ -125,20 +134,7 @@ public class Game {
 			case DFOUR: /**Si es una carta Draw Four.*/
 				currentPlayer.dropCard(card);
 				this.currentColor = selectedColor;
-				
-				/**
-				 * Verifica que el jugador tenga una carta del mismo color o valor que la última carta de la discardPile.
-				 */
-				if (challenge) {
-					if (currentPlayer.getHand().checkColor(lastCard.getColor())|| 
-						currentPlayer.getHand().checkValue(lastCard.getValue())) {
-						currentPlayer.drawSix(); /**Toma seis cartas.*/
-						this.currentPlayerId = oponent.getId(); /**Será turno del otro jugador.*/
-					}else {
-						oponent.drawSix(); /**El retador toma seis cartas y pierde turno.*/
-					}
-				}
-				break;
+				this.currentPlayerId = oponent.getId();
 			
 			case WILD: /**Si es una Carta Wild*/
 				currentPlayer.dropCard(card); /**Suelta la carta.*/
@@ -173,12 +169,12 @@ public class Game {
 			}
 			
 			/**Actualiza los jugadores*/
-			if (this.currentPlayerId == this.player1.getId()) {
-				this.player1 = currentPlayer;
-				this.player2 = oponent;
+			if (this.currentPlayerId == this.hostPlayer.getId()) {
+				this.hostPlayer = currentPlayer;
+				this.guestPlayer = oponent;
 			}else{
-				this.player2= currentPlayer;
-				this.player1 = oponent;
+				this.guestPlayer= currentPlayer;
+				this.hostPlayer = oponent;
 			}
 			
 		}else {
@@ -192,7 +188,7 @@ public class Game {
 	 * Guarda la partida en un archivo JSON en memoria.
 	 */
 	public void saveMemory() {
-		FileManager fm = new FileManager("");
+		FileManager fm = new FileManager("src/memory/");
 		fm.write("game.json", this.toString());
 	}
 	/**
@@ -208,8 +204,8 @@ public class Game {
 		result.append(String.format("%s\"id\": \"%s\",\n","\t".repeat(tab),this.getId()));
 		result.append(String.format("%s\"currentPlayerId\": %s,\n","\t".repeat(tab),this.getCurrentPlayerId()));
 		result.append(String.format("%s\"clockWise\": %s,\n","\t".repeat(tab),this.isClockWise()));
-		result.append(String.format("%s\"player1\":\n%s,\n","\t".repeat(tab),this.getPlayer1().toJSON(tab+1)));
-		result.append(String.format("%s\"player2\":\n%s,\n","\t".repeat(tab),this.getPlayer2().toJSON(tab+1)));
+		result.append(String.format("%s\"hostPlayer\":\n%s,\n","\t".repeat(tab),this.getHostPlayer().toJSON(tab+1)));
+		result.append(String.format("%s\"guestPlayer\":\n%s,\n","\t".repeat(tab),this.getGuestPlayer().toJSON(tab+1)));
 		result.append(String.format("%s\"deck\": \n%s,\n","\t".repeat(tab),this.getDeck().toString(tab+1)));
 		result.append(String.format("%s\"discardPile\": \n%s\n","\t".repeat(tab),this.getDiscardPile().toString(tab+1)));
 		result.append(String.format("}"));
@@ -229,8 +225,8 @@ public class Game {
 		result.append(String.format("%s\"id\": \"%s\",\n","\t".repeat(tab),this.getId()));
 		result.append(String.format("%s\"currentPlayerId\": %s,\n","\t".repeat(tab),this.getCurrentPlayerId()));
 		result.append(String.format("%s\"clockWise\": %s,\n","\t".repeat(tab),this.isClockWise()));
-		result.append(String.format("%s\"player1\":\n%s,\n","\t".repeat(tab),this.getPlayer1().toJSON(tab+1)));
-		result.append(String.format("%s\"player2\":\n%s,\n","\t".repeat(tab),this.getPlayer2().toJSON(tab+1)));
+		result.append(String.format("%s\"hostPlayer\":\n%s,\n","\t".repeat(tab),this.getHostPlayer().toJSON(tab+1)));
+		result.append(String.format("%s\"guestPlayer\":\n%s,\n","\t".repeat(tab),this.getGuestPlayer().toJSON(tab+1)));
 		result.append(String.format("%s\"deck\": \n%s,\n","\t".repeat(tab),this.getDeck().toString(tab+1)));
 		result.append(String.format("%s\"discardPile\": \n%s\n","\t".repeat(tab),this.getDiscardPile().toString(tab+1)));
 		result.append(String.format("}"));
@@ -296,31 +292,31 @@ public class Game {
 	}
 
 	/**
-	 * @return the player1
+	 * @return the hostPlayer
 	 */
-	public Player getPlayer1() {
-		return player1;
+	public Player getHostPlayer() {
+		return hostPlayer;
 	}
 
 	/**
-	 * @param player1 the player1 to set
+	 * @param hostPlayer the hostPlayer to set
 	 */
-	public void setPlayer1(Player player1) {
-		this.player1 = player1;
+	public void setHostPlayer(Player hostPlayer) {
+		this.hostPlayer = hostPlayer;
 	}
 
 	/**
-	 * @return the player2
+	 * @return the guestPlayer
 	 */
-	public Player getPlayer2() {
-		return player2;
+	public Player getGuestPlayer() {
+		return guestPlayer;
 	}
 
 	/**
-	 * @param player2 the player2 to set
+	 * @param guestPlayer the guestPlayer to set
 	 */
-	public void setPlayer2(Player player2) {
-		this.player2 = player2;
+	public void setGuestPlayer(Player guestPlayer) {
+		this.guestPlayer = guestPlayer;
 	}
 
 	/**
