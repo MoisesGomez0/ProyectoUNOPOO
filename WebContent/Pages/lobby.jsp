@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 
@@ -8,29 +8,40 @@
     <title>UNO-Game</title>
     <script src="../jquery-3.4.1.min.js"></script>
     <script src="../scripts/LogInManager.js"></script>
+    <script src="../scripts/Animator.js"></script>
+    <script src="../scripts/CookiesManager.js"></script>
+    <link rel="stylesheet" type="text/css" href="../styles/lobby.css">
 </head>
 
 <body>
-    <% out.print(String.format("<input type='hidden' id='name' value='%s'>",request.getParameter("name").toString().trim())); %>
-    <%out.print(String.format("<input type='hidden' id='gameId' value='%s'>",request.getParameter("gameId").toString().trim()));%>    
-    <h1>Esperate un rato</h1>
-    <form action="UNO.jsp" method="POST" id="dataForm" style="visibility: hidden;">
-        <input type="text" name="name" id="formName">
-        <input type="text" name="nPlayers" id="formNPlayers">
-        <input type="text" name="gameId" id="gameId">
-    </form>
+
+    <div class="message">
+        <h1 class="message" >Estamos preparando todo</h1>
+        <br>
+        <h2 class="message" id="loadingBox"></h2>
+        <br>
+        <h2 class="message">Tu oponente no esta listos.</h2>
+    </div>
+
+
     <script>
-		var playerName = document.querySelector("#name").value;
-		var gameId = document.querySelector("#gameId").value;
-		
-		var logInManager = new LogInManager(playerName,0,gameId);
-		
-		logInManager.getIn();
-		
-		logInManager.verifyLoginAndRedirect();
-		
-		
+        var animator = new Animator();
+        var cookiesManager = new CookiesManager();
         
+        var name = cookiesManager.getCookie("name");
+        var gameId = cookiesManager.getCookie("gameId");
+        
+        var logInManager = new LogInManager(name, 0, gameId);
+
+        animator.writeMachine("Cargando...","#loadingBox");
+        animator.splashText("#loadingBox");
+
+        logInManager.getIn();
+
+        logInManager.verifyLoginAndRedirec();
+
+
+
     </script>
 </body>
 
