@@ -1,6 +1,8 @@
-function Point(top,left){
-    this.top = top;
-    this.left = left;
+function Point(x,y){
+    this.x = x;
+    this.y = y;
 
-    
+    this.toString = function(){
+        return `(${this.x},${this.y})`;
+    }
 }
