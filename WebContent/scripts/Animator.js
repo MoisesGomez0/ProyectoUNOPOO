@@ -1,5 +1,6 @@
 /**Este objeto se encarga de generar animaciónes cambiando atributos a objetos HTML */
 function Animator(){
+
     /**Genera una animación parecida a de una máquina de escribir.
      * Escribe el texto de derecha a izquierda, luego borra de izquierda a derecha y se repite.
      */
@@ -21,7 +22,7 @@ function Animator(){
                 counter--;
                 element.innerHTML = text.slice(0,counter);
             }
-        }, 300)
+        }, 300);
     }
 
     /**Da el efecto de aumentar y reducir el fontSize del texto en los objetos */

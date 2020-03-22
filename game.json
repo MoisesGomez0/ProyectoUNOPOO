@@ -1,7 +1,7 @@
 {
 	"id": "1a46bt",
 	"currentPlayerId": 1,
-	"currentColor": YELLOW,
+	"currentColor": "YELLOW",
 	"clockWise": true,
 	"hostPlayer":
 		{

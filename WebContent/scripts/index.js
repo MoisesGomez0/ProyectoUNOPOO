@@ -11,7 +11,10 @@ function IndexManager(){
         backScreenGuest.classList.add("active");
     }
 
-    this.showError = function(){
+    this.showError = function(message = false){
+        if(message){
+            errorMessage.innerHTML = message;
+        }
         errorBackScreen.classList.add("active");
     }
 
@@ -41,7 +44,6 @@ function IndexManager(){
             cookiesManager.setCookie("name",guestName.value);
             cookiesManager.setCookie("gameId",gameId.value);
             location = "lobby.jsp";
-            [].forEach()
         }else{
             this.showError();
         }

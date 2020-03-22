@@ -1,19 +1,17 @@
 function DataManager(){
 	
 	this.update = function(){
-		console.log("dentro de update");
 		 $.get("getContent.jsp", { "file": "game.json" }, function(data){
 			data = JSON.parse(data.trim());
 			info = data;
-			console.log(info);
-			dataManager.sendToBack();
+			frontManager.json = info;
+			frontManager.updateCards();
 		 });
 	}
 	
 
 	
 	this.cardsToParameter = function(data){
-		console.log("dentro de cards");
 		var result = "";
 		
 		if (data.length == 0){
@@ -29,7 +27,6 @@ function DataManager(){
 	}
 	
 	this.sendToBack = function(){
-		console.log("dentro de sendToBack")
 
 		$.get("game.jsp",
 				{
