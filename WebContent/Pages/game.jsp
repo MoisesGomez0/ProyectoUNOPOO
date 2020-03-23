@@ -23,6 +23,10 @@
 	
 	Game game = new Game(gameId,currentPlayerId,currentColor,clockWise,hostPlayer,guestPlayer,deck,discardPile);
 	
-	System.out.println("Esta es la respuesta del juego");
-	System.out.print(game.toString());
+	String action = request.getParameter("action");
+
+	if (action.equals("playerTakeCard")) {
+		game.playerTakeCard();
+		game.saveMemory();
+	}
 %>

@@ -39,6 +39,7 @@ public class Game {
 		
 		this.setId(id);
 		this.setCurrentColor(currentColor);
+		this.currentPlayerId = currentPlayerId;
 		this.setHostPlayer(p1);
 		this.setGuestPlayer(p2);
 		this.clockWise = clockWise;
@@ -89,18 +90,33 @@ public class Game {
 		}
 	}
 	
+	private Player currentPlayer() {
+		if (this.currentPlayerId == this.hostPlayer.getId()) {
+			return this.hostPlayer;
+		}else if(this.currentPlayerId == this.guestPlayer.getId()){
+			return this.guestPlayer;
+		}else {
+			throw new IllegalArgumentException("No existen jugadores.");
+		}
+		
+	}
+	
+	private void nextPlayer() {
+		if (this.currentPlayerId == this.hostPlayer.getId()) {
+			this.currentPlayerId = this.guestPlayer.getId();
+		}else if(this.currentPlayerId == this.guestPlayer.getId()){
+			this.currentPlayerId = this.hostPlayer.getId();
+		}else {
+			throw new IllegalArgumentException("No existen jugadores.");
+		}
+	}
 	/**
 	 * El jugador en turno toma una carta.
 	 * @param playerId Id del jugador en turno.
 	 */
 	public void playerTakeCard() {
-		if (this.currentPlayerId == this.hostPlayer.getId()) {
-			this.hostPlayer.takeCard();
-		}else if(this.currentPlayerId == this.guestPlayer.getId()){
-			this.guestPlayer.takeCard();
-		}
-		
-		this.saveMemory();
+		this.currentPlayer().takeCard();
+		this.nextPlayer();
 	}
 	
 	/**

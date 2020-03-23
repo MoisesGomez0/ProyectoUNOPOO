@@ -4,7 +4,6 @@ function FrontManager(json) {
 
 
     this.updateCards = function () {
-        console.log(info);
         var result = "";
         if (info.hostPlayer.name == name) {
             document.querySelector("#hand").innerHTML = this.handToHTML(this.json.hostPlayer.hand, this.json.hostPlayer.id);/**Cartas no ocultas. */
@@ -13,6 +12,9 @@ function FrontManager(json) {
             document.querySelector("#hand").innerHTML = this.handToHTML(this.json.guestPlayer.hand, this.json.guestPlayer.id);/**Cartas no ocultas. */
             document.querySelector("#oponentCards").innerHTML = this.handToHTML(this.json.hostPlayer.hand, this.json.hostPlayer.id, true);/**Cartas ocultas. */
         }
+        var lastDiscardPileCard = info.discardPile[info.discardPile.length-1];
+        
+        document.querySelector("#discardPile").innerHTML = `<div id="discardPile" class="card" ><img class="card" src="../images/${lastDiscardPileCard}.png"></div>`;
     }
 
     this.handToHTML = function (hand, id, hidden = false) {
@@ -42,4 +44,12 @@ function FrontManager(json) {
         return `<div id="${id}_${card}" class="card" style="left:${left}vw;" ><img class="card" src="../images/${card}.png"></div>`;
     }
 
+}
+
+function playerTakeCard(){
+	if(info.guestPlayer.name == name && info.currentPlayerId == info.guestPlayer.id){
+		dataManager.sendToBack("playerTakeCard");
+	}else if(info.hostPlayer.name == name && info.currentPlayerId == info.hostPlayer.id){
+		dataManager.sendToBack("playerTakeCard");
+	}
 }

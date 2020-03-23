@@ -30,7 +30,7 @@
 
 <body>
     <div id="oponentCards"></div>
-    <div id="deck"> <img id="deck" src="../images/UNO.png"></div>
+    <div id="deck" onclick="playerTakeCard();"> <img id="deck" src="../images/UNO.png"></div>
     <div id="discardPile" ></div>
     <div id="hand"></div>
 
@@ -41,8 +41,10 @@
         var info = {};
         var frontManager = new FrontManager(info);
         var dataManager = new DataManager();
-        dataManager.update();
-    	
+        var idSetIntervalUpdate = setInterval(function(){
+            dataManager.update();
+        },1000)
+           	
     </script>
 
 </html>

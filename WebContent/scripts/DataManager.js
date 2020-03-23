@@ -1,50 +1,52 @@
-function DataManager(){
-	
-	this.update = function(){
-		 $.get("getContent.jsp", { "file": "game.json" }, function(data){
-			data = JSON.parse(data.trim());
-			info = data;
-			frontManager.json = info;
-			frontManager.updateCards();
-		 });
-	}
-	
+function DataManager() {
 
-	
-	this.cardsToParameter = function(data){
+	this.update = function () {
+		$.get("getContent.jsp", { "file": "game.json" }, function (data) {
+			data = JSON.parse(data.trim());
+			frontManager.json = info;
+			if (data != info) {
+				info = data;
+				frontManager.updateCards();
+			}
+		});
+	}
+
+
+
+	this.cardsToParameter = function (data) {
 		var result = "";
-		
-		if (data.length == 0){
-			return `${data[data.length-1]}`
+
+		if (data.length == 0) {
+			return `${data[data.length - 1]}`
 		}
-		
-		for(let i = 0 ; i < data.length-1; i++){
+
+		for (let i = 0; i < data.length - 1; i++) {
 			result += `${data[i]},`;
 		}
-		result += `${data[data.length-1]}`;
-		
+		result += `${data[data.length - 1]}`;
+
 		return result;
 	}
-	
-	this.sendToBack = function(){
 
+	this.sendToBack = function (action) {
+		
 		$.get("game.jsp",
-				{
-			"gameId": info.id,
-			"currentPlayerId": info.currentPlayerId,
-			"currentColor": info.currentColor,
-			"clockWise": info.clockWise,
-			"hostPlayerName":info.hostPlayer.name,
-			"hostPLayerHand": dataManager.cardsToParameter(info.hostPlayer.hand),
-			"guestPlayerName":info.guestPlayer.name,
-			"guestPlayerHand":dataManager.cardsToParameter(info.guestPlayer.hand),
-			"deck":dataManager.cardsToParameter(info.deck),
-			"discardPile":dataManager.cardsToParameter(info.discardPile)
-			
-			
-				},
-				null);
+			{
+				"gameId": info.id,
+				"currentPlayerId": info.currentPlayerId,
+				"currentColor": info.currentColor,
+				"clockWise": info.clockWise,
+				"hostPlayerName": info.hostPlayer.name,
+				"hostPLayerHand": dataManager.cardsToParameter(info.hostPlayer.hand),
+				"guestPlayerName": info.guestPlayer.name,
+				"guestPlayerHand": dataManager.cardsToParameter(info.guestPlayer.hand),
+				"deck": dataManager.cardsToParameter(info.deck),
+				"discardPile": dataManager.cardsToParameter(info.discardPile),
+				"action": action
+
+			},
+			function(){console.log("me retornó el back")});
 	}
-	
-	
+
+
 }
