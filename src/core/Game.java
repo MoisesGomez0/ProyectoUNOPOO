@@ -39,17 +39,22 @@ public class Game {
 		
 		this.setId(id);
 		this.setCurrentColor(currentColor);
+		this.currentPlayerId = currentPlayerId;
 		this.setHostPlayer(p1);
 		this.setGuestPlayer(p2);
-		
-		this.getHostPlayer().setId(0);
-		this.getGuestPlayer().setId(1);
-		this.hostPlayer.getHand().setDeck(this.deck);
-		this.guestPlayer.getHand().setDeck(this.deck);
-		
 		this.clockWise = clockWise;
 		this.deck = deck;
 		this.discardPile = discardPile;
+		this.discardPile.setDeck(this.deck); 
+		
+		this.getHostPlayer().setId(0);
+		this.getGuestPlayer().setId(1);
+		
+		this.hostPlayer.getHand().setDeck(this.deck);
+		this.guestPlayer.getHand().setDeck(this.deck);
+		this.hostPlayer.getHand().setDiscardPile(this.discardPile);
+		this.guestPlayer.getHand().setDiscardPile(this.discardPile);
+		
 		
 	}
 	
@@ -65,6 +70,7 @@ public class Game {
 		dealCards();/**Reparte las cartas.*/
 		this.getDeck().shuffle();/**Baraja la baraja.*/
 		this.getDiscardPile().receiveFirstCard();/**Agrega la primera carta a la DiscardPile.*/
+		this.currentColor = this.discardPile.cards.get(0).getColor();
 	}
 	
 	/**
@@ -84,18 +90,44 @@ public class Game {
 		}
 	}
 	
+	private Player currentPlayer(){
+		if (this.currentPlayerId == this.hostPlayer.getId()) {
+			return this.hostPlayer;
+		}else if(this.currentPlayerId == this.guestPlayer.getId()){
+			return this.guestPlayer;
+		}else {
+			throw new IllegalArgumentException("No existen jugadores.");
+		}
+		
+	}
+	
+	private Player oponentPlayer() {
+		if (this.currentPlayerId != this.hostPlayer.getId()) {
+			return this.hostPlayer;
+		}else if(this.currentPlayerId != this.guestPlayer.getId()){
+			return this.guestPlayer;
+		}else {
+			throw new IllegalArgumentException("No existen jugadores.");
+		}
+		
+	}
+	
+	private void nextPlayer() {
+		if (this.currentPlayerId == this.hostPlayer.getId()) {
+			this.currentPlayerId = this.guestPlayer.getId();
+		}else if(this.currentPlayerId == this.guestPlayer.getId()){
+			this.currentPlayerId = this.hostPlayer.getId();
+		}else {
+			throw new IllegalArgumentException("No existen jugadores.");
+		}
+	}
 	/**
 	 * El jugador en turno toma una carta.
 	 * @param playerId Id del jugador en turno.
 	 */
 	public void playerTakeCard() {
-		if (this.currentPlayerId == this.hostPlayer.getId()) {
-			this.hostPlayer.takeCard();
-		}else if(this.currentPlayerId == this.guestPlayer.getId()){
-			this.guestPlayer.takeCard();
-		}
-		
-		this.saveMemory();
+		this.currentPlayer().takeCard();
+		this.nextPlayer();
 	}
 	
 	/**
@@ -105,23 +137,13 @@ public class Game {
 	 * @param selectedColor El color que elige en caso de ser una carta especial.
 	 * @param challenge Si el oponente lo retón en caso de que la carta sea un Draw Four.
 	 */
-	public void playerDropCard(int playerId, Card card, EColor selectedColor, boolean challenge) {
+	public void playerDropCard(Card card, EColor selectedColor) {
 		
-		Player currentPlayer = new Player();
-		Player oponent = new Player();
+		Player currentPlayer = this.currentPlayer();
+		Player oponent = this.oponentPlayer();
 		
-		if (this.currentPlayerId != playerId) {
-			throw new IllegalArgumentException("El jugador no puede soltar una carta si no es su turno.");
-		}else {
-			if (this.currentPlayerId == this.hostPlayer.getId()) {
-				currentPlayer = this.hostPlayer;
-				oponent=this.guestPlayer;
-			}else{
-				currentPlayer = this.guestPlayer;
-				oponent = this.hostPlayer;
-			}
-		}
-		
+		System.err.println(currentPlayer.getName());
+		System.err.println(oponent.getName());
 		
 		int lastCardIndex = this.discardPile.getCards().size()-1;
 		Card lastCard = this.discardPile.getCards().get(lastCardIndex); /**Ultima carta de la discardPile.*/
@@ -131,44 +153,45 @@ public class Game {
 			card.getColor().equals(EColor.BLACK)) { /**Es una carta especial.*/
 			
 			switch (card.getValue()) {
-			case DFOUR: /**Si es una carta Draw Four.*/
-				currentPlayer.dropCard(card);
-				this.currentColor = selectedColor;
-				this.currentPlayerId = oponent.getId();
-			
-			case WILD: /**Si es una Carta Wild*/
-				currentPlayer.dropCard(card); /**Suelta la carta.*/
-				this.currentColor = selectedColor; /**Selecciona el color de la siguiente carta.*/
-				this.currentPlayerId = oponent.getId(); /**Ahora es turno del oponente.*/
 				
-				break;
+				case DFOUR: /**Si es una carta Draw Four.*/
+					currentPlayer.dropCard(card);
+					this.currentColor = selectedColor;
+					this.nextPlayer();
+					break;
 				
-			case DTWO: /**Si es una carta Draw Two*/
-				currentPlayer.dropCard(card); /**Suelta la carta.*/
-				this.currentColor = card.getColor(); /**Cambia de color.*/
-				oponent.drawTwo(); /**El oponente toma dos cartas y pierde turno.*/
-				break;
-				
-			case REVERSE: /**Si es una carta Reverse*/
-				currentPlayer.dropCard(card); /**Suelta la carta.*/
-				this.clockWise = !this.clockWise; /**Cambia el sentido de juego.*/
-				this.currentColor = card.getColor(); /**Cambia de color.*/
-				this.currentPlayerId = oponent.getId(); /**Ahora es turno del oponente.*/
-				break;
-				
-			case SKIP: /**Si es una carta Skip*/
-				currentPlayer.dropCard(card); /**Suelta la carta y el oponente pierde turno.*/
-				this.currentColor = card.getColor(); /**Cambia de color.*/
-				break;
-
-			default: /**Si es cualquier otro número.*/
-				currentPlayer.dropCard(card); /**Suelta la carta*/
-				this.currentColor = card.getColor(); /**Cambia de color.*/
-				this.currentPlayerId = oponent.getId(); /**Ahora es turno del oponente*/
-				break;
+				case WILD: /**Si es una Carta Wild*/
+					currentPlayer.dropCard(card); /**Suelta la carta.*/
+					this.currentColor = selectedColor; /**Selecciona el color de la siguiente carta.*/
+					this.nextPlayer();	
+					break;
+					
+				case DTWO: /**Si es una carta Draw Two*/
+					currentPlayer.dropCard(card); /**Suelta la carta.*/
+					this.currentColor = card.getColor(); /**Cambia de color.*/
+					oponent.drawTwo(); /**El oponente toma dos cartas y pierde turno.*/
+					break;
+					
+				case REVERSE: /**Si es una carta Reverse*/
+					currentPlayer.dropCard(card); /**Suelta la carta.*/
+					this.clockWise = !this.clockWise; /**Cambia el sentido de juego.*/
+					this.currentColor = card.getColor(); /**Cambia de color.*/
+					this.nextPlayer(); /**Ahora es turno del oponente.*/
+					break;
+					
+				case SKIP: /**Si es una carta Skip*/
+					currentPlayer.dropCard(card); /**Suelta la carta y el oponente pierde turno.*/
+					this.currentColor = card.getColor(); /**Cambia de color.*/
+					break;
+	
+				default: /**Si es cualquier otro número.*/
+					currentPlayer.dropCard(card); /**Suelta la carta*/
+					this.currentColor = card.getColor(); /**Cambia de color.*/
+					this.nextPlayer(); /**Ahora es turno del oponente*/
+					break;
 			}
 			
-			/**Actualiza los jugadores*/
+			/*
 			if (this.currentPlayerId == this.hostPlayer.getId()) {
 				this.hostPlayer = currentPlayer;
 				this.guestPlayer = oponent;
@@ -176,19 +199,21 @@ public class Game {
 				this.guestPlayer= currentPlayer;
 				this.hostPlayer = oponent;
 			}
+			*/
+			
 			
 		}else {
 			throw new IllegalArgumentException(String.format("No se puede soltar la carta: %s por que la ultima carta de la discardPile es: %s", card,lastCard));
 		}
 		
-		this.saveMemory();
 	}
 	
 	/**
 	 * Guarda la partida en un archivo JSON en memoria.
 	 */
 	public void saveMemory() {
-		FileManager fm = new FileManager("src/memory/");
+		//FileManager fm = new FileManager("src/memory/");
+		FileManager fm = new FileManager("");
 		fm.write("game.json", this.toString());
 	}
 	/**
@@ -203,6 +228,7 @@ public class Game {
 		result.append(String.format("{\n"));
 		result.append(String.format("%s\"id\": \"%s\",\n","\t".repeat(tab),this.getId()));
 		result.append(String.format("%s\"currentPlayerId\": %s,\n","\t".repeat(tab),this.getCurrentPlayerId()));
+		result.append(String.format("%s\"currentColor\": \"%s\",\n","\t".repeat(tab),this.currentColor.getName()));
 		result.append(String.format("%s\"clockWise\": %s,\n","\t".repeat(tab),this.isClockWise()));
 		result.append(String.format("%s\"hostPlayer\":\n%s,\n","\t".repeat(tab),this.getHostPlayer().toJSON(tab+1)));
 		result.append(String.format("%s\"guestPlayer\":\n%s,\n","\t".repeat(tab),this.getGuestPlayer().toJSON(tab+1)));
@@ -224,6 +250,7 @@ public class Game {
 		result.append(String.format("{\n"));
 		result.append(String.format("%s\"id\": \"%s\",\n","\t".repeat(tab),this.getId()));
 		result.append(String.format("%s\"currentPlayerId\": %s,\n","\t".repeat(tab),this.getCurrentPlayerId()));
+		result.append(String.format("%s\"currentColor\": \"%s\",\n","\t".repeat(tab),this.currentColor.getName()));
 		result.append(String.format("%s\"clockWise\": %s,\n","\t".repeat(tab),this.isClockWise()));
 		result.append(String.format("%s\"hostPlayer\":\n%s,\n","\t".repeat(tab),this.getHostPlayer().toJSON(tab+1)));
 		result.append(String.format("%s\"guestPlayer\":\n%s,\n","\t".repeat(tab),this.getGuestPlayer().toJSON(tab+1)));
@@ -357,6 +384,8 @@ public class Game {
 		game.generateGame();
 		//System.out.println(game);
 		game.saveMemory();
+		
+		System.out.println(game.toString());
 		
 		/**
 		FileManager fm = new FileManager();

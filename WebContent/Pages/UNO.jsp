@@ -1,3 +1,4 @@
+<%@page import="clases.FileManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -18,74 +19,33 @@
 	<script src = "Game.js"></script>
 	<script src = "Hand.js"></script>
 	<script src="Div.js"></script>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <style>
-        div#oponentCards {
-            position: fixed;
-            top: 0;
-            left: 20vw;
-            height: 10vh;
-            width: 60vw;
-            background-color: aqua;
-        }
-        div#hand {
-            position: fixed;
-            bottom: 0;
-            left: 20vw;
-            height: 20vh;
-            width: 60vw;
-            background-color: aqua;
-        }
-        div#deck {
-            position: fixed;
-            bottom: 30vh;
-            height: 50vh;
-            left: 25vw;
-            width: 20vw;
-            background-color: aqua;
-        }
-        div#discardPile {
-            position: fixed;
-            bottom: 30vh;
-            height: 50vh;
-            left: 55vw;
-            width: 20vw;
-            background-color: aqua;
-        }
-        div.card {
-            position: fixed;
-            height: 15vh;
-            width: 10hw;
-            background-color: bisque;
-        }
-    </style>
-    <%out.print(String.format("<input type='hidden' value='%s' id='name'>",request.getParameter("name")));%>
-    <%out.print(String.format("<input type='hidden' value='%s' id='gameId'>",request.getParameter("gameId"))); %>
+    <script src="../scripts/DataManager.js"></script>
+    <script src="../scripts/UNO.js"></script>
+    <script src="../scripts/CookiesManager.js"></script>
+    <link rel="stylesheet" type="text/css" href="../styles/UNO.css">
+
+
 
 </head>
 
 <body>
     <div id="oponentCards"></div>
-    <div id="deck">
-        <div style="background-color: red; position: fixed; bottom: 30vh; height: 50vh; left: 25vw; width: 20vw;">
-            Card
-        </div>
-    </div>
-    <div id="discardPile"></div>
+    <div id="deck" onclick="am.playerTakeCard();"> <img id="deck" src="../images/UNO.png"></div>
+    <div id="discardPile" ></div>
     <div id="hand"></div>
 
-    <script>
-    var playerName = document.querySelector("#name").value;
-	var gameId = document.querySelector("#gameId").value;
-    var game = new Game();
-    $.get("getContent.jsp",{"file":`game\${gameId}.json`},function(data){
-        data = JSON.parse(data.trim());
-        console.log(data);
-    	game.parse(data);
-    	console.log(game.toString());
-    })
-    	
-    </script>
 </body>
+    <script>
+    	var am = new ActionManager();
+        var cookiesManager = new CookiesManager();
+        var name = cookiesManager.getCookie("name");
+        var info = {};
+        var frontManager = new FrontManager(info);
+        var dataManager = new DataManager();
+        var idSetIntervalUpdate = setInterval(function(){
+            dataManager.update();
+        },1000)
+           	
+    </script>
 
 </html>

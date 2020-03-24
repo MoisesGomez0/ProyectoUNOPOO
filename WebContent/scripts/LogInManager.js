@@ -28,9 +28,10 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 				data = JSON.parse(data.trim());
 				console.log(data.players.length == data.nPlayers)
 				if (data.players.length == data.nPlayers) {
-					$.get("gameMaker.jsp", { "hostPlayer": data.players[0], "guestPlayer": data.players[1], "gameId": id },function(data){
+					$.get("gameMaker.jsp", { "hostPlayer": data.players[0], "guestPlayer": data.players[1], "gameId": id }, function (data) {
 						console.log("redirijo a UNO.jsp");
-						location="UNO.jsp"});
+						location = "UNO.jsp"
+					});
 					clearInterval(intervalId);
 				}
 			})
@@ -41,18 +42,41 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 	this.getIn = function () {
 		var playerName = this.name;
 		var id = this.gameId;
+		var isIn = this.isIn;
 		$.get("getContent.jsp", { "file": "logIn.json" }, function (data) {
 			if (data == "fail") {
-				document.querySelector("Ocurrió un eror, no se encontró el archivo.")
+				indexManager.showError("No encontramos lo archivos necesarios, llama a soporte técnico de MAL inc.");
+				return false;
 			} else {
 				data = JSON.parse(data.trim());
 				if (data.gameId == id) {
-					data.players.push(playerName);
-					$.get("write.jsp", { "file": "logIn.json", "content": JSON.stringify(data), "override": true }, null);
-				}else{
-					document.querySelector("Al parecer el código es incorrecto.");
+					if (data.players.length == data.nPlayers) {
+						if (isIn(data.players, playerName)) {
+							location = "UNO.jsp"
+							return true;
+						} else {
+							indexManager.showError("Al parecer tu nombre no está registrado en la partida.");
+							return false;
+						}
+					} else {
+						data.players.push(playerName);
+						$.get("write.jsp", { "file": "logIn.json", "content": JSON.stringify(data), "override": true }, function(info){
+							location = "UNO.jsp";
+						});
+					}
+				} else {
+					indexManager.showError("El código de la partida no es correcto.");
 				}
 			}
 		});
+	}
+
+	this.isIn = function (vector, value) {
+		for (let index in vector) {
+			if (vector[index] == value) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

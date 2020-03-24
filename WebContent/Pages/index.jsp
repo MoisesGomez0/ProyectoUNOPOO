@@ -24,7 +24,7 @@
 
 <body>
     <div id="unoImgContainer">
-        <img id="unoImg" src="../images/UNO.jpg">
+        <img id="unoImg" src="../images/UNO.png">
     </div>
     <button id="newGame" class="initBtn" onclick="indexManager.showInputHost()">Nuevo Juego</button>
     <br>
@@ -48,7 +48,6 @@
         <div id="guestPopUp" class="popUp">
             <h1>UNO</h1>
             <h2>Entrar en un juego</h2>
-            <form action="lobby.jsp" method="POST">
             <input id="guestName" type="text" placeholder="Escribe tu nombre">
             <br>
             <input id="gameId" type="text" placeholder="Código del juego">
@@ -56,13 +55,12 @@
             <button onclick="indexManager.verifyAndRedirectGuest()" class="formBtn">Entrar en juego</button>
             <br>
             <button class="formBtn" onclick="indexManager.hideInputGuest();return false;">Cancelar</button>
-            </form>
         </div>
     </div>
 
     <div id="errorBackScreen" class="backScreen">
         <div id="errorPop" class="popUp">
-            <h1 id="errorMessage"></h1>
+            <h1 id="errorMessage">Debes llenar los datos necesarios</h1>
             <button class="formBtn" onclick="indexManager.hideError();">Aceptar</button>
         </div>
     </div>

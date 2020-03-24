@@ -17,8 +17,8 @@ public enum EColor {
     private final boolean special; /**Las cartas especiales solo pueden ser de color negro.*/
     private final int id; /**Identificador numérico para las figuras.*/
     
-    EColor(int id ,String figura, boolean special){
-        this.name = figura;
+    EColor(int id ,String name, boolean special){
+        this.name = name;
         this.id = id;
         this.special= special;
     }
@@ -29,6 +29,10 @@ public enum EColor {
      * @return Objeto EColor del color especificado.
      */
     public static EColor parse(String color) {
+    	if(color == null) {
+    		color = "BLUE";
+    	}
+    	
     	switch (color.strip()) {
 		case ("BLUE"):
 			return EColor.BLUE;

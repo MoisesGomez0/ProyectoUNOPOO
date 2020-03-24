@@ -10,7 +10,9 @@ pageEncoding="UTF-8"%>
     <script src="../scripts/LogInManager.js"></script>
     <script src="../scripts/Animator.js"></script>
     <script src="../scripts/CookiesManager.js"></script>
+    <script src="../scripts/index.js"></script>
     <link rel="stylesheet" type="text/css" href="../styles/lobby.css">
+    <link rel="stylesheet" type="text/css" href="../styles/index.css">
 </head>
 
 <body>
@@ -23,8 +25,19 @@ pageEncoding="UTF-8"%>
         <h2 class="message">Tu oponente no esta listos.</h2>
     </div>
 
+    <div id="errorBackScreen" class="backScreen">
+        <div id="errorPop" class="popUp">
+            <h1 id="errorMessage"></h1>
+            <button class="formBtn" onclick="indexManager.hideError(); goBack();">Aceptar</button>
+        </div>
+    </div>
 
     <script>
+        var goBack = function(){
+            location = "index.jsp";
+        }
+
+        var indexManager = new IndexManager();
         var animator = new Animator();
         var cookiesManager = new CookiesManager();
         
@@ -37,8 +50,6 @@ pageEncoding="UTF-8"%>
         animator.splashText("#loadingBox");
 
         logInManager.getIn();
-
-        logInManager.verifyLoginAndRedirec();
 
 
 

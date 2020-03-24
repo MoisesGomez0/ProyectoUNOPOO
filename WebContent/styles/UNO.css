@@ -1,0 +1,61 @@
+img#deck{
+    height: 30vh;
+    width: 13vw;
+}
+
+div#deck {
+    position: fixed;
+    left: 25vw;
+    bottom: 35vh;
+    height: 30vh;
+    width: 13vw;
+}
+
+div#discardPile {
+    position: fixed;
+    bottom: 35vh;
+    height: 30vh;
+    width: 13vw;
+    left: 55vw;
+}
+
+
+div#hand {
+    position: fixed;
+    bottom: 0;
+    left: 20vw;
+    height: 30vh;
+    width: 60vw;
+}
+
+div.card {
+    position: fixed;
+    bottom: 0;
+    height: 32vh;
+    width: 13vw;
+}
+
+img.card{
+    height: 32vh;
+    width: 13vw;
+}
+
+div#oponentCards {
+    position: fixed;
+    top: 0;
+    left: 20vw;
+    height: 32vh;
+    width: 60vw;
+}
+
+div.oponentCard{
+    position: fixed;
+    top:0;
+    height: 32vh;
+    width: 13vw;
+}
+img.oponentCard{
+    height: 32vh;
+    width: 13vw;
+}
+

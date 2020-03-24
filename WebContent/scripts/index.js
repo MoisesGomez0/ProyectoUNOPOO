@@ -11,7 +11,10 @@ function IndexManager(){
         backScreenGuest.classList.add("active");
     }
 
-    this.showError = function(){
+    this.showError = function(message = false){
+        if(message){
+            errorMessage.innerHTML = message;
+        }
         errorBackScreen.classList.add("active");
     }
 
