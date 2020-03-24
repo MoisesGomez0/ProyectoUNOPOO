@@ -92,7 +92,7 @@ public class Hand extends Deck{
      * @param value Número o símbolo de la carta buscada.
      * @return false si no encuentra la carta.
      */
-    public boolean checkValue(ENumber value) {
+    public boolean checkValue(EValue value) {
     	
     	for (Card card : cards) {
 			if (card.getValue().equals(value)) {

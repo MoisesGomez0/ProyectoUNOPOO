@@ -28,7 +28,7 @@ function DataManager() {
 		return result;
 	}
 
-	this.sendToBack = function (action,card,selectedColor) {
+	this.sendToBack = function (action,card,selectedColor="BLUE",challenge=false) {
 		console.log("action",action);
 		console.log("card",card);
 		$.get("game.jsp",

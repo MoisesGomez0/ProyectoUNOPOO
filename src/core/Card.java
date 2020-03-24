@@ -7,7 +7,7 @@ package core;
 public class Card {
     
     private EColor color;
-    private ENumber value;
+    private EValue value;
     private boolean hidden; /**true si la carta está boca abajo, false si está boca arriba.*/
     private String image; /**URL de la imagen de la carta.*/
     
@@ -20,7 +20,7 @@ public class Card {
      * @param value Número o símbolo que se le asigna a la carta.
      * @param color	Color que se le asigna a la carta.
      */
-    public Card(ENumber value, EColor color){
+    public Card(EValue value, EColor color){
         this.setColor(color);
         this.setValue(value);
         this.setHidden(false);        
@@ -35,7 +35,7 @@ public class Card {
     	}
     
     	try {
-			this.value = ENumber.parse(card.split("_")[0].strip());
+			this.value = EValue.parse(card.split("_")[0].strip());
 		} catch (Exception e) {
 			throw new IllegalArgumentException("Falló el parse de value en Card.");
 		}
@@ -94,14 +94,14 @@ public class Card {
 	/**
 	 * @return the value
 	 */
-	public ENumber getValue() {
+	public EValue getValue() {
 		return value;
 	}
 
 	/**
 	 * @param value the value to set
 	 */
-	public void setValue(ENumber value) {
+	public void setValue(EValue value) {
 		this.value = value;
 	}
 

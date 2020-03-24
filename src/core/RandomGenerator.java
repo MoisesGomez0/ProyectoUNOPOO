@@ -31,7 +31,7 @@ public abstract class RandomGenerator {
     public static Card UNOCard() {
     	
     	EColor color = cardColor();
-    	ENumber number = CardNumbers();
+    	EValue number = CardNumbers();
     	
     	if (color.isSpecial()) {
     		number = blackCardNumbers();
@@ -87,25 +87,25 @@ public abstract class RandomGenerator {
     
     /**
      * 
-     * @return Un número o simbolo aleatorio para una carta de UNO de tipo ENumber.
+     * @return Un número o simbolo aleatorio para una carta de UNO de tipo EValue.
      */
-    public static ENumber CardNumbers(){
-        ENumber[] value = {
-        		ENumber.CERO,
-        		ENumber.ONE,
-        		ENumber.TWO,
-        		ENumber.THREE,
-        		ENumber.FOUR,
-        		ENumber.FIVE,
-        		ENumber.SIX,
-        		ENumber.SEVEN,
-        		ENumber.EIGHT,
-        		ENumber.NINE,
-        		ENumber.DTWO,
-        		ENumber.REVERSE,
-        		ENumber.SKIP,
-        		ENumber.WILD,
-        		ENumber.DFOUR
+    public static EValue CardNumbers(){
+        EValue[] value = {
+        		EValue.CERO,
+        		EValue.ONE,
+        		EValue.TWO,
+        		EValue.THREE,
+        		EValue.FOUR,
+        		EValue.FIVE,
+        		EValue.SIX,
+        		EValue.SEVEN,
+        		EValue.EIGHT,
+        		EValue.NINE,
+        		EValue.DTWO,
+        		EValue.REVERSE,
+        		EValue.SKIP,
+        		EValue.WILD,
+        		EValue.DFOUR
         };
         
         return value[randomInt(0, 14)];
@@ -116,38 +116,38 @@ public abstract class RandomGenerator {
      * @return Un número o símbolo aleatorio para las cartas que NO son especiales (cartas que no sean de color negro).
      */
     @SuppressWarnings("unused")
-	public static ENumber noBlackCardNumbers() {
-        ENumber[] value = {
-        		ENumber.CERO,
-        		ENumber.ONE,
-        		ENumber.TWO,
-        		ENumber.THREE,
-        		ENumber.FOUR,
-        		ENumber.FIVE,
-        		ENumber.SIX,
-        		ENumber.SEVEN,
-        		ENumber.EIGHT,
-        		ENumber.NINE,
-        		ENumber.DTWO,
-        		ENumber.REVERSE,
-        		ENumber.SKIP
+	public static EValue noBlackCardNumbers() {
+        EValue[] value = {
+        		EValue.CERO,
+        		EValue.ONE,
+        		EValue.TWO,
+        		EValue.THREE,
+        		EValue.FOUR,
+        		EValue.FIVE,
+        		EValue.SIX,
+        		EValue.SEVEN,
+        		EValue.EIGHT,
+        		EValue.NINE,
+        		EValue.DTWO,
+        		EValue.REVERSE,
+        		EValue.SKIP
         };
         
         return value[randomInt(0, 12)];    	
     }
     
-    public static ENumber noActionCardNumbers() {
-        ENumber[] value = {
-        		ENumber.CERO,
-        		ENumber.ONE,
-        		ENumber.TWO,
-        		ENumber.THREE,
-        		ENumber.FOUR,
-        		ENumber.FIVE,
-        		ENumber.SIX,
-        		ENumber.SEVEN,
-        		ENumber.EIGHT,
-        		ENumber.NINE
+    public static EValue noActionCardNumbers() {
+        EValue[] value = {
+        		EValue.CERO,
+        		EValue.ONE,
+        		EValue.TWO,
+        		EValue.THREE,
+        		EValue.FOUR,
+        		EValue.FIVE,
+        		EValue.SIX,
+        		EValue.SEVEN,
+        		EValue.EIGHT,
+        		EValue.NINE
         };
         
         return value[randomInt(0, 9)];       	
@@ -157,10 +157,10 @@ public abstract class RandomGenerator {
      * 
      * @return Un símbolo aleatorio para las cartas especiales (de color negro);
      */
-    public static ENumber blackCardNumbers() {
-    	ENumber[] value = {
-    			ENumber.WILD,
-    			ENumber.DFOUR
+    public static EValue blackCardNumbers() {
+    	EValue[] value = {
+    			EValue.WILD,
+    			EValue.DFOUR
     	};
     	
     	return value[randomInt(0,1)];

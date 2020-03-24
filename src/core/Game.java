@@ -1,5 +1,7 @@
 package core;
 
+
+
 /**
  * Maneja todas las acciones que se pueden hacer en una partida.
  * @author leonardo
@@ -27,6 +29,7 @@ public class Game {
 	public Game(String id,
 				int currentPlayerId,
 				EColor currentColor,
+				boolean playerChallenge,
 				boolean clockWise,
 				Player p1,
 				Player p2,
@@ -40,6 +43,7 @@ public class Game {
 		this.setId(id);
 		this.setCurrentColor(currentColor);
 		this.currentPlayerId = currentPlayerId;
+		
 		this.setHostPlayer(p1);
 		this.setGuestPlayer(p2);
 		this.clockWise = clockWise;
@@ -90,6 +94,10 @@ public class Game {
 		}
 	}
 	
+	/**
+	 * Identifica quién es el jugador en turno.
+	 * @return  El jugador en turno.
+	 */
 	private Player currentPlayer(){
 		if (this.currentPlayerId == this.hostPlayer.getId()) {
 			return this.hostPlayer;
@@ -101,6 +109,10 @@ public class Game {
 		
 	}
 	
+	/**
+	 * Identifica quié es el oponente (El jugador que no está en turno).
+	 * @return El oponente.
+	 */
 	private Player oponentPlayer() {
 		if (this.currentPlayerId != this.hostPlayer.getId()) {
 			return this.hostPlayer;
@@ -112,6 +124,9 @@ public class Game {
 		
 	}
 	
+	/**
+	 * Cambia de turno al siguiente jugador.
+	 */
 	private void nextPlayer() {
 		if (this.currentPlayerId == this.hostPlayer.getId()) {
 			this.currentPlayerId = this.guestPlayer.getId();
@@ -121,6 +136,7 @@ public class Game {
 			throw new IllegalArgumentException("No existen jugadores.");
 		}
 	}
+	
 	/**
 	 * El jugador en turno toma una carta.
 	 * @param playerId Id del jugador en turno.
@@ -142,8 +158,6 @@ public class Game {
 		Player currentPlayer = this.currentPlayer();
 		Player oponent = this.oponentPlayer();
 		
-		System.err.println(currentPlayer.getName());
-		System.err.println(oponent.getName());
 		
 		int lastCardIndex = this.discardPile.getCards().size()-1;
 		Card lastCard = this.discardPile.getCards().get(lastCardIndex); /**Ultima carta de la discardPile.*/
@@ -191,20 +205,38 @@ public class Game {
 					break;
 			}
 			
-			/*
-			if (this.currentPlayerId == this.hostPlayer.getId()) {
-				this.hostPlayer = currentPlayer;
-				this.guestPlayer = oponent;
-			}else{
-				this.guestPlayer= currentPlayer;
-				this.hostPlayer = oponent;
-			}
-			*/
-			
 			
 		}else {
 			throw new IllegalArgumentException(String.format("No se puede soltar la carta: %s por que la ultima carta de la discardPile es: %s", card,lastCard));
 		}
+		
+	}
+	
+	public void challengeDFORU(boolean decision) {
+		Card lastCard = this.discardPile.getCards().get(this.discardPile.getCards().size()-1); /**Última carta.*/
+		Card prevLastCard = this.discardPile.getCards().get(this.discardPile.getCards().size()-2); /**Penúltima carta.*/
+		
+		if (!lastCard.getValue().getName().equals("DFOUR")) {
+			throw new IllegalArgumentException("No se puede retar a menos que la ultima carta sea un DFOUR.");
+		}
+		
+		if(decision) {
+			/**Verifica si el jugador tenía otra carta que podía tirar distinta a un DFOUR*/
+			if(this.oponentPlayer().getHand().checkColor(prevLastCard.getColor()) ||
+			   this.oponentPlayer().getHand().checkValue(prevLastCard.getValue()) ||
+			   this.oponentPlayer().getHand().checkValue(EValue.WILD)) {
+				this.oponentPlayer().drawSix(); /**El oponente toma seis cartas si gana el jugador en turno.*/
+			}else{
+				this.currentPlayer().drawSix();/**El jugador en turno toma seis cartas si pierde.*/
+				this.nextPlayer();/**El jugador en turno pierde turno.*/
+			}
+			
+		}else {
+			this.currentPlayer().drawFour(); /**El jugador actual.*/
+			this.nextPlayer(); /**El jugador actual pierde turno.*/
+		}
+		
+		
 		
 	}
 	

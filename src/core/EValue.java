@@ -5,7 +5,7 @@ package core;
  *Contiene los números y símbolos que puede tener una carta.
  * @author Leonardo
  */
-public enum ENumber {
+public enum EValue {
     
     CERO(0,0,"CERO",0),
     ONE(1,1,"ONE",1), 
@@ -35,7 +35,7 @@ public enum ENumber {
      * @param value Valor numérico de la carta.
      * @param name Nombre de la carta.
      */
-    ENumber(int id, int value, String name, int scoreValue){
+    EValue(int id, int value, String name, int scoreValue){
         this.value = value;
         this.name =  name;
         this.id = id;
@@ -43,56 +43,56 @@ public enum ENumber {
     }
     
     /**
-     * Combierte un String a un objeto ENumber.
+     * Combierte un String a un objeto EValue.
      * @param number
-     * @return Objeto ENumber del valor especificado.
+     * @return Objeto EValue del valor especificado.
      */
-    public static ENumber parse(String number) {
+    public static EValue parse(String number) {
     	switch (number.strip()) {
 		case ("CERO"):
-			return ENumber.CERO;
+			return EValue.CERO;
 		
 		case ("ONE"):
-			return ENumber.ONE;
+			return EValue.ONE;
 		
 		case ("TWO"):
-			return ENumber.TWO;
+			return EValue.TWO;
 		
 		case ("THREE"):
-			return ENumber.THREE;
+			return EValue.THREE;
 		
 		case ("FOUR"):
-			return ENumber.FOUR;
+			return EValue.FOUR;
 		
 		case ("FIVE"):
-			return ENumber.FIVE;
+			return EValue.FIVE;
 		
 		case ("SIX"):
-			return ENumber.SIX;
+			return EValue.SIX;
 		
 		case ("SEVEN"):
-			return ENumber.SEVEN;
+			return EValue.SEVEN;
 		
 		case ("EIGHT"):
-			return ENumber.EIGHT;
+			return EValue.EIGHT;
 		
 		case ("NINE"):
-			return ENumber.NINE;
+			return EValue.NINE;
 		
 		case ("DTWO"):
-			return ENumber.DTWO;
+			return EValue.DTWO;
 		
 		case ("REVERSE"):
-			return ENumber.REVERSE;	
+			return EValue.REVERSE;	
 		
 		case ("SKIP"):
-			return ENumber.SKIP;	
+			return EValue.SKIP;	
 		
 		case ("WILD"):
-			return ENumber.WILD;	
+			return EValue.WILD;	
 		
 		case ("DFOUR"):
-			return ENumber.DFOUR;		
+			return EValue.DFOUR;		
 		
 		default:
 			throw new IllegalArgumentException("Parámetro no permitido.");

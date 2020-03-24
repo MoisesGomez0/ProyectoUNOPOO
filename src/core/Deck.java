@@ -25,18 +25,18 @@ public class Deck {
     	 * de color (Draw two card, Reverse card, Skip card).
     	 */
     	for (EColor color: EnumSet.range(EColor.BLUE, EColor.YELLOW)) {
-    		this.getCards().add(new Card(ENumber.CERO,color));/**Agrega una carta con el número cero a la baraja.*/
+    		this.getCards().add(new Card(EValue.CERO,color));/**Agrega una carta con el número cero a la baraja.*/
     		
     		for (int i = 0; i < 2; i++) {/**Dos de cada número.*/
-				for (ENumber number: EnumSet.range(ENumber.ONE, ENumber.SKIP)) {
+				for (EValue number: EnumSet.range(EValue.ONE, EValue.SKIP)) {
 					this.getCards().add(new Card(number,color));/**Agrega la carta a la baraja.*/
 				}
 			}
         }
     	
     	for (int i = 0; i < 4; i++) {/**Cuatro cartas de especiales (de color negro).*/
-    		this.getCards().add(new Card(ENumber.WILD,EColor.BLACK));/**Agrega cuatro cartas "cambiar color" a la baraja.*/
-    		this.getCards().add(new Card(ENumber.DFOUR,EColor.BLACK));/**Agrega cuatro cartas "toma cuatro" a la baraja.*/
+    		this.getCards().add(new Card(EValue.WILD,EColor.BLACK));/**Agrega cuatro cartas "cambiar color" a la baraja.*/
+    		this.getCards().add(new Card(EValue.DFOUR,EColor.BLACK));/**Agrega cuatro cartas "toma cuatro" a la baraja.*/
 			
 		}
     }
@@ -119,7 +119,7 @@ public class Deck {
 	 * @param color Color de la carta.
 	 * @return Un objeto de tipo Card.
 	 */
-    public Card giveCard(ENumber value, EColor color){
+    public Card giveCard(EValue value, EColor color){
     	/**Resultado de la busqueda de la carta en la baraja. (false si no se encuntra la carta en la baraja.*/
     	int searchResult = this.searchCard(value, color);
     	
@@ -157,7 +157,7 @@ public class Deck {
      * @param color Color de la carta a buscar.
      * @return El inidce de la carta, -1 si no se encuentra la carta.
      */
-    public int searchCard(ENumber value, EColor color) {
+    public int searchCard(EValue value, EColor color) {
     	int result = -1;
     	
     	for (Card card : this.getCards()) {
