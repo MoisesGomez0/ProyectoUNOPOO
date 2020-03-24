@@ -4,7 +4,7 @@
 	String gameId = request.getParameter("gameId"); /**ID de la partida.*/
 	int currentPlayerId = Integer.parseInt(request.getParameter("currentPlayerId")); /**ID del jugador en turno.*/
 	EColor currentColor = EColor.parse(request.getParameter("currentColor"));/**Último color de la discardPile.*/
-	boolean playerChallenge = Boolean.getBoolean(request.getParameter("playerChallenge")); /**Si el el jugador retó al oponente.*/
+	boolean onChallenge = Boolean.getBoolean(request.getParameter("onChallenge"));/**Si el jugador actual puede retar.*/
 	boolean clockWise = Boolean.parseBoolean(request.getParameter("clockWise"));/**Sentido del juego.*/
 	
 	String hostPlayerName = request.getParameter("hostPlayerName"); /**Nombre del jugador que crea la partida.*/
@@ -20,7 +20,8 @@
 
 	Deck deck = new Deck(request.getParameter("deck"));/**Baraja de la partida.*/
 	DiscardPile discardPile = new DiscardPile(request.getParameter("discardPile"));/**Pila de descartes de la partida.*/
-	Game game = new Game(gameId,currentPlayerId,currentColor,clockWise,hostPlayer,guestPlayer,deck,discardPile);/**Partida.*/
+	
+	Game game = new Game(gameId,currentPlayerId,currentColor,onChallenge,clockWise,hostPlayer,guestPlayer,deck,discardPile);/**Partida.*/
 
 	
 	String action = request.getParameter("action");/**Acción requerida por el frontend.*/

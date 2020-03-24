@@ -66,7 +66,7 @@ function ActionManager() {
         var lastCard = this.getLastDiscard().split("_");
         console.log("last", lastCard);
         if (info.guestPlayer.name == name && info.currentPlayerId == info.guestPlayer.id) {
-            if (lastCard[0] == "DFOUR" && lastOnDrop == info.guestPlayer.id) {
+            if (lastCard[0] == "DFOUR" && info.onChallenge) {
 
                 backScreenDecision.classList.add("active");
             
@@ -85,7 +85,7 @@ function ActionManager() {
             }
 
         } else if (info.hostPlayer.name == name && info.currentPlayerId == info.hostPlayer.id) {
-            if (lastCard[0] == "DFOUR" && lastOnDrop == info.hostPlayer.id) {
+            if (lastCard[0] == "DFOUR" && info.onChallenge) {
 
                 backScreenDecision.classList.add("active");
             

@@ -12,6 +12,7 @@ public class Game {
 	private String id;
 	private int currentPlayerId; /**Id del jugador en turno.*/
 	private EColor currentColor; /**Color de carta que se está jugando.*/
+	private boolean onChallenge = false; /**Si el jugador actual puede retar.*/
 	private boolean clockWise = true;/**Sentido de juego horario por defecto.*/
 	private Player hostPlayer = new Player();
 	private Player guestPlayer = new Player();
@@ -29,6 +30,7 @@ public class Game {
 	public Game(String id,
 				int currentPlayerId,
 				EColor currentColor,
+				boolean onChallenge,
 				boolean clockWise,
 				Player p1,
 				Player p2,
@@ -45,6 +47,7 @@ public class Game {
 		
 		this.setHostPlayer(p1);
 		this.setGuestPlayer(p2);
+		this.setOnChallenge(onChallenge);
 		this.clockWise = clockWise;
 		this.deck = deck;
 		this.discardPile = discardPile;
@@ -171,6 +174,7 @@ public class Game {
 				case DFOUR: /**Si es una carta Draw Four.*/
 					currentPlayer.dropCard(card);
 					this.currentColor = selectedColor;
+					this.setOnChallenge(true); /**El siguiente jugador puede retar.*/
 					this.nextPlayer();
 					break;
 				
@@ -222,6 +226,7 @@ public class Game {
 			throw new IllegalArgumentException("No se puede retar a menos que la ultima carta sea un DFOUR.");
 		}
 		
+		
 		if(decision) {
 			/**Verifica si el jugador tenía otra carta que podía tirar distinta a un DFOUR*/
 			if(this.oponentPlayer().getHand().checkColor(prevLastCard.getColor()) ||
@@ -238,6 +243,7 @@ public class Game {
 			this.nextPlayer(); /**El jugador actual pierde turno.*/
 		}
 		
+		this.setOnChallenge(false); /**Ya no se puede retar.*/
 	}
 	
 	/**
@@ -261,6 +267,7 @@ public class Game {
 		result.append(String.format("%s\"id\": \"%s\",\n","\t".repeat(tab),this.getId()));
 		result.append(String.format("%s\"currentPlayerId\": %s,\n","\t".repeat(tab),this.getCurrentPlayerId()));
 		result.append(String.format("%s\"currentColor\": \"%s\",\n","\t".repeat(tab),this.currentColor.getName()));
+		result.append(String.format("%s\"onChallenge\": %s,\n","\t".repeat(tab),this.isOnChallenge()));
 		result.append(String.format("%s\"clockWise\": %s,\n","\t".repeat(tab),this.isClockWise()));
 		result.append(String.format("%s\"hostPlayer\":\n%s,\n","\t".repeat(tab),this.getHostPlayer().toJSON(tab+1)));
 		result.append(String.format("%s\"guestPlayer\":\n%s,\n","\t".repeat(tab),this.getGuestPlayer().toJSON(tab+1)));
@@ -283,6 +290,7 @@ public class Game {
 		result.append(String.format("%s\"id\": \"%s\",\n","\t".repeat(tab),this.getId()));
 		result.append(String.format("%s\"currentPlayerId\": %s,\n","\t".repeat(tab),this.getCurrentPlayerId()));
 		result.append(String.format("%s\"currentColor\": \"%s\",\n","\t".repeat(tab),this.currentColor.getName()));
+		result.append(String.format("%s\"onChallenge\": %s,\n","\t".repeat(tab),this.isOnChallenge()));
 		result.append(String.format("%s\"clockWise\": %s,\n","\t".repeat(tab),this.isClockWise()));
 		result.append(String.format("%s\"hostPlayer\":\n%s,\n","\t".repeat(tab),this.getHostPlayer().toJSON(tab+1)));
 		result.append(String.format("%s\"guestPlayer\":\n%s,\n","\t".repeat(tab),this.getGuestPlayer().toJSON(tab+1)));
@@ -404,6 +412,20 @@ public class Game {
 	 */
 	public void setCurrentColor(EColor currentColor) {
 		this.currentColor = currentColor;
+	}
+
+	/**
+	 * @return the onChallenge
+	 */
+	public boolean isOnChallenge() {
+		return onChallenge;
+	}
+
+	/**
+	 * @param onChallenge the onChallenge to set
+	 */
+	public void setOnChallenge(boolean onChallenge) {
+		this.onChallenge = onChallenge;
 	}
 
 	/**Pruebas de la clase.*/
