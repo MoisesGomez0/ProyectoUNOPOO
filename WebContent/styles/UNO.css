@@ -9,7 +9,6 @@ div#deck {
     bottom: 35vh;
     height: 30vh;
     width: 13vw;
-    border: 1px solid black;
 }
 
 div#discardPile {
@@ -18,7 +17,6 @@ div#discardPile {
     height: 30vh;
     width: 13vw;
     left: 55vw;
-    border: 1px solid black;
 }
 
 
@@ -28,18 +26,17 @@ div#hand {
     left: 20vw;
     height: 30vh;
     width: 60vw;
-    border: 1px solid black;
 }
 
 div.card {
     position: fixed;
     bottom: 0;
-    height: 30vh;
+    height: 32vh;
     width: 13vw;
 }
 
 img.card{
-    height: 30vh;
+    height: 32vh;
     width: 13vw;
 }
 
@@ -47,19 +44,18 @@ div#oponentCards {
     position: fixed;
     top: 0;
     left: 20vw;
-    height: 30vh;
+    height: 32vh;
     width: 60vw;
-    border: 1px solid black;
 }
 
 div.oponentCard{
     position: fixed;
     top:0;
-    height: 30vh;
+    height: 32vh;
     width: 13vw;
 }
 img.oponentCard{
-    height: 30vh;
+    height: 32vh;
     width: 13vw;
 }
 

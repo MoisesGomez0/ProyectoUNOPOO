@@ -29,6 +29,10 @@ public enum EColor {
      * @return Objeto EColor del color especificado.
      */
     public static EColor parse(String color) {
+    	if(color == null) {
+    		color = "BLUE";
+    	}
+    	
     	switch (color.strip()) {
 		case ("BLUE"):
 			return EColor.BLUE;

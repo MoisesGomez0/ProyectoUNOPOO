@@ -28,8 +28,9 @@ function DataManager() {
 		return result;
 	}
 
-	this.sendToBack = function (action) {
-		
+	this.sendToBack = function (action,card,selectedColor) {
+		console.log("action",action);
+		console.log("card",card);
 		$.get("game.jsp",
 			{
 				"gameId": info.id,
@@ -42,7 +43,9 @@ function DataManager() {
 				"guestPlayerHand": dataManager.cardsToParameter(info.guestPlayer.hand),
 				"deck": dataManager.cardsToParameter(info.deck),
 				"discardPile": dataManager.cardsToParameter(info.discardPile),
-				"action": action
+				"action": action,
+				"droppedCard":card,
+				"selectedColor":selectedColor
 
 			},
 			function(){console.log("me retornó el back")});

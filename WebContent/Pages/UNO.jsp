@@ -30,12 +30,13 @@
 
 <body>
     <div id="oponentCards"></div>
-    <div id="deck" onclick="playerTakeCard();"> <img id="deck" src="../images/UNO.png"></div>
+    <div id="deck" onclick="am.playerTakeCard();"> <img id="deck" src="../images/UNO.png"></div>
     <div id="discardPile" ></div>
     <div id="hand"></div>
 
 </body>
     <script>
+    	var am = new ActionManager();
         var cookiesManager = new CookiesManager();
         var name = cookiesManager.getCookie("name");
         var info = {};

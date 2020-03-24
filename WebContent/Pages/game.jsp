@@ -24,9 +24,16 @@
 	Game game = new Game(gameId,currentPlayerId,currentColor,clockWise,hostPlayer,guestPlayer,deck,discardPile);
 	
 	String action = request.getParameter("action");
+	String droppedCard = request.getParameter("droppedCard");
+	String selectedColor = request.getParameter("selectedColor");
 
 	if (action.equals("playerTakeCard")) {
 		game.playerTakeCard();
+		game.saveMemory();
+	}else if(action.equals("playerDropCard")){
+		Card card = new Card(droppedCard);
+		EColor color = EColor.parse(selectedColor);
+		game.playerDropCard(card, color);
 		game.saveMemory();
 	}
 %>
