@@ -34,8 +34,32 @@
     <div id="discardPile" ></div>
     <div id="hand"></div>
 
+    <div id="backScreenColor" class="backScreen">
+        <div id="hostPopUp" class="popUp">
+                <h1>UNO</h1>
+                <h2>Elige el color</h2>
+                <button id="RED" class="redBtn colorBtn" onclick="am.chooseColor(this.id)"></button>
+                <button id="GREEN" class="greenBtn colorBtn" onclick="am.chooseColor(this.id)"></button>
+                <br>
+                <button id="BLUE" class="blueBtn colorBtn" onclick="am.chooseColor(this.id)"></button>
+                <button id="YELLOW" class="yellowBtn colorBtn" onclick="am.chooseColor(this.id)"></button>
+                
+        </div>
+    </div>
+
+    <div id="backScreenDecision" class="backScreen">
+        <div id="hostPopUp" class="popUp">
+                <h1>UNO</h1>
+                <h2>¿Retás a tu oponente?</h2>
+                <button id="YES" class="decisionBtn" onclick="am.chooseDecision(this.id)">Si</button>
+                <button id="NO" class="decisionBtn" onclick="am.chooseDecision(this.id)">NO</button>
+        </div>
+    </div>
+
+
 </body>
     <script>
+    	var lastOnDrop = "init";
     	var am = new ActionManager();
         var cookiesManager = new CookiesManager();
         var name = cookiesManager.getCookie("name");

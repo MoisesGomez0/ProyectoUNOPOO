@@ -47,6 +47,9 @@ function FrontManager(json) {
 }
 
 function ActionManager() {
+
+    this.cardToDrop = null;
+
     this.playerTakeCard = function () {
         if (info.guestPlayer.name == name && info.currentPlayerId == info.guestPlayer.id) {
             dataManager.sendToBack("playerTakeCard");
@@ -57,24 +60,71 @@ function ActionManager() {
 
     this.dropCard = function (card) {
         card = card.split("_");
+        console.log("El ultimo en dropear",lastOnDrop)
         console.log("entre en dropcard");
+        console.log("carta tocada", card);
         var lastCard = this.getLastDiscard().split("_");
-        console.log("last",lastCard);
+        console.log("last", lastCard);
         if (info.guestPlayer.name == name && info.currentPlayerId == info.guestPlayer.id) {
-            if (card[0] == lastCard[0] || card[1] == info.currentColor) {
-            	console.log("solte", card);
-                dataManager.sendToBack("playerDropCard", card.join("_"));
+            if (lastCard[0] == "DFOUR" && lastOnDrop == info.guestPlayer.id) {
+
+                backScreenDecision.classList.add("active");
+            
+            }else if (card[0] == lastCard[0] || card[1] == info.currentColor || card[1] == "BLACK") {
+
+                if (card[0] == "WILD" || card[0] == "DFOUR") {
+                    console.log("Entre en especial");
+                    backScreenColor.classList.add("active");
+                    this.cardToDrop = card;
+
+                }
+                else {
+                    console.log("solte", card);
+                    dataManager.sendToBack("playerDropCard", card.join("_"));
+                }
             }
+
         } else if (info.hostPlayer.name == name && info.currentPlayerId == info.hostPlayer.id) {
-            if (card[0] == lastCard[0] || card[1] == info.currentColor) {
-            	console.log("solte", card);
-                dataManager.sendToBack("playerDropCard", card.join("_"));
+            if (lastCard[0] == "DFOUR" && lastOnDrop == info.hostPlayer.id) {
+
+                backScreenDecision.classList.add("active");
+            
+            }else if (card[0] == lastCard[0] || card[1] == info.currentColor || card[1] == "BLACK") {
+
+                if (card[0] == "WILD" || card[0] == "DFOUR") {
+                    console.log("Entre en especial");
+                    backScreenColor.classList.add("active");
+                    this.cardToDrop = card;
+
+                }
+                else {
+                    console.log("solte", card);
+                    dataManager.sendToBack("playerDropCard", card.join("_"));
+                }
             }
         }
 
     }
+
     this.getLastDiscard = function () {
-    	return info.discardPile[info.discardPile.length - 1];
+        return info.discardPile[info.discardPile.length - 1];
+    }
+
+    this.chooseColor = function (color) {
+        backScreenColor.classList.remove("active");
+        dataManager.sendToBack("playerDropCard", this.cardToDrop.join("_"), color);
+
+    }
+
+    this.chooseDecision = function(decision){
+        if(decision == "YES"){
+            dataManager.sendToBack("challenge",null,null,"true");
+        }else{
+            dataManager.sendToBack("challenge",null,null,"false");
+
+        }
+        backScreenDecision.classList.remove("active");
+
     }
 }
 

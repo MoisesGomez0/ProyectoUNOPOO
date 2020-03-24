@@ -48,7 +48,10 @@ function DataManager() {
 				"selectedColor":selectedColor
 
 			},
-			function(){console.log("me retornó el back")});
+			function(backReturn){
+				lastOnDrop = backReturn.trim();
+				console.log("me retornó el back",backReturn.trim());
+				});
 	}
 
 

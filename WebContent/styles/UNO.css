@@ -59,3 +59,59 @@ img.oponentCard{
     width: 13vw;
 }
 
+
+div.backScreen{
+    position: fixed;
+    left:0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+}
+
+div.popUp{
+    background-color: #f8f8f8;
+    text-align: center;
+    border-radius: 2%;
+    padding: 5vh 5vw;
+
+}
+
+button.colorBtn{
+    padding: 0;
+    border: 0px;
+    width: 5vw;
+    height: 5vh;
+    border: 2px solid white;
+}
+
+button#RED{
+    background-color: red;
+}
+
+button#GREEN{
+    background-color: green;
+
+}
+
+button#BLUE{
+    background-color: blue;
+}
+
+button#YELLOW{
+    background-color: yellow;
+
+}
+
+div#errorBackScreen{
+    background-color: rgba(255,0,0,.3);
+}
+
+div.backScreen.active{
+    visibility: visible;
+    opacity: 1;
+}

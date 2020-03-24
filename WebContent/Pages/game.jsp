@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="core.*"%>
-<%
+<%@ page import="core.*"%><%
 	String gameId = request.getParameter("gameId"); /**ID de la partida.*/
 	int currentPlayerId = Integer.parseInt(request.getParameter("currentPlayerId")); /**ID del jugador en turno.*/
 	EColor currentColor = EColor.parse(request.getParameter("currentColor"));/**Último color de la discardPile.*/
@@ -21,20 +20,24 @@
 
 	Deck deck = new Deck(request.getParameter("deck"));/**Baraja de la partida.*/
 	DiscardPile discardPile = new DiscardPile(request.getParameter("discardPile"));/**Pila de descartes de la partida.*/
-	
-	Game game = new Game(gameId,currentPlayerId,currentColor,playerChallenge,clockWise,hostPlayer,guestPlayer,deck,discardPile);/**Partida.*/
+	Game game = new Game(gameId,currentPlayerId,currentColor,clockWise,hostPlayer,guestPlayer,deck,discardPile);/**Partida.*/
+
 	
 	String action = request.getParameter("action");/**Acción requerida por el frontend.*/
 	String droppedCard = request.getParameter("droppedCard"); /**Carta que soltó el jugador en turno.*/
 	String selectedColor = request.getParameter("selectedColor"); /**Color que seleccionó el jugador en turno.*/
-
+	String challenge = request.getParameter("challenge");
+	
 	if (action.equals("playerTakeCard")) { /**El jugador toma una carta.*/
 		game.playerTakeCard();
 		game.saveMemory();
 	}else if(action.equals("playerDropCard")){ /**El jugador suelta una carta.*/
 		Card card = new Card(droppedCard);
 		EColor color = EColor.parse(selectedColor);
-		game.playerDropCard(card, color);
+		out.print(game.playerDropCard(card, color));
+		game.saveMemory();
+	}else if(action.equals("challenge")){
+		game.challengeDFOUR(Boolean.parseBoolean(challenge));
 		game.saveMemory();
 	}
 %>

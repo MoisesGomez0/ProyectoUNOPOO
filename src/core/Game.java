@@ -29,7 +29,6 @@ public class Game {
 	public Game(String id,
 				int currentPlayerId,
 				EColor currentColor,
-				boolean playerChallenge,
 				boolean clockWise,
 				Player p1,
 				Player p2,
@@ -152,8 +151,9 @@ public class Game {
 	 * @param card Carta que quiere soltar.
 	 * @param selectedColor El color que elige en caso de ser una carta especial.
 	 * @param challenge Si el oponente lo retón en caso de que la carta sea un Draw Four.
+	 * @return El id del jugador que solto la carta.
 	 */
-	public void playerDropCard(Card card, EColor selectedColor) {
+	public int playerDropCard(Card card, EColor selectedColor) {
 		
 		Player currentPlayer = this.currentPlayer();
 		Player oponent = this.oponentPlayer();
@@ -210,9 +210,11 @@ public class Game {
 			throw new IllegalArgumentException(String.format("No se puede soltar la carta: %s por que la ultima carta de la discardPile es: %s", card,lastCard));
 		}
 		
+		return currentPlayer.getId();
+		
 	}
 	
-	public void challengeDFORU(boolean decision) {
+	public void challengeDFOUR(boolean decision) {
 		Card lastCard = this.discardPile.getCards().get(this.discardPile.getCards().size()-1); /**Última carta.*/
 		Card prevLastCard = this.discardPile.getCards().get(this.discardPile.getCards().size()-2); /**Penúltima carta.*/
 		
@@ -235,8 +237,6 @@ public class Game {
 			this.currentPlayer().drawFour(); /**El jugador actual.*/
 			this.nextPlayer(); /**El jugador actual pierde turno.*/
 		}
-		
-		
 		
 	}
 	
