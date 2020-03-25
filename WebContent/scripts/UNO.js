@@ -6,29 +6,26 @@ function FrontManager(json) {
     this.updateCards = function () {
         var result = "";
         if (info.hostPlayer.name == name) {
-            document.querySelector("#hand").innerHTML = this.handToHTML(this.json.hostPlayer.hand, this.json.hostPlayer.id);/**Cartas no ocultas. */
-            document.querySelector("#oponentCards").innerHTML = this.handToHTML(this.json.guestPlayer.hand, this.json.guestPlayer.id, true);/**Cartas ocultas. */
+            hand.innerHTML = this.handToHTML(this.json.hostPlayer.hand, this.json.hostPlayer.id);/**Cartas no ocultas. */
+            oponentCards.innerHTML = this.handToHTML(this.json.guestPlayer.hand, this.json.guestPlayer.id, true);/**Cartas ocultas. */
+
         } else if (info.guestPlayer.name == name) {
-            document.querySelector("#hand").innerHTML = this.handToHTML(this.json.guestPlayer.hand, this.json.guestPlayer.id);/**Cartas no ocultas. */
-            document.querySelector("#oponentCards").innerHTML = this.handToHTML(this.json.hostPlayer.hand, this.json.hostPlayer.id, true);/**Cartas ocultas. */
+            hand.innerHTML = this.handToHTML(this.json.guestPlayer.hand, this.json.guestPlayer.id);/**Cartas no ocultas. */
+            oponentCards.innerHTML = this.handToHTML(this.json.hostPlayer.hand, this.json.hostPlayer.id, true);/**Cartas ocultas. */
         }
+
         var lastDiscardPileCard = am.getLastDiscard();
 
-        document.querySelector("#discardPile").innerHTML = `<div id="discardPile" class="card" ><img class="card" src="../images/${lastDiscardPileCard}.png"></div>`;
+        discardPile.innerHTML = `<div id="discardPile" class="card" ><img class="card" src="../images/${lastDiscardPileCard}.png"></div>`;
 
         var lastCard = am.getLastDiscard().split("_");
 
-        if (info.guestPlayer.name == name && info.currentPlayerId == info.guestPlayer.id) {
-            if (lastCard[0] == "DFOUR" && info.onChallenge) {
-
-                backScreenDecision.classList.add("active");
-            }
-        } else if (info.hostPlayer.name == name && info.currentPlayerId == info.hostPlayer.id) {
-            if (lastCard[0] == "DFOUR" && info.onChallenge) {
-
+        if(am.isOnPlay(name)){
+        	if (lastCard[0] == "DFOUR" && info.onChallenge) {
                 backScreenDecision.classList.add("active");
             }
         }
+        
     }
 
     this.handToHTML = function (hand, id, hidden = false) {
@@ -55,8 +52,18 @@ function FrontManager(json) {
         if (hidden) {
             return `<div id="${card}" class="oponentCard" style="left:${left}vw;"><img class="oponentCard" src="../images/UNO.png"></div>`;
         }
-        return `<div id="${card}" class="card" style="left:${left}vw;" ><img  onclick="am.dropCard(this.parentNode.id)" class="card" src="../images/${card}.png"></div>`;
+        if (am.isOnPlay(name)) {
+            if (am.isAvaiable(card)) {
+                return `<div id="${card}" class="card" style="left:${left}vw; bottom:2vh;" ><img  onclick="am.dropCard(this.parentNode.id)" class="card" src="../images/${card}.png"></div>`;
+            } else {
+                return `<div id="${card}" class="card" style="left:${left}vw;" ><img  onclick="am.dropCard(this.parentNode.id)" style="opacity:0.8" class="card" src="../images/${card}.png"></div>`;
+            }
+        } else {
+            return `<div id="${card}" class="card" style="left:${left}vw; opa" ><img  onclick="am.dropCard(this.parentNode.id)" class="card" src="../images/${card}.png"></div>`;
+
+        }
     }
+
 
 }
 
@@ -64,60 +71,65 @@ function ActionManager() {
 
     this.cardToDrop = null;
 
+    /**@return {boolean}
+     * @param {String} name El nombre de un jugador
+     * Determina si el jugador está en turno.
+     */
+    this.isOnPlay = function (playerName) {
+        if (info.guestPlayer.name == playerName && info.currentPlayerId == info.guestPlayer.id) {
+            return true;
+        } else if (info.hostPlayer.name == playerName && info.currentPlayerId == info.hostPlayer.id) {
+            return true;
+        }
+        return false;
+    }
+
+    /**@return boolean
+     * @param {String} cardTest cadena que cumpla con la nomenclatura de una carta.
+     * Determina si una carta esta habilitada para ser jugada.
+     *  */
+    this.isAvaiable = function (cardTest) {
+        cardTest = cardTest.split("_");
+        var lastCard = this.getLastDiscard().split("_");
+
+        return cardTest[0] == lastCard[0] || cardTest[1] == info.currentColor || cardTest[1] == "BLACK";
+
+    }
+
     this.playerTakeCard = function () {
-        if (info.guestPlayer.name == name && info.currentPlayerId == info.guestPlayer.id) {
-            dataManager.sendToBack("playerTakeCard");
-        } else if (info.hostPlayer.name == name && info.currentPlayerId == info.hostPlayer.id) {
+        if (this.isOnPlay(name)) {
             dataManager.sendToBack("playerTakeCard");
         }
     }
 
     this.dropCard = function (card) {
-        card = card.split("_");
-        console.log("entre en dropcard");
-        console.log("carta tocada", card);
-        var lastCard = this.getLastDiscard().split("_");
-        console.log("last", lastCard);
-        if (info.guestPlayer.name == name && info.currentPlayerId == info.guestPlayer.id) {
-            if (card[0] == lastCard[0] || card[1] == info.currentColor || card[1] == "BLACK") {
-
-                if (card[0] == "WILD" || card[0] == "DFOUR") {
-                    console.log("Entre en especial");
+        if (this.isOnPlay(name)) {
+            if (this.isAvaiable(card)) {
+                type = card.split("_")[0];
+                if (type == "WILD" || type == "DFOUR") {
                     backScreenColor.classList.add("active");
                     this.cardToDrop = card;
-
-                }
-                else {
-                    console.log("solte", card);
-                    dataManager.sendToBack("playerDropCard", card.join("_"));
-                }
-            }
-
-        } else if (info.hostPlayer.name == name && info.currentPlayerId == info.hostPlayer.id) {
-            if (card[0] == lastCard[0] || card[1] == info.currentColor || card[1] == "BLACK") {
-
-                if (card[0] == "WILD" || card[0] == "DFOUR") {
-                    console.log("Entre en especial");
-                    backScreenColor.classList.add("active");
-                    this.cardToDrop = card;
-
-                }
-                else {
-                    console.log("solte", card);
-                    dataManager.sendToBack("playerDropCard", card.join("_"));
+                } else {
+                    dataManager.sendToBack("playerDropCard", card);
                 }
             }
         }
 
+
     }
 
+
+
+
+
+    /**@return {String} La última carta de la discard Pile.*/
     this.getLastDiscard = function () {
         return info.discardPile[info.discardPile.length - 1];
     }
 
     this.chooseColor = function (color) {
         backScreenColor.classList.remove("active");
-        dataManager.sendToBack("playerDropCard", this.cardToDrop.join("_"), color);
+        dataManager.sendToBack("playerDropCard", this.cardToDrop, color);
 
     }
 
@@ -134,12 +146,12 @@ function ActionManager() {
         backScreenDecision.classList.remove("active");
 
     }
-    
-    this.playerPressUNO = function(){
+
+    this.playerPressUNO = function () {
         if (info.guestPlayer.name == name && info.currentPlayerId == info.guestPlayer.id) {
-        	dataManager.sendToBack("playerPressUNO");        	
-        }else if(info.hostPlayer.name == name && info.currentPlayerId == info.hostPlayer.id){
-        	dataManager.sendToBack("playerPressUNO");
+            dataManager.sendToBack("playerPressUNO");
+        } else if (info.hostPlayer.name == name && info.currentPlayerId == info.hostPlayer.id) {
+            dataManager.sendToBack("playerPressUNO");
         }
 
     }

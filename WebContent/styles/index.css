@@ -2,6 +2,17 @@ button{
     cursor: pointer;
 }
 
+div.font{
+	position: fixed;
+    width: 100vw;
+    height: 100vh;
+}
+
+img#backgroundImg{
+    width: 100vw;
+    height: 100vh;
+}
+
 div.backScreen.active{
     visibility: visible;
     opacity: 1;
@@ -16,6 +27,7 @@ div#unoImgContainer img#unoImg{
     width: 400px;
     height: 650px;
 }
+
 
 button.initBtn{
     position:relative;

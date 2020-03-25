@@ -23,6 +23,7 @@
 </head>
 
 <body>
+<div class="font"><img id="backgroundImg" src="../images/Font.png"></div>
     <div id="unoImgContainer">
         <img id="unoImg" src="../images/UNO.png">
     </div>

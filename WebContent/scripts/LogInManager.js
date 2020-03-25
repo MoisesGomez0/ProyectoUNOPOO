@@ -29,7 +29,6 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 				console.log(data.players.length == data.nPlayers)
 				if (data.players.length == data.nPlayers) {
 					$.get("gameMaker.jsp", { "hostPlayer": data.players[0], "guestPlayer": data.players[1], "gameId": id }, function (data) {
-						console.log("redirijo a UNO.jsp");
 						location = "UNO.jsp"
 					});
 					clearInterval(intervalId);
@@ -59,10 +58,15 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 							return false;
 						}
 					} else {
-						data.players.push(playerName);
-						$.get("write.jsp", { "file": "logIn.json", "content": JSON.stringify(data), "override": true }, function(info){
-							location = "UNO.jsp";
-						});
+						if (data.players[0] == playerName) {
+							indexManager.showError(`El anfitrión tambien se llama ${playerName}, elige otro nombre.`);
+
+						} else {
+							data.players.push(playerName);
+							$.get("write.jsp", { "file": "logIn.json", "content": JSON.stringify(data), "override": true }, function (info) {
+								location = "UNO.jsp";
+							});
+						}
 					}
 				} else {
 					indexManager.showError("El código de la partida no es correcto.");
