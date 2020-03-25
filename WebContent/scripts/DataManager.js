@@ -28,7 +28,7 @@ function DataManager() {
 		return result;
 	}
 
-	this.sendToBack = function (action,card,selectedColor="BLUE",challenge=false) {
+	this.sendToBack = function (action,card,selectedColor="BLUE",challenge) {
 		console.log("action",action);
 		console.log("card",card);
 		$.get("game.jsp",
@@ -37,20 +37,22 @@ function DataManager() {
 				"currentPlayerId": info.currentPlayerId,
 				"currentColor": info.currentColor,
 				"clockWise": info.clockWise,
+				"hostPlayerUNO": info.hostPlayer.UNO,
 				"hostPlayerName": info.hostPlayer.name,
 				"hostPLayerHand": dataManager.cardsToParameter(info.hostPlayer.hand),
 				"guestPlayerName": info.guestPlayer.name,
+				"guestPlayerUNO": info.guestPlayer.UNO,
 				"guestPlayerHand": dataManager.cardsToParameter(info.guestPlayer.hand),
 				"deck": dataManager.cardsToParameter(info.deck),
 				"discardPile": dataManager.cardsToParameter(info.discardPile),
 				"action": action,
 				"droppedCard":card,
-				"selectedColor":selectedColor
+				"selectedColor":selectedColor,
+				"challenge":challenge
 
 			},
-			function(backReturn){
-				lastOnDrop = backReturn.trim();
-				console.log("me retornó el back",backReturn.trim());
+			function(){
+				console.log("me retornó el back");
 				});
 	}
 

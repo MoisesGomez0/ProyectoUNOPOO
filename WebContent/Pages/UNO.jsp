@@ -8,17 +8,6 @@
     <meta charset="UTF-8">
     <title>Insert title here</title>
     <script src="../jquery-3.4.1.min.js"></script>
-    <script src="docAdmin.js"></script>
-	<script src = "LinkedList.js"></script>
-	<script src = "EValue.js"></script>
-	<script src = "EColor.js"></script>
-	<script src = "Card.js"></script>
-	<script src = "Deck.js"></script>
-	<script src = "DiscardPile.js"></script>
-	<script src = "Player.js"></script>
-	<script src = "Game.js"></script>
-	<script src = "Hand.js"></script>
-	<script src="Div.js"></script>
     <script src="../scripts/DataManager.js"></script>
     <script src="../scripts/UNO.js"></script>
     <script src="../scripts/CookiesManager.js"></script>
@@ -55,6 +44,10 @@
                 <button id="NO" class="decisionBtn" onclick="am.chooseDecision(this.id)">NO</button>
         </div>
     </div>
+    
+    <div style="position:fixed; left:0; bottom:0;">
+    	<button onclick="am.playerPressUNO()">UNO</button>
+    </div>
 
 
 </body>
@@ -68,7 +61,7 @@
         var dataManager = new DataManager();
         var idSetIntervalUpdate = setInterval(function(){
             dataManager.update();
-        },1000)
+        },500)
            	
     </script>
 

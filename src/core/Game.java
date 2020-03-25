@@ -1,7 +1,6 @@
 package core;
 
 
-
 /**
  * Maneja todas las acciones que se pueden hacer en una partida.
  * @author leonardo
@@ -146,6 +145,7 @@ public class Game {
 	public void playerTakeCard() {
 		this.currentPlayer().takeCard();
 		this.nextPlayer();
+		this.ifDoesNotUNOSwitchToFalse();
 	}
 	
 	/**
@@ -214,6 +214,12 @@ public class Game {
 			throw new IllegalArgumentException(String.format("No se puede soltar la carta: %s por que la ultima carta de la discardPile es: %s", card,lastCard));
 		}
 		
+		this.ifDoesNotUNOSwitchToFalse();
+		
+		if (!currentPlayer.isUNO() && currentPlayer.getHand().getCards().size() == 1) {
+			currentPlayer.drawTwo();
+		}
+		
 		return currentPlayer.getId();
 		
 	}
@@ -223,11 +229,11 @@ public class Game {
 		Card prevLastCard = this.discardPile.getCards().get(this.discardPile.getCards().size()-2); /**Penúltima carta.*/
 		
 		if (!lastCard.getValue().getName().equals("DFOUR")) {
-			throw new IllegalArgumentException("No se puede retar a menos que la ultima carta sea un DFOUR.");
+			//throw new IllegalArgumentException("No se puede retar a menos que la ultima carta sea un DFOUR.");
 		}
 		
 		
-		if(decision) {
+		if(decision == true) {
 			/**Verifica si el jugador tenía otra carta que podía tirar distinta a un DFOUR*/
 			if(this.oponentPlayer().getHand().checkColor(prevLastCard.getColor()) ||
 			   this.oponentPlayer().getHand().checkValue(prevLastCard.getValue()) ||
@@ -246,6 +252,32 @@ public class Game {
 		this.setOnChallenge(false); /**Ya no se puede retar.*/
 	}
 	
+	
+	private void ifDoesNotUNOSwitchToFalse() {
+		if (this.currentPlayer().getHand().getCards().size() > 1 && this.currentPlayer().isUNO()) {
+			this.currentPlayer().setUNO(false);
+		}
+		
+		if (this.oponentPlayer().getHand().getCards().size() > 1 && this.oponentPlayer().isUNO()) {
+			this.oponentPlayer().setUNO(false);
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	public void playerPressUNO() {
+		
+		if(this.currentPlayer().getHand().getCards().size() != 2) {
+			this.currentPlayer().drawTwo();
+			this.nextPlayer();
+
+		}else {
+			this.currentPlayer().setUNO(true);
+				
+		}
+		
+	}
 	/**
 	 * Guarda la partida en un archivo JSON en memoria.
 	 */
@@ -433,13 +465,21 @@ public class Game {
 		Player p1 = new Player("josn",new Hand());
 		Player p2 = new Player("jon",new Hand());
 		
-		
 		Game game = new Game("1a46bt", p1, p2);
 		game.generateGame();
-		//System.out.println(game);
-		game.saveMemory();
 		
-		System.out.println(game.toString());
+		game.getDiscardPile().getCards().add(new Card(EValue.CERO,EColor.BLUE));
+		
+		System.out.println(game.getHostPlayer().getHand().toString());
+		System.out.println();
+		System.out.println(game.getGuestPlayer().getHand().toString());
+		System.out.println(game.getDiscardPile().toString());
+		System.out.println("=========================");
+		game.challengeDFOUR(true);
+		System.out.println(game.getHostPlayer().getHand().toString());
+		System.out.println();
+		System.out.println(game.getGuestPlayer().getHand().toString());
+		
 		
 		/**
 		FileManager fm = new FileManager();

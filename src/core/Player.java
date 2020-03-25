@@ -5,6 +5,7 @@ public class Player {
 	private String name;
 	private int id;
 	private Hand hand;
+	private boolean UNO = false; /**true si dijo uno.*/
 	
 	/**Construnctor vacío de la clase.*/
 	public Player() {
@@ -17,10 +18,11 @@ public class Player {
 	 * @param hand Mano que administra las cartas del jugador.
 	 * @param turn Estado booleano que especifica si el jugador está en turno.
 	 */
-	public Player(String name, int id, Hand hand) {
+	public Player(String name, int id, Hand hand, boolean UNO) {
 		this.setName(name);
 		this.setId(id);
 		this.setHand(hand);
+		this.setUNO(UNO);
 	}
 	
 	/**
@@ -91,6 +93,7 @@ public class Player {
 		
 		result.append(String.format("%s{\n", "\t".repeat(tab)));
 		result.append(String.format("%s\"id\":%s,\n", "\t".repeat(tab+1),this.id));
+		result.append(String.format("%s\"UNO\":%s,\n", "\t".repeat(tab+1),this.isUNO()));
 		result.append(String.format("%s\"name\":\"%s\",\n", "\t".repeat(tab+1),this.name));
 		result.append(String.format("%s\"hand\":%s", "\t".repeat(tab+1),(this.hand.getCards().isEmpty())?"null\n":String.format("\n   %s\n", this.hand.toString(tab+2))));
 		result.append(String.format("%s}", "\t".repeat(tab)));
@@ -107,6 +110,7 @@ public class Player {
 		
 		result.append("{\n");
 		result.append(String.format("\t\"id\":%s,\n", this.id));
+		result.append(String.format("%s\"UNO\":%s,\n", this.isUNO()));
 		result.append(String.format("\t\"name\":\"%s\",\n", this.name));
 		result.append(String.format("\t\"hand\":%s", (this.hand.getCards().isEmpty())?"null\n":String.format("\n   %s\n", this.hand.toString(2))));
 		result.append("}");
@@ -162,6 +166,18 @@ public class Player {
 		this.hand = hand;
 	}
 	
+	/**
+	 * @return the uNO
+	 */
+	public boolean isUNO() {
+		return UNO;
+	}
+	/**
+	 * @param uNO the uNO to set
+	 */
+	public void setUNO(boolean uNO) {
+		UNO = uNO;
+	}
 	/**Pruebas de la clase.*/
 	public static void main(String[] args) {
 		Player p = new Player();

@@ -181,7 +181,7 @@ public class Deck {
     @Override
     public String toString(){
     	if (this.cards.isEmpty()) {
-    		return "null";
+    		return "[]";
     	}
     	int size = this.cards.size();
     	StringBuilder result = new StringBuilder();
@@ -205,7 +205,7 @@ public class Deck {
      */
     public String toString(int tab){
     	if (this.cards.isEmpty()) {
-    		return String.format("%snull", "\t".repeat(tab));
+    		return String.format("%s[]", "\t".repeat(tab));
     	}
     	int size = this.cards.size();
     	StringBuilder result = new StringBuilder();
