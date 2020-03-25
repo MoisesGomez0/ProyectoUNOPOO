@@ -6,24 +6,50 @@ function FrontManager(json) {
     this.updateCards = function () {
         var result = "";
         if (info.hostPlayer.name == name) {
-            hand.innerHTML = this.handToHTML(this.json.hostPlayer.hand, this.json.hostPlayer.id);/**Cartas no ocultas. */
-            oponentCards.innerHTML = this.handToHTML(this.json.guestPlayer.hand, this.json.guestPlayer.id, true);/**Cartas ocultas. */
+        	if(info.hostPlayer.hand == null){
+        		backScreenFinal.classList.add("active");
+        		lastMessage.innerHTML = "Ganaste, Felicidades."
+        		clearInterval(idSetIntervalUpdate);
+        		return true;
+        	}else if(info.guestPlayer.hand == null){
+        		backScreenFinal.classList.add("active");
+        		lastMessage.innerHTML = "Perdiste, Felicidades."
+        		clearInterval(idSetIntervalUpdate);
+        		return true;
+        	}
+            hand.innerHTML = this.handToHTML(info.hostPlayer.hand, info.hostPlayer.id);/**Cartas no ocultas. */
+            oponentCards.innerHTML = this.handToHTML(info.guestPlayer.hand, info.guestPlayer.id, true);/**Cartas ocultas. */
 
         } else if (info.guestPlayer.name == name) {
-            hand.innerHTML = this.handToHTML(this.json.guestPlayer.hand, this.json.guestPlayer.id);/**Cartas no ocultas. */
-            oponentCards.innerHTML = this.handToHTML(this.json.hostPlayer.hand, this.json.hostPlayer.id, true);/**Cartas ocultas. */
+        	if(info.guestPlayer.hand == null){
+        		backScreenFinal.classList.add("active");
+        		lastMessage.innerHTML = "Ganaste, Felicidades."
+        		clearInterval(idSetIntervalUpdate);
+        		return true;
+        	}else if(info.hostPlayer.hand == null){
+        		backScreenFinal.classList.add("active");
+        		lastMessage.innerHTML = "Perdiste, Felicidades."
+        		clearInterval(idSetIntervalUpdate);
+        		return true;
+        	}
+            hand.innerHTML = this.handToHTML(info.guestPlayer.hand, info.guestPlayer.id);/**Cartas no ocultas. */
+            oponentCards.innerHTML = this.handToHTML(info.hostPlayer.hand, info.hostPlayer.id, true);/**Cartas ocultas. */
         }
 
         var lastDiscardPileCard = am.getLastDiscard();
 
         discardPile.innerHTML = `<div id="discardPile" class="card" ><img class="card" src="../images/${lastDiscardPileCard}.png"></div>`;
 
-        var lastCard = am.getLastDiscard().split("_");
-
+        lastDiscardPileCard = lastDiscardPileCard.split("_");
         if(am.isOnPlay(name)){
-        	if (lastCard[0] == "DFOUR" && info.onChallenge) {
+        	if (lastDiscardPileCard[0] == "DFOUR" && info.onChallenge) {
+        		clearInterval(idSetIntervalUpdate);
                 backScreenDecision.classList.add("active");
+            }else{
+                updateFront();
             }
+        }else{
+            updateFront();
         }
         
     }
@@ -54,7 +80,7 @@ function FrontManager(json) {
         }
         if (am.isOnPlay(name)) {
             if (am.isAvaiable(card)) {
-                return `<div id="${card}" class="card" style="left:${left}vw; bottom:2vh;" ><img  onclick="am.dropCard(this.parentNode.id)" class="card" src="../images/${card}.png"></div>`;
+                return `<div id="${card}" class="card" style="left:${left}vw; bottom:2vh;" ><img  onclick="am.dropCard(this.parentNode.id);" class="card" src="../images/${card}.png"></div>`;
             } else {
                 return `<div id="${card}" class="card" style="left:${left}vw;" ><img  onclick="am.dropCard(this.parentNode.id)" style="opacity:0.8" class="card" src="../images/${card}.png"></div>`;
             }
@@ -71,6 +97,28 @@ function ActionManager() {
 
     this.cardToDrop = null;
 
+    
+    this.dropConditionalCard = function(option){
+    	if(option == "YES"){
+    		this.dropCard(this.getLastCardOnHand());
+    	}else if(option == "NO"){
+    		dataManager.sendToBack("nextPlayer");
+    	}
+    	backScreenDrop.classList.remove("active");
+    	
+    }
+    
+    this.getLastCardOnHand = function(){
+    	if(this.isOnPlay(info.guestPlayer.name)){
+    		return info.guestPlayer.hand[info.guestPlayer.hand.length - 1];
+    		
+    	}else if(this.isOnPlay(info.hostPlayer.name)){
+    		return info.hostPlayer.hand[info.hostPlayer.hand.length - 1];
+
+    	}
+    }
+    
+    
     /**@return {boolean}
      * @param {String} name El nombre de un jugador
      * Determina si el jugador está en turno.
@@ -119,9 +167,6 @@ function ActionManager() {
     }
 
 
-
-
-
     /**@return {String} La última carta de la discard Pile.*/
     this.getLastDiscard = function () {
         return info.discardPile[info.discardPile.length - 1];
@@ -144,6 +189,7 @@ function ActionManager() {
 
         }
         backScreenDecision.classList.remove("active");
+        updateFront();
 
     }
 

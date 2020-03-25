@@ -4,6 +4,7 @@
 	String gameId = request.getParameter("gameId"); /**ID de la partida.*/
 	int currentPlayerId = Integer.parseInt(request.getParameter("currentPlayerId")); /**ID del jugador en turno.*/
 	EColor currentColor = EColor.parse(request.getParameter("currentColor"));/**Último color de la discardPile.*/
+	boolean endGame = Boolean.parseBoolean(request.getParameter("endGame"));
 	boolean onChallenge = Boolean.getBoolean(request.getParameter("onChallenge"));/**Si el jugador actual puede retar.*/
 	boolean clockWise = Boolean.parseBoolean(request.getParameter("clockWise"));/**Sentido del juego.*/
 	
@@ -24,7 +25,7 @@
 	Deck deck = new Deck(request.getParameter("deck"));/**Baraja de la partida.*/
 	DiscardPile discardPile = new DiscardPile(request.getParameter("discardPile"));/**Pila de descartes de la partida.*/
 	
-	Game game = new Game(gameId,currentPlayerId,currentColor,onChallenge,clockWise,hostPlayer,guestPlayer,deck,discardPile);/**Partida.*/
+	Game game = new Game(gameId,currentPlayerId,currentColor,endGame,onChallenge,clockWise,hostPlayer,guestPlayer,deck,discardPile);/**Partida.*/
 
 	
 	String action = request.getParameter("action");/**Acción requerida por el frontend.*/
@@ -33,18 +34,20 @@
 	String challenge = request.getParameter("challenge");
 	
 	if (action.equals("playerTakeCard")) { /**El jugador toma una carta.*/
-		game.playerTakeCard();
-		game.saveMemory();
+		out.print(game.playerTakeCard());
+
 	}else if(action.equals("playerDropCard")){ /**El jugador suelta una carta.*/
 		Card card = new Card(droppedCard);
 		EColor color = EColor.parse(selectedColor);
-		out.print(game.playerDropCard(card, color));
-		game.saveMemory();
+		game.playerDropCard(card, color);
+		out.print("cardDropped");
 	}else if(action.equals("challenge")){
 		game.challengeDFOUR(Boolean.parseBoolean(challenge));
-		game.saveMemory();
 	}else if(action.equals("playerPressUNO")){
 		game.playerPressUNO();
-		game.saveMemory();
+		
+	}else if(action.equals("nextPlayer")){
+		game.nextPlayer();
 	}
+	game.saveMemory();
 %>

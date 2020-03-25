@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="../styles/logInMaker.css">
     <script src="../scripts/LogInManager.js"></script>
     <script src="../scripts/CookiesManager.js"></script>
-    <script src="RandomGenerator.js"></script>
+    <script src="../scripts/RandomGenerator.js"></script>
     <script src="../scripts/Animator.js"></script>
     <script src="../jquery-3.4.1.min.js"></script>
     <title>UNO</title>

@@ -11,6 +11,7 @@ public class Game {
 	private String id;
 	private int currentPlayerId; /**Id del jugador en turno.*/
 	private EColor currentColor; /**Color de carta que se está jugando.*/
+	private boolean endGame = false; /**Si la partida terminó.*/
 	private boolean onChallenge = false; /**Si el jugador actual puede retar.*/
 	private boolean clockWise = true;/**Sentido de juego horario por defecto.*/
 	private Player hostPlayer = new Player();
@@ -29,6 +30,7 @@ public class Game {
 	public Game(String id,
 				int currentPlayerId,
 				EColor currentColor,
+				boolean endGame,
 				boolean onChallenge,
 				boolean clockWise,
 				Player p1,
@@ -46,6 +48,7 @@ public class Game {
 		
 		this.setHostPlayer(p1);
 		this.setGuestPlayer(p2);
+		this.endGame = endGame;
 		this.setOnChallenge(onChallenge);
 		this.clockWise = clockWise;
 		this.deck = deck;
@@ -128,7 +131,7 @@ public class Game {
 	/**
 	 * Cambia de turno al siguiente jugador.
 	 */
-	private void nextPlayer() {
+	public void nextPlayer() {
 		if (this.currentPlayerId == this.hostPlayer.getId()) {
 			this.currentPlayerId = this.guestPlayer.getId();
 		}else if(this.currentPlayerId == this.guestPlayer.getId()){
@@ -142,15 +145,28 @@ public class Game {
 	 * El jugador en turno toma una carta.
 	 * @param playerId Id del jugador en turno.
 	 */
-	@SuppressWarnings("unlikely-arg-type")
-	public void playerTakeCard() {
-		Card firstCard = this.deck.getCards().get(0);
+	
+	public boolean playerTakeCard() {
 		
-		this.currentPlayer().takeCard();
-		this.ifDoesNotUNOSwitchToFalse();
-		if (!this.currentColor.getName().equals(firstCard)) {
+		String firstCardColor = this.deck.getCards().get(0).getColor().getName();
+		String firstCardValue = this.deck.getCards().get(0).getValue().getName();
+		String lastDiscardPileValue = this.discardPile.getCards().get(this.discardPile.getCards().size()-1).getValue().getName();
+		
+		/**Verifica si puede soltar la carta.*/
+		if (!this.currentColor.getName().equals(firstCardColor) &&
+			!lastDiscardPileValue.contentEquals(firstCardValue) &&
+			!firstCardColor.equals(EColor.BLACK.getName())) {
+			
+			this.currentPlayer().takeCard();
+			this.ifDoesNotUNOSwitchToFalse();
 			this.nextPlayer();	
+		}else {
+			this.currentPlayer().takeCard();
+			this.ifDoesNotUNOSwitchToFalse();
+			return true;
 		}
+		
+		return false;
 	}
 	
 	/**
@@ -225,6 +241,7 @@ public class Game {
 			currentPlayer.drawTwo();
 		}
 		
+		this.endGame();/**Verifica si termina la partida.*/
 		return currentPlayer.getId();
 		
 	}
@@ -234,9 +251,8 @@ public class Game {
 		Card prevLastCard = this.discardPile.getCards().get(this.discardPile.getCards().size()-2); /**Penúltima carta.*/
 		
 		if (!lastCard.getValue().getName().equals("DFOUR")) {
-			//throw new IllegalArgumentException("No se puede retar a menos que la ultima carta sea un DFOUR.");
+			throw new IllegalArgumentException("No se puede retar a menos que la ultima carta sea un DFOUR.");
 		}
-		
 		
 		if(decision == true) {
 			/**Verifica si el jugador tenía otra carta que podía tirar distinta a un DFOUR*/
@@ -283,6 +299,18 @@ public class Game {
 		}
 		
 	}
+	
+	/**
+	 * Termina la partida.
+	 */
+	public void endGame() {
+		if (this.currentPlayer().getHand().getCards().isEmpty() ||
+			this.oponentPlayer().getHand().getCards().isEmpty()) {
+			
+			this.setEndGame(true);
+			
+		}
+	}
 	/**
 	 * Guarda la partida en un archivo JSON en memoria.
 	 */
@@ -304,6 +332,7 @@ public class Game {
 		result.append(String.format("%s\"id\": \"%s\",\n","\t".repeat(tab),this.getId()));
 		result.append(String.format("%s\"currentPlayerId\": %s,\n","\t".repeat(tab),this.getCurrentPlayerId()));
 		result.append(String.format("%s\"currentColor\": \"%s\",\n","\t".repeat(tab),this.currentColor.getName()));
+		result.append(String.format("%s\"endGame\": %s,\n","\t".repeat(tab),this.endGame));
 		result.append(String.format("%s\"onChallenge\": %s,\n","\t".repeat(tab),this.isOnChallenge()));
 		result.append(String.format("%s\"clockWise\": %s,\n","\t".repeat(tab),this.isClockWise()));
 		result.append(String.format("%s\"hostPlayer\":\n%s,\n","\t".repeat(tab),this.getHostPlayer().toJSON(tab+1)));
@@ -327,6 +356,7 @@ public class Game {
 		result.append(String.format("%s\"id\": \"%s\",\n","\t".repeat(tab),this.getId()));
 		result.append(String.format("%s\"currentPlayerId\": %s,\n","\t".repeat(tab),this.getCurrentPlayerId()));
 		result.append(String.format("%s\"currentColor\": \"%s\",\n","\t".repeat(tab),this.currentColor.getName()));
+		result.append(String.format("%s\"endGame\": %s,\n","\t".repeat(tab),this.endGame));
 		result.append(String.format("%s\"onChallenge\": %s,\n","\t".repeat(tab),this.isOnChallenge()));
 		result.append(String.format("%s\"clockWise\": %s,\n","\t".repeat(tab),this.isClockWise()));
 		result.append(String.format("%s\"hostPlayer\":\n%s,\n","\t".repeat(tab),this.getHostPlayer().toJSON(tab+1)));
@@ -463,6 +493,20 @@ public class Game {
 	 */
 	public void setOnChallenge(boolean onChallenge) {
 		this.onChallenge = onChallenge;
+	}
+
+	/**
+	 * @return the endGame
+	 */
+	public boolean isEndGame() {
+		return endGame;
+	}
+
+	/**
+	 * @param endGame the endGame to set
+	 */
+	public void setEndGame(boolean endGame) {
+		this.endGame = endGame;
 	}
 
 	/**Pruebas de la clase.*/

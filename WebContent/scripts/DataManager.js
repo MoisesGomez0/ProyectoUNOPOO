@@ -4,10 +4,10 @@ function DataManager() {
 		$.get("getContent.jsp", { "file": "game.json" }, function (data) {
 			data = JSON.parse(data.trim());
 			frontManager.json = info;
-			if (data != info) {
+				clearInterval(idSetIntervalUpdate);
 				info = data;
 				frontManager.updateCards();
-			}
+			
 		});
 	}
 
@@ -37,6 +37,7 @@ function DataManager() {
 				"currentPlayerId": info.currentPlayerId,
 				"currentColor": info.currentColor,
 				"clockWise": info.clockWise,
+				"endGame": info.endGame,
 				"hostPlayerUNO": info.hostPlayer.UNO,
 				"hostPlayerName": info.hostPlayer.name,
 				"hostPLayerHand": dataManager.cardsToParameter(info.hostPlayer.hand),
@@ -51,8 +52,13 @@ function DataManager() {
 				"challenge":challenge
 
 			},
-			function(){
+			function(callback){
 				console.log("me retornó el back");
+				if(callback.trim() == "true"){
+					backScreenDrop.classList.add("active");
+				}else if(callback.trim() == "cardDropped"){
+					sm.playCard();
+				}
 				});
 	}
 
