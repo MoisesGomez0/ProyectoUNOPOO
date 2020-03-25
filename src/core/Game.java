@@ -142,10 +142,15 @@ public class Game {
 	 * El jugador en turno toma una carta.
 	 * @param playerId Id del jugador en turno.
 	 */
+	@SuppressWarnings("unlikely-arg-type")
 	public void playerTakeCard() {
+		Card firstCard = this.deck.getCards().get(0);
+		
 		this.currentPlayer().takeCard();
-		this.nextPlayer();
 		this.ifDoesNotUNOSwitchToFalse();
+		if (!this.currentColor.getName().equals(firstCard)) {
+			this.nextPlayer();	
+		}
 	}
 	
 	/**

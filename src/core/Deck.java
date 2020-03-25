@@ -74,8 +74,8 @@ public class Deck {
     	if (this.getCards().isEmpty()) {
     		throw new IllegalArgumentException("No hay cartas en la baraja.");
     	}
-    	Card result = this.getCards().get(0);
-    	this.getCards().remove(0);
+    	Card result = this.getCards().get(0); /**La primera carta de la baraja.*/
+    	this.getCards().remove(0); /**Elimina la primera carta.*/
     	return result;
     	
     }
