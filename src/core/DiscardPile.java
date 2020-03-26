@@ -51,18 +51,6 @@ public class DiscardPile extends Deck{
 	}
 	
 	/**
-	 * Verifica si dos objetos son iguales.
-	 * @param discardPile Objeto a comparar.
-	 * @return true si son iguales.
-	 */
-	public boolean equals(DiscardPile discardPile) {
-		if (this.deck.equals(discardPile.getDeck())&& this.cards == discardPile.getCards()) {
-			return true;
-		}
-		
-		return false;
-	}
-	/**
 	 * @return the deck
 	 */
 	public Deck getDeck() {

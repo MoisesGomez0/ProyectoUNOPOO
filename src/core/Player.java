@@ -118,18 +118,6 @@ public class Player {
 		return result.toString();
 	}
 	/**
-	 * Verifica si dos objetos son iguales.
-	 * @param player Objeto a comparar.
-	 * @return true si son iguales.
-	 */
-	public boolean equals(Player player) {
-		if (this.name == player.name && this.id == player.id && this.hand.equals(player.hand)) {
-			return true;
-		}
-		
-		return false;
-	}
-	/**
 	 * @return the name
 	 */
 	public String getName() {

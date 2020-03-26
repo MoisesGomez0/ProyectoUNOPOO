@@ -8,8 +8,6 @@ public class Card {
     
     private EColor color;
     private EValue value;
-    private boolean hidden; /**true si la carta está boca abajo, false si está boca arriba.*/
-    private String image; /**URL de la imagen de la carta.*/
     
     /**
      * Constructor vacío de la clase
@@ -22,11 +20,8 @@ public class Card {
      */
     public Card(EValue value, EColor color){
         this.setColor(color);
-        this.setValue(value);
-        this.setHidden(false);        
+        this.setValue(value);      
         
-        /**Se espera que el nombre del archivo de la imagen como (value_color.png)*/
-        this.setImage(String.format("src/Images/%s_%s.png",value,color));
             
     }
     public Card(String card) {
@@ -52,14 +47,7 @@ public class Card {
     public String toString(){
         String result = null;
         
-        if (isHidden() == false) {
-        	if (this.color == EColor.BLACK) {
-        		result = getValue().getName();
-        	}
-            result = String.format("\"%s_%s\"", getValue().getName(), getColor().getName());           
-        }else{
-            result = String.format("???");
-        }
+        result = String.format("\"%s_%s\"", getValue().getName(), getColor().getName());
         
         return result;
     }
@@ -105,33 +93,7 @@ public class Card {
 		this.value = value;
 	}
 
-	/**
-	 * @return the hidden
-	 */
-	public boolean isHidden() {
-		return hidden;
-	}
 
-	/**
-	 * @param hidden the hidden to set
-	 */
-	public void setHidden(boolean hidden) {
-		this.hidden = hidden;
-	}
-
-	/**
-	 * @return the image
-	 */
-	public String getImage() {
-		return image;
-	}
-
-	/**
-	 * @param image the image to set
-	 */
-	public void setImage(String image) {
-		this.image = image;
-	}
 
 	//Pruebas con la clase.
     public static void main(String[] args){
