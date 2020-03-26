@@ -222,19 +222,6 @@ public class Deck {
     	
     	return result.toString();
     }
-    
-    /**
-     * Varifica que dos objetos Deck sean iguales.
-     * @param deck Objeto deck a comparar.
-     * @return true si son iguales.
-     */
-    
-    public boolean equals(Deck deck) {
-    	if (this.cards.equals(deck.getCards())) {
-    		return true;
-    	}
-    	return false;
-    }
       
     
     /**

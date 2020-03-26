@@ -274,6 +274,9 @@ public class Game {
 	}
 	
 	
+	/**
+	 * Si el jugador tiene más de una carta, cambia su estado de UNO a false.
+	 */
 	private void ifDoesNotUNOSwitchToFalse() {
 		if (this.currentPlayer().getHand().getCards().size() > 1 && this.currentPlayer().isUNO()) {
 			this.currentPlayer().setUNO(false);
@@ -285,7 +288,7 @@ public class Game {
 	}
 	
 	/**
-	 * 
+	 * El jugador preciona el botón UNO.
 	 */
 	public void playerPressUNO() {
 		
