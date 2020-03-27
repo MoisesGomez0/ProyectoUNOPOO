@@ -62,3 +62,11 @@ div.popUp{
 div#errorBackScreen{
     background-color: rgba(255,0,0,.3);
 }
+td{
+    padding: 2vh;
+}
+div#table{
+    height: 60vh;
+    overflow-y: scroll;
+    text-align: justify;
+}

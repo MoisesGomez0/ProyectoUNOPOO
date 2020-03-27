@@ -1,26 +1,48 @@
+/**Administra y valida a los usuario que entrar en una partida.
+ * Redirecciona a la pantalla de juego.
+ * @param name {string} Nombre del jugador.
+ * @param nPlayers {int} Número de jugadores en la partida.
+ * @param gameId  {string} Id del juego.
+ */
 function LogInManager(name = null, nPlayers = 0, gameId = null) {
 
+	/**Nombre del jugador */
 	this.name = name;
+
+	/**Número de jugadores */
 	this.nPlayers = nPlayers;
+
+	/**Id del juego*/
 	this.gameId = gameId;
+
+	/**Infomación de los jugadores de la partida en formato json */
 	this.data = null;
+
+	/**ID de un setInterval que verifica los datos en un archivo */
 	this.intervalId = null;
 
+	/**Establece el gameId.
+	 * @returns {string} Una cadena de 8 caracteres aleatorios */
 	this.generateGameId = function () {
 		var random = new RandomGenerator();
 		this.gameId = random.randomAlpha(8);
 		return this.gameId;
 	}
 
+	/**Establece la información de los jugadores en la partida
+	 * @return {json} Información de los jugadores en la partida.
+	 */
 	this.generateData = function () {
 		this.data = { "gameId": this.gameId, "players": [this.name], "nPlayers": this.nPlayers };
 		return this.data;
 	}
 
+	/**Guarda el contenido de el atributo data en el archivo logIn.json */
 	this.saveData = function () {
 		$.get("write.jsp", { "file": "logIn.json", "content": JSON.stringify(this.data), "override": true }, null);
 	}
 
+	/**Verifica hayan ingresado la cantidad de jugadores correctos y los rediercciona a la pantalla de juego. */
 	this.verifyLoginAndRedirec = function () {
 		var id = this.gameId;
 		var intervalId = setInterval(function () {
@@ -38,6 +60,7 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 
 	}
 
+	/**Valida y se encarga que un jugador entre a una partida ya creada, redirecciona a la pantalla de juego. */
 	this.getIn = function () {
 		var playerName = this.name;
 		var id = this.gameId;
@@ -74,7 +97,12 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 			}
 		});
 	}
-
+	/**Verifica si un elemento está dentro de un arreglo
+	 * @param vector {list} Una lista de elementos.
+	 * @param value {element} el elemento a verificar su existencia dentro de la 
+	 * lista vector.
+	 * @return {boolean} true si el elemento pertenece a vector, false de lo contrario.
+	 */
 	this.isIn = function (vector, value) {
 		for (let index in vector) {
 			if (vector[index] == value) {

@@ -39,18 +39,23 @@ public class ScoreBoardPlayer {
 		if (!json.matches(ERegex.SCPLAYER.toString())) {
 			throw new IllegalArgumentException("Formato no permitido.");
 		}
-		
+
 		json = json.replaceAll("\\}", "");
+
 		json = json.replaceAll("\\{", "");
+
 		json = json.replaceAll("\"\\w+\":", "");
+
 		json = json.replaceAll("\\{", "");
+		json = json.replaceAll("\"", "");
+		
 		String[] array = json.split(",");
 		
-		this.rank = Integer.parseInt(array[0].split(":")[1]);
-		this.name = array[1].split(":")[1];
-		this.points = Integer.parseInt(array[2].split(":")[1]);
-		this.lastResult = Integer.parseInt(array[3].split(":")[1]);
-		this.date = array[4].split(":")[1];
+		this.rank = Integer.parseInt(array[0]);
+		this.name = array[1];
+		this.points = Integer.parseInt(array[2]);
+		this.lastResult = Integer.parseInt(array[3]);
+		this.date = array[4];
 		
 		
 	}
@@ -58,7 +63,7 @@ public class ScoreBoardPlayer {
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();
-		result.append(String.format("{\"rank\":%s,\"name\":\"%s\",\"points\":%s,\"lastResult\":%s,\"date\":%s}",
+		result.append(String.format("{\"rank\":%s,\"name\":\"%s\",\"points\":%s,\"lastResult\":%s,\"date\":\"%s\"}",
 					this.rank,
 					this.name,
 					this.points,
@@ -140,26 +145,5 @@ public class ScoreBoardPlayer {
 
 	//Pruebas de la clase.
 	public static void main(String[] args) {
-		FileManager fm = new FileManager("");
-		String content = fm.read("scoreBoard.json");
-		System.out.println(content);
-		System.out.println("=====");
-		content = content.replaceAll(",\n", "&split&");
-		content = content.replaceAll("\t", "");
-		content = content.replaceAll("\n", "");
-		System.out.println(content);
-		System.out.println("=====");
-		content = content.replaceAll("\\{\"ranking\":\\[", "");
-		content = content.replaceAll("\\]\\}", "");
-		String[] array = content.split("&split&");
-		content = array[0];
-		System.out.println("----");
-		System.out.println(content);
-		content = content.replaceAll("\\}", "");
-		content = content.replaceAll("\\{", "");
-		content = content.replaceAll("\"\\w+\":", "");
-		System.out.println("----");
-		System.out.println(content);
-		
 	}
 }

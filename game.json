@@ -24,13 +24,8 @@
 			"name":"jon",
 			"hand":
    				[
-					"TWO_YELLOW",
-					"REVERSE_YELLOW",
-					"THREE_RED",
-					"FOUR_YELLOW",
-					"SEVEN_YELLOW",
-					"SIX_YELLOW",
-					"TWO_RED"
+					"TWO_YELLOW"
+
 				]
 		},
 	"deck": 

@@ -13,11 +13,14 @@ public class ScoreBoard {
 		FileManager fm = new FileManager("");
 		String json = fm.read("scoreBoard.json");
 		json = json.replaceAll(",\n", "&split&");
+		
 		json = json.replaceAll("\t", "");
 		json = json.replaceAll("\n", "");
 		json = json.replaceAll("\\{\"ranking\":\\[", "");
 		json = json.replaceAll("\\]\\}", "");
+	
 		String[] array = json.split("&split&");
+		
 		for (String string : array) {
 			players.add(new ScoreBoardPlayer(string));
 		}
@@ -108,7 +111,7 @@ public class ScoreBoard {
 		StringBuilder result = new StringBuilder("");
 		
 		result.append("{\n");
-		result.append("\t\"ranking:\n");
+		result.append("\t\"ranking\":\n");
 		result.append("\t\t[\n");
 		
 		if (this.players.size()==1) {
@@ -119,8 +122,27 @@ public class ScoreBoard {
 			}
 			result.append(String.format("\t\t\t%s\n",this.players.get(this.players.size()-1).toString()));
 		}
-		result.append("\t\t]");
+		result.append("\t\t]\n");
 		result.append("}");
+		return result.toString();
+	}
+	
+	public String toHTML() {
+		StringBuilder result = new StringBuilder("<table><thead><tr><td>Rank</td><td>Nombre</td><td>Puntos</td><td>En último juego</td>");
+		result.append("<td>Fecha</td><tr></thead><tbody>");
+		for (ScoreBoardPlayer player : players) {
+			result.append("<tr>");
+			result.append(String.format("<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>", 
+						  player.getRank(),
+						  player.getName(),
+						  player.getPoints(),
+						  (player.getLastResult()==0) ? "-" : String.format("+%s",player.getLastResult()),
+						  player.getDate()
+					));
+			result.append("</tr>");
+		}
+		result.append("</tbody></table>");
+		
 		return result.toString();
 	}
 	
@@ -143,7 +165,7 @@ public class ScoreBoard {
 	}
 
 	public static void main(String[] args) {
-		 System.out.println(DateTimeFormatter.ofPattern("dd-MM-yyyy").format(LocalDateTime.now()));  
-
+		ScoreBoard sb = new ScoreBoard();
+		System.out.println(sb.toString());  
 	}
 }

@@ -303,6 +303,26 @@ public class Game {
 		
 	}
 	
+	private String[] calculatePoints() {
+		String[] resultString = new String[2];
+		int result = 0;
+		if (this.currentPlayer().getHand().getCards().isEmpty()) {
+				for (Card card : this.oponentPlayer().getHand().getCards()) {
+					result += card.getValue().getScoreValue();
+					resultString[0] = this.currentPlayer().getName();
+					resultString[1] = String.format("%s",result);
+				}
+		}
+		
+		if (this.oponentPlayer().getHand().getCards().isEmpty()) {
+			for (Card card : this.currentPlayer().getHand().getCards()) {
+				result += card.getValue().getScoreValue();
+				resultString[0] = this.oponentPlayer().getName();
+				resultString[1] = String.format("%s",result);
+			}
+		}
+		return resultString;
+	}
 	/**
 	 * Termina la partida.
 	 */
@@ -310,6 +330,9 @@ public class Game {
 		if (this.currentPlayer().getHand().getCards().isEmpty() ||
 			this.oponentPlayer().getHand().getCards().isEmpty()) {
 			
+			ScoreBoard sb = new ScoreBoard();
+			sb.updatePlayer(this.calculatePoints()[0],Integer.parseInt(this.calculatePoints()[1]));
+			sb.saveMemory();
 			this.setEndGame(true);
 			
 		}

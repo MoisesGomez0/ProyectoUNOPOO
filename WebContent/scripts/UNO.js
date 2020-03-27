@@ -89,12 +89,19 @@ function FrontManager(json) {
         }
         if (am.isOnPlay(name)) {
             if (am.isAvaiable(card)) {
-                return `<div id="${card}" class="card" style="left:${left}vw; bottom:2vh;" ><img  onclick="am.dropCard(this.parentNode.id);" class="card" src="../images/${card}.png"></div>`;
+                return `<div id="${card}" class="card" style="left:${left}vw; bottom:2vh;" >
+                            <img  onclick="am.dropCard(this.parentNode.id);" class="card" src="../images/${card}.png">
+                        </div>`;
+
             } else {
-                return `<div id="${card}" class="card" style="left:${left}vw;" ><img  onclick="am.dropCard(this.parentNode.id)" style="opacity:0.8" class="card" src="../images/${card}.png"></div>`;
+                return `<div id="${card}" class="card" style="left:${left}vw;" >
+                            <img  onclick="am.dropCard(this.parentNode.id)" style="opacity:0.8" class="card" src="../images/${card}.png">
+                        </div>`;
             }
         } else {
-            return `<div id="${card}" class="card" style="left:${left}vw; opa" ><img  onclick="am.dropCard(this.parentNode.id)" class="card" src="../images/${card}.png"></div>`;
+            return `<div id="${card}" class="card" style="left:${left}vw; opa" >
+                        <img  onclick="am.dropCard(this.parentNode.id)" class="card" src="../images/${card}.png">
+                    </div>`;
 
         }
     }

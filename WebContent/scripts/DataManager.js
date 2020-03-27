@@ -15,7 +15,7 @@ function DataManager() {
 	}
 
 
-	/**@param {list} data Una lista de cartas
+	/**@param data {list} Una lista de cartas
 	 * return {string} result Un string facil de procesar para el servidor que contenga todas
 	 * las cartas existentes en el parámetro data.
 	 * */
@@ -36,12 +36,12 @@ function DataManager() {
 
 	/**Ejecutado cada ves que se realiza una acción en el front que necesita la actualización de los datos
 	 * existentes en el servidor, ejecuta ciertas acciones segun la respuesta del servidor.
-	 * @param {string} action Un string que representa la instrucción que el servidor debe ejecutar.
-	 * @param {string} card Un string con la nomenclatura de una carta, paramétro usado solo en
+	 * @param action {string} Un string que representa la instrucción que el servidor debe ejecutar.
+	 * @param card {string} Un  string con la nomenclatura de una carta, paramétro usado solo en
 	 * combinación de una acción en la que el servidor necesite saber una carta específica.
-	 * @param {string} selectedColor Representa el color selecionado por el jugador cuando se ejecuta un 
+	 * @param selectedColor {string} Representa el color selecionado por el jugador cuando se ejecuta un 
 	 * cambio de color, tambien solo usado en combinación de acciones que lo necesiten.
-	 * @param {string} challenge Un string que determina si el jugador escogió retar o no a su oponente en una
+	 * @param challenge {string} Un string que determina si el jugador escogió retar o no a su oponente en una
 	 * juganda que involucre una carta +4.
 	 * */
 	this.sendToBack = function (action,card,selectedColor,challenge) {
