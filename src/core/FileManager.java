@@ -77,7 +77,7 @@ public class FileManager {
 		}catch(Exception e){
 			
 		}
-		System.out.println(content.toString());
+		
 		return content.toString();
 	}
 	

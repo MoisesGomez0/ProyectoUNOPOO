@@ -6,7 +6,9 @@ public enum ERegex {
 	ACTIONCARD("(DTWO|REVERSE|SKIP)_(BLUE|RED|GREEN|YELLOW)"), /**Carta de acción de UNO (Draw two, Reverse o Skip)*/
 	NUMBERCARD("(CERO|ONE|TWO|THREE|FOUR|FIVE|SIX|SEVEN|EIGHT|NINE)_(BLUE|RED|GREEN|YELLOW)"), /***/
 	CARD(String.format("(%s|%s|%s)",NUMBERCARD,ACTIONCARD,SPECIALCARD)),
-    DECK(String.format("((%s,\\s?)*%s)", CARD,CARD));
+    DECK(String.format("((%s,\\s?)*%s)", CARD,CARD)),
+    DATE("(\\d){2}/\\d{2}/\\d{4}"),
+	SCPLAYER("\\{\"rank\":\\d+,\"name\":\"\\w+\",\"points\":\\d+,\"lastResult\":\\d+,\"date\":\"[\\W\\w]+\"\\}");
 	
     
     private final String value;
