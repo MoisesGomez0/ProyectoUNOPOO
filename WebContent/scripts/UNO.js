@@ -8,37 +8,43 @@ function FrontManager(json) {
      * la infomación es tomada de las peticiones asincronas hechas al servidor.*/
     this.updateCards = function () {
         var result = "";
-        
+
         /**Verifico si la partida terminó*/
-        if(am.isEndGame(name)){
-    		clearInterval(idSetIntervalUpdate);
-    		return true;
+        if (am.isEndGame(name)) {
+            clearInterval(idSetIntervalUpdate);
+            return true;
         }
         else {
-        	this.upgradeHands();
-        }        	
-        
-        this.upgradeDiscardPile();
-        
-        if(am.isLastPlayable()){
-        	clearInterval(idSetIntervalUpdate);
-            backScreenDecision.classList.add("active");
-        }else{
-        	updateFront();
+            this.upgradeHands();
         }
-        
-        
+
+        this.upgradeDiscardPile();
+
+        if (am.isLastPlayable()) {
+            clearInterval(idSetIntervalUpdate);
+            backScreenDecision.classList.add("active");
+        } else {
+            console.log("im on play?",am.isOnPlay(name));
+        	if(!am.isOnPlay(name)){
+                console.log("im not on play and called to update")
+                updateFront();
+        	}
+        }
+
+
     }
-    
+
+
     /**Actualiza la carta mostrada en la discardPile.*/
-    this.upgradeDiscardPile = function(){
-    	var lastDiscardPileCard = am.getLastDiscard();
-        document.querySelector("#discardPile").innerHTML = `<div id="discardPile" class="card" ><img class="card" src="../images/${lastDiscardPileCard}.png"></div>`;
+    this.upgradeDiscardPile = function () {
+        var lastFigure = am.getLastDiscard().split("_")[0];
+        var currentColor = info.currentColor;
+        document.querySelector("#discardPile").innerHTML = `<div id="discardPile" class="card" ><img class="card" src="../images/${lastFigure}_${currentColor}.png"></div>`;
     }
-    
+
     /**Actualiza las cartas que los jugadores tiene en la mano.*/
-    this.upgradeHands = function(){
-    	if (info.hostPlayer.name == name) {
+    this.upgradeHands = function () {
+        if (info.hostPlayer.name == name) {
             hand.innerHTML = this.handToHTML(info.hostPlayer.hand, info.hostPlayer.id);/**Cartas no ocultas. */
             oponentCards.innerHTML = this.handToHTML(info.guestPlayer.hand, info.guestPlayer.id, true);/**Cartas ocultas. */
 
@@ -47,8 +53,8 @@ function FrontManager(json) {
             oponentCards.innerHTML = this.handToHTML(info.hostPlayer.hand, info.hostPlayer.id, true);/**Cartas ocultas. */
         }
     }
-    
-  
+
+
     /**@param {list} hand Una lista con las cartas que un jugador tiene en la mano.
      * @param {int} id El id del jugador.
      * @param {boolean} hidden este determina si las cartas seran mostradas en la hand del jugador
@@ -85,91 +91,91 @@ function FrontManager(json) {
     this.cardToDiv = function (card, id, left, hidden = false) {
 
         if (hidden) {
-            return `<div id="${card}" class="oponentCard" style="left:${left}vw;"><img class="oponentCard" src="../images/UNO.png"></div>`;
+            return `<div id="${card}" class="oponentCard card" style="left:${left}vw;"><img class="oponentCard card" src="../images/UNO.png"></div>`;
         }
         if (am.isOnPlay(name)) {
             if (am.isAvaiable(card)) {
-                return `<div id="${card}" class="card" style="left:${left}vw; bottom:2vh;" >
-                            <img  onclick="am.dropCard(this.parentNode.id);" class="card" src="../images/${card}.png">
+                return `<div id="${card}" class="playerCard card" style="left:${left}vw; bottom:2vh;" >
+                            <img  onclick="am.dropCard(this.parentNode.id);" class="playerCard card" src="../images/${card}.png">
                         </div>`;
 
             } else {
-                return `<div id="${card}" class="card" style="left:${left}vw;" >
+                return `<div id="${card}" class="playerCard card" style="left:${left}vw;" >
                             <img  onclick="am.dropCard(this.parentNode.id)" style="opacity:0.8" class="card" src="../images/${card}.png">
                         </div>`;
             }
         } else {
-            return `<div id="${card}" class="card" style="left:${left}vw; opa" >
+            return `<div id="${card}" class="playerCard card" style="left:${left}vw; opa" >
                         <img  onclick="am.dropCard(this.parentNode.id)" class="card" src="../images/${card}.png">
                     </div>`;
 
         }
     }
 
-		
+
 }
 /**Objeto encargado de administrar la acciones del usuario en la ejecución del juego*/
 function ActionManager() {
 	/**Atributo usado para establecer la carta a jugar.
 	 * Usado por algunos métodos. */
     this.cardToDrop = null;
-    
+
     /**Verifica si la partida terminó, de ser así retorna true y muestra un mensaje a 
      * los jugadores, tambien termina la rutina de actialización de los datos; si la
      * partida no ha terminado return false.
      *@param {string} name El nombre del jugador.
      * @return {boolean}*/
-    this.isEndGame = function(name){
-    	if(info.hostPlayer.name == name){
-	    	if(info.hostPlayer.hand == null){
-	    		backScreenFinal.classList.add("active");
-	    		lastMessage.innerHTML = "Ganaste, Felicidades."
-	    		return true;
-	    	}else if(info.guestPlayer.hand == null){
-	    		backScreenFinal.classList.add("active");
-	    		lastMessage.innerHTML = "Perdiste, Felicidades."
-	    		return true;
-	    	}
-    	}else if(info.guestPlayer.name == name) {
-        	if(info.guestPlayer.hand == null){
-        		backScreenFinal.classList.add("active");
-        		lastMessage.innerHTML = "Ganaste, Felicidades."
-        		return true;
-        	}else if(info.hostPlayer.hand == null){
-        		backScreenFinal.classList.add("active");
-        		lastMessage.innerHTML = "Perdiste, Felicidades."
-        		return true;
-        	}
+    this.isEndGame = function (name) {
+        if (info.hostPlayer.name == name) {
+            if (info.hostPlayer.hand == null) {
+                backScreenFinal.classList.add("active");
+                lastMessage.innerHTML = "Ganaste, Felicidades."
+                return true;
+            } else if (info.guestPlayer.hand == null) {
+                backScreenFinal.classList.add("active");
+                lastMessage.innerHTML = "Perdiste, Felicidades."
+                return true;
+            }
+        } else if (info.guestPlayer.name == name) {
+            if (info.guestPlayer.hand == null) {
+                backScreenFinal.classList.add("active");
+                lastMessage.innerHTML = "Ganaste, Felicidades."
+                return true;
+            } else if (info.hostPlayer.hand == null) {
+                backScreenFinal.classList.add("active");
+                lastMessage.innerHTML = "Perdiste, Felicidades."
+                return true;
+            }
         }
-    	return false;
+        return false;
     }
-    
+
     /**Ejecutado cuando el usuario escoge si quiere conservar o soltar
      * la carta que acaba de tomar del deck.*/
-    this.dropConditionalCard = function(option){
-    	if(option == "YES"){
-    		this.dropCard(this.getLastCardOnHand());
-    	}else if(option == "NO"){
-    		dataManager.sendToBack("nextPlayer");
-    	}
-    	backScreenDrop.classList.remove("active");
-    	
+    this.dropConditionalCard = function (option) {
+        if (option == "YES") {
+            this.dropCard(this.getLastCardOnHand());
+        } else if (option == "NO") {
+            dataManager.sendToBack("nextPlayer");
+        }
+        backScreenDrop.classList.remove("active");
+
     }
-    
-    
+
+
     /**@return {string} carta
      * Retorna la última carta que fue agregada a la mano de un jugador*/
-    this.getLastCardOnHand = function(){
-    	if(this.isOnPlay(info.guestPlayer.name)){
-    		return info.guestPlayer.hand[info.guestPlayer.hand.length - 1];
-    		
-    	}else if(this.isOnPlay(info.hostPlayer.name)){
-    		return info.hostPlayer.hand[info.hostPlayer.hand.length - 1];
+    this.getLastCardOnHand = function () {
+        if (this.isOnPlay(info.guestPlayer.name)) {
+            return info.guestPlayer.hand[info.guestPlayer.hand.length - 1];
 
-    	}
+        } else if (this.isOnPlay(info.hostPlayer.name)) {
+            return info.hostPlayer.hand[info.hostPlayer.hand.length - 1];
+
+        }
     }
-    
-    
+
+
     /**@return {boolean}
      * @param {String} name El nombre de un jugador
      * Determina si el jugador está en turno.
@@ -195,7 +201,7 @@ function ActionManager() {
 
     }
 
-    
+
     /**Se ejecuta cuando el jugador hace click en el deck.
      * Valida si el jugador está en turno.
      * Si está en turno inicia la comunicación con el servidor para que sea
@@ -236,7 +242,7 @@ function ActionManager() {
         return info.discardPile[info.discardPile.length - 1];
     }
 
-    
+
     /**Se ejecuta cuando el jugador selecciona el color a seguir en jugarse cuando este
      *soltó una carta de +4 ó una de cambio de color, este inicia la comunicación con
      *el servidor para modificar el estado del juego. */
@@ -255,28 +261,29 @@ function ActionManager() {
             dataManager.sendToBack("challenge", null, null, "false");
         }
         backScreenDecision.classList.remove("active");
+        console.log("called to update on chooseDesition")
         updateFront();
 
     }
     /**Método ejecutado cuando el usuario presiona el botón de UNO, inicia la comunicación asíncrona con le
      * servidor para modificar el estado del juego */
     this.playerPressUNO = function () {
-    	if(this.isOnPlay(name)){
+        if (this.isOnPlay(name)) {
             dataManager.sendToBack("playerPressUNO");
-    	}
+        }
 
     }
-    
+
     /**@return {boolean}
      * Verifica si el jugador puede tirar la última carta tomada del deck
      * de ser así retorna true, lo contrario retorna false.
      * */
-    this.isLastPlayable = function(){
-    	var lastDiscardPileCard = this.getLastDiscard().split("_");
-        if(this.isOnPlay(name)){
-        	if (lastDiscardPileCard[0] == "DFOUR" && info.onChallenge) {
+    this.isLastPlayable = function () {
+        var lastDiscardPileCard = this.getLastDiscard().split("_");
+        if (this.isOnPlay(name)) {
+            if (lastDiscardPileCard[0] == "DFOUR" && info.onChallenge) {
                 return true;
-        	}
+            }
         }
         return false;
     }

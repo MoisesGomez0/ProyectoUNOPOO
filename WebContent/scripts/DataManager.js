@@ -6,7 +6,6 @@ function DataManager() {
 	this.update = function () {
 		$.get("getContent.jsp", { "file": "game.json" }, function (data) {
 			data = JSON.parse(data.trim());
-			frontManager.json = info;
 				clearInterval(idSetIntervalUpdate);
 				info = data;
 				frontManager.updateCards();
@@ -47,6 +46,7 @@ function DataManager() {
 	this.sendToBack = function (action,card,selectedColor,challenge) {
 		console.log("action",action);
 		console.log("card",card);
+		updateFront();
 		$.get("game.jsp",
 			{
 				"gameId": info.id,

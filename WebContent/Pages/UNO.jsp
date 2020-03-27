@@ -13,6 +13,7 @@
     <script src="../scripts/CookiesManager.js"></script>
     <script src="../scripts/SoundManager.js"></script>
     <script src="../scripts/RandomGenerator.js"></script>
+    <script src="../scripts/Animator.js"></script>
     <link rel="stylesheet" type="text/css" href="../styles/UNO.css">
 
 
@@ -21,10 +22,11 @@
 
 <body>
     <div id="oponentCards"></div>
-    <div id="deck" onclick="am.playerTakeCard();"> <img id="deck" src="../images/UNO.png"></div>
+    <div id="deck" class="card" onclick="am.playerTakeCard();"> <img class="card" id="deck" src="../images/UNO.png"></div>
     <div id="discardPile" ></div>
     <div id="hand"></div>
-
+    <button class="unoBtn" id="unoButton" onclick="am.playerPressUNO()"><img class="unoBtn" src="../images/BUTTON_UNO.png"></button>
+    
     <div id="backScreenColor" class="backScreen">
         <div id="hostPopUp" class="popUp">
                 <h1>UNO</h1>
@@ -64,14 +66,13 @@
         </div>
     </div>
     
-    <div style="position:fixed; left:0; bottom:0;">
-    	<button onclick="am.playerPressUNO()">UNO</button>
-    </div>
+
 
 
 </body>
     <script>
         var sm = new SoundManager();
+        var animator = new Animator();
     	var lastOnDrop = "init";
     	var am = new ActionManager();
         var cookiesManager = new CookiesManager();
@@ -83,9 +84,11 @@
         updateFront();
         
         function updateFront(){
+        	console.log("call to update");
         	idSetIntervalUpdate = setInterval(function(){
+        		console.log("updating");
                 dataManager.update();
-            },500)
+            },700)
         }
         
     </script>

@@ -1,7 +1,8 @@
-img#deck{
-    height: 30vh;
-    width: 13vw;
+.card{
+    height: 28vh;
+    width: 9.5vw;
 }
+
 
 div#deck {
     position: fixed;
@@ -28,17 +29,12 @@ div#hand {
     width: 60vw;
 }
 
-div.card {
+
+div.playerCard{
     position: fixed;
     bottom: 0;
-    height: 32vh;
-    width: 13vw;
 }
 
-img.card{
-    height: 32vh;
-    width: 13vw;
-}
 
 div#oponentCards {
     position: fixed;
@@ -51,14 +47,8 @@ div#oponentCards {
 div.oponentCard{
     position: fixed;
     top:0;
-    height: 32vh;
-    width: 13vw;
-}
-img.oponentCard{
-    height: 32vh;
-    width: 13vw;
-}
 
+}
 
 div.backScreen{
     position: fixed;
@@ -114,4 +104,13 @@ div#errorBackScreen{
 div.backScreen.active{
     visibility: visible;
     opacity: 1;
+}
+
+.unoBtn{
+    position: fixed;
+    bottom: 2vh;
+    left: 2vw;
+    width: 10vw;
+    height: 10vh;
+    border-radius: 18vh;
 }
