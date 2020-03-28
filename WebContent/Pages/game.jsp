@@ -27,7 +27,6 @@
 	
 	Game game = new Game(gameId,currentPlayerId,currentColor,endGame,onChallenge,clockWise,hostPlayer,guestPlayer,deck,discardPile);/**Partida.*/
 
-	
 	String action = request.getParameter("action");/**Acción requerida por el frontend.*/
 	String droppedCard = request.getParameter("droppedCard"); /**Carta que soltó el jugador en turno.*/
 	String selectedColor = request.getParameter("selectedColor"); /**Color que seleccionó el jugador en turno.*/

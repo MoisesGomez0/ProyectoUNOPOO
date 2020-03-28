@@ -349,8 +349,7 @@ public class Game {
 	 * Guarda la partida en un archivo JSON en memoria.
 	 */
 	public void saveMemory() {
-		String path = String.format("%s/memory/", System.getProperty("user.dir"));
-		FileManager fm = new FileManager(path);
+		FileManager fm = new FileManager();
 		fm.write("game.json", this.toString());
 	}
 	/**

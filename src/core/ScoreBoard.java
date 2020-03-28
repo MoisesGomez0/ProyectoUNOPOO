@@ -11,18 +11,22 @@ public class ScoreBoard {
 	private ArrayList<ScoreBoardPlayer> players = new ArrayList<>();
 	
 	public ScoreBoard() {
-		String json = this.load("scoreBoard.json");
-		json = json.replaceAll(",\n", "&split&");
-		
-		json = json.replaceAll("\t", "");
-		json = json.replaceAll("\n", "");
-		json = json.replaceAll("\\{\"ranking\":\\[", "");
-		json = json.replaceAll("\\]\\}", "");
-	
-		String[] array = json.split("&split&");
-		
-		for (String string : array) {
-			players.add(new ScoreBoardPlayer(string));
+		try {
+			String json = this.load("scoreBoard.json");
+			json = json.replaceAll(",\n", "&split&");
+			
+			json = json.replaceAll("\t", "");
+			json = json.replaceAll("\n", "");
+			json = json.replaceAll("\\{\"ranking\":\\[", "");
+			json = json.replaceAll("\\]\\}", "");
+			
+			String[] array = json.split("&split&");
+			
+			for (String string : array) {
+				players.add(new ScoreBoardPlayer(string));
+			}
+		} catch (Exception e) {
+			/**No instancia la scoreBoard.*/
 		}
 	}
 	
@@ -118,8 +122,7 @@ public class ScoreBoard {
 	}
 	
 	private String load(String file) {
-		String path = String.format("%s/memory/", System.getProperty("user.dir"));
-		FileManager fm = new FileManager(path);
+		FileManager fm = new FileManager();
 		return fm.read(file);
 	}
 	
@@ -158,8 +161,7 @@ public class ScoreBoard {
 	
 	public void saveMemory() {
 		this.sortByPoints();
-		String path = String.format("%s/memory/", System.getProperty("user.dir"));
-		FileManager fm = new FileManager(path);
+		FileManager fm = new FileManager("");
 		fm.write("scoreBoard.json", this.toString());
 	}
 	
