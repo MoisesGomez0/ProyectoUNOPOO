@@ -1,6 +1,12 @@
+*{
+    font-family: segoe UI Historic, segoe UI, Helvetica, Arial, sans-serif;
+}
+
 body{
 	display: flex;
 	text-align: center;
+	justify-content: center;
+	align-content: center;
 }
 
 
