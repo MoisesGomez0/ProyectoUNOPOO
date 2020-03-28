@@ -60,6 +60,21 @@ public class ScoreBoardPlayer {
 		
 	}
 	
+	/**
+	 * Compara el rango de dos jugadores.
+	 * @param player Jugador con el que comparar el rango.
+	 * @return -1 si es menor, 0 si es igual, 1 si es mayor.
+	 */
+	public int compareRank(ScoreBoardPlayer player) {
+		if (this.getRank() < player.getRank()) {
+			return 1;
+		}else if(this.getRank() > player.getRank()) {
+			return -1;
+		}
+
+		return 0;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder();

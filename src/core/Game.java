@@ -331,7 +331,15 @@ public class Game {
 			this.oponentPlayer().getHand().getCards().isEmpty()) {
 			
 			ScoreBoard sb = new ScoreBoard();
-			sb.updatePlayer(this.calculatePoints()[0],Integer.parseInt(this.calculatePoints()[1]));
+			String[] points = this.calculatePoints();
+			sb.updatePlayer(points[0],Integer.parseInt(points[1]));/**Se le suman los puntos al jugador que ganó.*/
+			
+			if (points[0]==this.currentPlayer().getName()) {/**El jugador que perdió no recibe puntos.*/
+				sb.updatePlayer(this.oponentPlayer().getName(),0);
+			}else {
+				sb.updatePlayer(this.currentPlayer().getName(), 0);
+			}
+			
 			sb.saveMemory();
 			this.setEndGame(true);
 			
@@ -341,8 +349,8 @@ public class Game {
 	 * Guarda la partida en un archivo JSON en memoria.
 	 */
 	public void saveMemory() {
-		//FileManager fm = new FileManager("src/memory/");
-		FileManager fm = new FileManager("");
+		String path = String.format("%s/memory/", System.getProperty("user.dir"));
+		FileManager fm = new FileManager(path);
 		fm.write("game.json", this.toString());
 	}
 	/**
@@ -543,17 +551,7 @@ public class Game {
 		Game game = new Game("1a46bt", p1, p2);
 		game.generateGame();
 		
-		game.getDiscardPile().getCards().add(new Card(EValue.CERO,EColor.BLUE));
-		
-		System.out.println(game.getHostPlayer().getHand().toString());
-		System.out.println();
-		System.out.println(game.getGuestPlayer().getHand().toString());
-		System.out.println(game.getDiscardPile().toString());
-		System.out.println("=========================");
-		game.challengeDFOUR(true);
-		System.out.println(game.getHostPlayer().getHand().toString());
-		System.out.println();
-		System.out.println(game.getGuestPlayer().getHand().toString());
+		game.saveMemory();
 		
 		
 		/**

@@ -8,7 +8,8 @@ public enum ERegex {
 	CARD(String.format("(%s|%s|%s)",NUMBERCARD,ACTIONCARD,SPECIALCARD)),
     DECK(String.format("((%s,\\s?)*%s)", CARD,CARD)),
     DATE("(\\d){2}/\\d{2}/\\d{4}"),
-	SCPLAYER("\\{\"rank\":\\d+,\"name\":\"\\w+\",\"points\":\\d+,\"lastResult\":\\d+,\"date\":\"[\\W\\w]+\"\\}");
+	SCPLAYER("\\{\"rank\":\\d+,\"name\":\"\\w+\",\"points\":\\d+,\"lastResult\":\\d+,\"date\":\"\\d\\d-\\d\\d-\\d\\d\\d\\d\"\\}"),
+	SCOREBOARD(String.format("\\{\\n\\t\"ranking\":\\n\\t\\t\\[\\n\\t\\t\\t\\(%s,\\n\\t\\t\\t\\)*\\(%s\\)\\n\\t\\t\\]\\n\\}",SCPLAYER,SCPLAYER));
 	
     
     private final String value;

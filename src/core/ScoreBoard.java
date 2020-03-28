@@ -3,6 +3,7 @@ package core;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class ScoreBoard {
@@ -10,8 +11,7 @@ public class ScoreBoard {
 	private ArrayList<ScoreBoardPlayer> players = new ArrayList<>();
 	
 	public ScoreBoard() {
-		FileManager fm = new FileManager("");
-		String json = fm.read("scoreBoard.json");
+		String json = this.load("scoreBoard.json");
 		json = json.replaceAll(",\n", "&split&");
 		
 		json = json.replaceAll("\t", "");
@@ -28,8 +28,7 @@ public class ScoreBoard {
 	
 	public ScoreBoard(boolean readed) {
 		if (readed) {
-			FileManager fm = new FileManager("");
-			String json = fm.read("scoreBoard.json");
+			String json = this.load("scoreBoard.json");
 			json = json.replaceAll(",\n", "&split&");
 			json = json.replaceAll("\t", "");
 			json = json.replaceAll("\n", "");
@@ -66,9 +65,9 @@ public class ScoreBoard {
 			ScoreBoardPlayer player = this.searchPlayerByName(name);
 			player.setDate(date);
 			player.setLastResult(lastPoints);
-			player.setRank(player.getPoints() + lastPoints);
+			player.setPoints(player.getPoints() + lastPoints);
 			player.setRank(this.calculetateRank(player.getPoints()));
-		} catch (Exception e) {/**Si no encuentra al jugador.*/
+		} catch (IllegalArgumentException e) {/**Si no encuentra al jugador.*/
 			ScoreBoardPlayer player = new ScoreBoardPlayer(0, name, lastPoints, lastPoints, date);
 			player.setRank(this.calculetateRank(player.getPoints()));/**Último en el ranking.*/
 			this.players.add(player);
@@ -89,20 +88,78 @@ public class ScoreBoard {
 		throw new IllegalArgumentException("No se encontró el jugador.");
 	}
 	
+	/**
+	 * Calcula el rango que se obtendrá según los puntos.
+	 * @param points Puntos a evaluar.
+	 * @return Rango en que debe estar.
+	 */
 	private int calculetateRank(int points) {
 		if(points <= this.players.get(this.players.size()-1).getPoints()) {
-			return this.players.size();
+			return this.players.size()+1;
 		}
 		
 		if(points > this.players.get(0).getPoints()) {
 			return 1;
 		}
 		
+		for (int i = 0; i < this.players.size(); i++) {
+			ScoreBoardPlayer player = this.players.get(i);
+			
+			
+			if(points < player.getPoints() &&
+			   points > this.players.get(i+1).getPoints()||
+			   points == player.getPoints()) {
+				return player.getRank()+1;
+			}
+		}
+		
+		
 		return 0; 
 	}
 	
+	private String load(String file) {
+		String path = String.format("%s/memory/", System.getProperty("user.dir"));
+		FileManager fm = new FileManager(path);
+		return fm.read(file);
+	}
+	
+	/**
+	 * Ordena a los jugadores por rango.
+	 * @return Una tabla ordenada.
+	 */
+	public ScoreBoard sortByPoints() {
+		ArrayList<Integer> points = new ArrayList<>();
+		ArrayList<ScoreBoardPlayer> newPlayers = new ArrayList<>();
+		ScoreBoard result = new ScoreBoard(false);
+		
+		for (ScoreBoardPlayer player: this.players) {
+			points.add(player.getPoints());
+		}
+		Collections.sort(points);
+		
+		int rank = this.players.size();
+		for (int i:points) {
+			for(ScoreBoardPlayer player : this.players) {
+				if(i==player.getPoints()) {
+					player.setRank(rank);
+					newPlayers.add(player);
+					rank--;
+					break;
+				}
+			}
+		}
+		
+		this.players = newPlayers;
+		result.setPlayers(newPlayers);
+		
+		return result;
+		
+	}
+	
 	public void saveMemory() {
-		FileManager fm = new FileManager("");
+		this.sortByPoints();
+		String path = String.format("%s/memory/", System.getProperty("user.dir"));
+		FileManager fm = new FileManager(path);
 		fm.write("scoreBoard.json", this.toString());
 	}
 	
@@ -128,9 +185,11 @@ public class ScoreBoard {
 	}
 	
 	public String toHTML() {
+		this.sortByPoints();
 		StringBuilder result = new StringBuilder("<table><thead><tr><td>Rank</td><td>Nombre</td><td>Puntos</td><td>En último juego</td>");
 		result.append("<td>Fecha</td><tr></thead><tbody>");
-		for (ScoreBoardPlayer player : players) {
+		for (int i = this.players.size()-1;i >= 0;i--) {
+			ScoreBoardPlayer player = this.players.get(i);
 			result.append("<tr>");
 			result.append(String.format("<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>", 
 						  player.getRank(),
@@ -164,8 +223,10 @@ public class ScoreBoard {
 		this.players = players;
 	}
 
+	//Pruebas de la clase.
 	public static void main(String[] args) {
 		ScoreBoard sb = new ScoreBoard();
-		System.out.println(sb.toString());  
+		sb.updatePlayer("joner", 20);
+		sb.saveMemory();
 	}
 }
