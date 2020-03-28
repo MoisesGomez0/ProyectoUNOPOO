@@ -6,7 +6,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Insert title here</title>
+    <title>UNO</title>
     <script src="../jquery-3.4.1.min.js"></script>
     <script src="../scripts/DataManager.js"></script>
     <script src="../scripts/UNO.js"></script>
@@ -84,9 +84,8 @@
         updateFront();
         
         function updateFront(){
-        	console.log("call to update");
         	idSetIntervalUpdate = setInterval(function(){
-        		console.log("updating");
+                clearInterval(idSetIntervalUpdate);
                 dataManager.update();
             },700)
         }

@@ -7,6 +7,5 @@ function SoundManager(){
         var audio = new Audio();
         audio.src = soundName;
         audio.play();
-        console.log(soundName);
     }
 }

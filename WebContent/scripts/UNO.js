@@ -8,10 +8,8 @@ function FrontManager(json) {
      * la infomación es tomada de las peticiones asincronas hechas al servidor.*/
     this.updateCards = function () {
         var result = "";
-
         /**Verifico si la partida terminó*/
         if (am.isEndGame(name)) {
-            clearInterval(idSetIntervalUpdate);
             return true;
         }
         else {
@@ -21,12 +19,10 @@ function FrontManager(json) {
         this.upgradeDiscardPile();
 
         if (am.isLastPlayable()) {
-            clearInterval(idSetIntervalUpdate);
             backScreenDecision.classList.add("active");
         } else {
-            console.log("im on play?",am.isOnPlay(name));
         	if(!am.isOnPlay(name)){
-                console.log("im not on play and called to update")
+                clearInterval(idSetIntervalUpdate);
                 updateFront();
         	}
         }
@@ -261,7 +257,7 @@ function ActionManager() {
             dataManager.sendToBack("challenge", null, null, "false");
         }
         backScreenDecision.classList.remove("active");
-        console.log("called to update on chooseDesition")
+        clearInterval(idSetIntervalUpdate);
         updateFront();
 
     }

@@ -44,8 +44,6 @@ function DataManager() {
 	 * juganda que involucre una carta +4.
 	 * */
 	this.sendToBack = function (action,card,selectedColor,challenge) {
-		console.log("action",action);
-		console.log("card",card);
 		updateFront();
 		$.get("game.jsp",
 			{
@@ -69,7 +67,8 @@ function DataManager() {
 
 			},
 			function(callback){
-				console.log("me retornó el back");
+	            clearInterval(idSetIntervalUpdate);
+	            updateFront();
 				if(callback.trim() == "true"){
 					backScreenDrop.classList.add("active");
 				}else if(callback.trim() == "cardDropped"){

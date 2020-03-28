@@ -9,6 +9,7 @@ function IndexManager(){
      */
     this.showInputHost= function(){
         backScreenHost.classList.add("active");
+        hostPopUp.classList.add("active");
     }
 
     /**Muestra al usuario los campos de texto parque introdusca datos de un jugador 

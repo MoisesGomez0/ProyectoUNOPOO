@@ -1,3 +1,7 @@
+*{
+    font-family: segoe UI Historic, segoe UI, Helvetica, Arial, sans-serif;
+}
+
 button{
     cursor: pointer;
 }
@@ -36,6 +40,21 @@ button.initBtn{
     height: 100px;
     margin-top: 10vh;
     box-shadow: 0px 0px 2px 2px rgba(0,0,0,.5);
+    border-radius: 2vh;
+    transition: all 1s;
+    font-size: x-large;
+}
+
+button#newGame:hover{
+    background-color: rgb(0,0,255);
+}
+
+button#getInToGame:hover{
+    background-color: rgb(0,255,0);
+}
+
+button#scoreTable:hover{
+    background-color: rgb(255,255,0);
 }
 
 div.backScreen{
@@ -49,6 +68,8 @@ div.backScreen{
     align-items: center;
     justify-content: center;
     visibility: hidden;
+    opacity: 0;
+    transition: all 0.3s;
 }
 
 div.popUp{

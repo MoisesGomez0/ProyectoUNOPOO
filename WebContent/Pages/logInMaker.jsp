@@ -16,8 +16,6 @@
 </head>
 
 <body>
-
-    
     <div class="message">
         <h1 class="message">Comparte este código con tus amigos</h1>
         <br>

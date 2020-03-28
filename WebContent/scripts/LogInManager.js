@@ -25,7 +25,7 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 	 * @returns {string} Una cadena de 8 caracteres aleatorios */
 	this.generateGameId = function () {
 		var random = new RandomGenerator();
-		this.gameId = random.randomAlpha(8);
+		this.gameId = random.randomAlpha(4);
 		return this.gameId;
 	}
 
@@ -48,7 +48,6 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 		var intervalId = setInterval(function () {
 			$.get("getContent.jsp", { "file": "logIn.json" }, function (data) {
 				data = JSON.parse(data.trim());
-				console.log(data.players.length == data.nPlayers)
 				if (data.players.length == data.nPlayers) {
 					$.get("gameMaker.jsp", { "hostPlayer": data.players[0], "guestPlayer": data.players[1], "gameId": id }, function (data) {
 						location = "UNO.jsp"
