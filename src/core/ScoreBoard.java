@@ -98,6 +98,10 @@ public class ScoreBoard {
 	 * @return Rango en que debe estar.
 	 */
 	private int calculetateRank(int points) {
+		if (this.players.isEmpty()) {
+			return 0;
+		}
+		
 		if(points <= this.players.get(this.players.size()-1).getPoints()) {
 			return this.players.size()+1;
 		}
@@ -173,6 +177,10 @@ public class ScoreBoard {
 		result.append("\t\"ranking\":\n");
 		result.append("\t\t[\n");
 		
+		if (this.players.isEmpty()) {
+			return "";
+		}
+		
 		if (this.players.size()==1) {
 			result.append(String.format("\t\t\t%s\n",this.players.get(0).toString()));
 		}else {
@@ -190,17 +198,19 @@ public class ScoreBoard {
 		this.sortByPoints();
 		StringBuilder result = new StringBuilder("<table><thead><tr><td>Rank</td><td>Nombre</td><td>Puntos</td><td>En último juego</td>");
 		result.append("<td>Fecha</td><tr></thead><tbody>");
-		for (int i = this.players.size()-1;i >= 0;i--) {
-			ScoreBoardPlayer player = this.players.get(i);
-			result.append("<tr>");
-			result.append(String.format("<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>", 
-						  player.getRank(),
-						  player.getName(),
-						  player.getPoints(),
-						  (player.getLastResult()==0) ? "-" : String.format("+%s",player.getLastResult()),
-						  player.getDate()
-					));
-			result.append("</tr>");
+		if (!this.players.isEmpty()) {
+			for (int i = this.players.size()-1;i >= 0;i--) {
+				ScoreBoardPlayer player = this.players.get(i);
+				result.append("<tr>");
+				result.append(String.format("<td>%s</td><td>%s</td><td>%s</td><td>%s</td><td>%s</td>", 
+						player.getRank(),
+						player.getName(),
+						player.getPoints(),
+						(player.getLastResult()==0) ? "-" : String.format("+%s",player.getLastResult()),
+								player.getDate()
+						));
+				result.append("</tr>");
+			}	
 		}
 		result.append("</tbody></table>");
 		

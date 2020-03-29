@@ -66,6 +66,11 @@
         </div>
     </div>
     
+    <div id="gameMessage" class="gameMessage" >
+    	<button onclick="gameMessage.classList.remove('active')" >Cerrar</button>
+    </div>
+    
+    
 
 
 
@@ -81,9 +86,11 @@
         var frontManager = new FrontManager(info);
         var dataManager = new DataManager();
         var idSetIntervalUpdate = null;
+        var droppeable = true;
         updateFront();
         
         function updateFront(){
+        	clearInterval(idSetIntervalUpdate);
         	idSetIntervalUpdate = setInterval(function(){
                 clearInterval(idSetIntervalUpdate);
                 dataManager.update();

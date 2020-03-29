@@ -69,12 +69,23 @@ function DataManager() {
 			function(callback){
 	            clearInterval(idSetIntervalUpdate);
 	            updateFront();
-				if(callback.trim() == "true"){
-					backScreenDrop.classList.add("active");
-				}else if(callback.trim() == "cardDropped"){
-					sm.playCard();
-				}
-				});
+	            console.log(callback);
+	            if(callback != null && callback != undefined && callback.trim() != ""){
+	            	callback = JSON.parse(callback);
+	            	if(callback.droppeable){
+	            		droppeable = true;
+	            		backScreenDrop.classList.add("active");
+	            	}else if(callback.cardDropped){
+	            		sm.playCard();
+	            	}else if(callback.winnerName){
+	            		if(callback.winnerName == name){
+	            			frontManager.showMessage("Ganaste el reto.");
+	            		}else{
+	            			frontManager.showMessage("Perdiste el reto.");
+	            		}
+	            	}
+	            }
+		});
 	}
 
 

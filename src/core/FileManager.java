@@ -18,6 +18,12 @@ public class FileManager {
 	
 	private String pathToWork = "";
 	
+	public void deleteFile(String name) {
+		File file = new File(name);
+		file.delete();
+	}
+	
+	
 	/**
 	 * Constructor donde se puede establece una ruta específica.
 	 * @param path ruta.

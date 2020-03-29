@@ -162,7 +162,6 @@ public class Game {
 			this.nextPlayer();	
 		}else {
 			this.currentPlayer().takeCard();
-			this.ifDoesNotUNOSwitchToFalse();
 			return true;
 		}
 		
@@ -246,7 +245,7 @@ public class Game {
 		
 	}
 	
-	public void challengeDFOUR(boolean decision) {
+	public String challengeDFOUR(boolean decision) {
 		Card lastCard = this.discardPile.getCards().get(this.discardPile.getCards().size()-1); /**Última carta.*/
 		Card prevLastCard = this.discardPile.getCards().get(this.discardPile.getCards().size()-2); /**Penúltima carta.*/
 		
@@ -260,17 +259,19 @@ public class Game {
 			   this.oponentPlayer().getHand().checkValue(prevLastCard.getValue()) ||
 			   this.oponentPlayer().getHand().checkValue(EValue.WILD)) {
 				this.oponentPlayer().drawSix(); /**El oponente toma seis cartas si gana el jugador en turno.*/
+				return String.format("{\"winnerName\":\"%s\"}",this.currentPlayer().getName());/**Gana el jugador actual.*/
 			}else{
 				this.currentPlayer().drawSix();/**El jugador en turno toma seis cartas si pierde.*/
 				this.nextPlayer();/**El jugador en turno pierde turno.*/
+				return String.format("{\"winnerName\":\"%s\"}",this.oponentPlayer().getName()); /**Gana el oponente.*/
 			}
-			
 		}else {
 			this.currentPlayer().drawFour(); /**El jugador actual.*/
 			this.nextPlayer(); /**El jugador actual pierde turno.*/
 		}
 		
 		this.setOnChallenge(false); /**Ya no se puede retar.*/
+		return "{\"winnerName\":null}";
 	}
 	
 	
@@ -342,6 +343,10 @@ public class Game {
 			
 			sb.saveMemory();
 			this.setEndGame(true);
+			
+			FileManager fm = new FileManager();
+			fm.deleteFile("game.json");
+			fm.deleteFile("logIn.json");
 			
 		}
 	}

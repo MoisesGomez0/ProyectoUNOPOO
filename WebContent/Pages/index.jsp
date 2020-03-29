@@ -12,11 +12,13 @@
     <script src="../jquery-3.4.1.min.js"></script>
     <script src="../scripts/index.js"></script>
     <script src="../scripts/CookiesManager.js"></script>
+    <script src="../scripts/SoundManager.js"></script>
 
     <script>
         var intervalID;
         var indexManager = new IndexManager();
         var cookiesManager = new CookiesManager();
+        var sm = new SoundManager();
     </script>
 </head>
 </head>
@@ -27,7 +29,7 @@
     <div id="unoImgContainer">
         <img id="unoImg" src="../images/UNO.png">
     </div>
-    <button id="newGame" class="initBtn" onclick="indexManager.showInputHost();">Nuevo Juego</button>
+    <button id="newGame" class="initBtn" onmouseover="sm.playError();" onclick="indexManager.showInputHost();">Nuevo Juego</button>
     <br>
     <button id="getInToGame" class="initBtn" onclick="indexManager.showInputGuest();">Entrar a juego Existente</button>
     <br>
@@ -41,7 +43,7 @@
             <br>
             <button class="formBtn" onclick="indexManager.verifyAndRedirectHost();">Crear Juego</button>
             <br>
-            <button class="formBtn" onclick="indexManager.hideInputHost();return false;">Cancelar</button>
+            <button class="formBtn closeWindow" onclick="indexManager.hideInputHost();return false;">Cancelar</button>
         </div>
     </div>
 
@@ -55,29 +57,15 @@
             <br>
             <button onclick="indexManager.verifyAndRedirectGuest()" class="formBtn">Entrar en juego</button>
             <br>
-            <button class="formBtn" onclick="indexManager.hideInputGuest();">Cancelar</button>
+            <button class="formBtn closeWindow" onclick="indexManager.hideInputGuest();">Cancelar</button>
         </div>
     </div>
 
     <div id="backScreenScore" class="backScreen">
         <div class="popUp" id="tablePopUp">
             <h1>Estadísticas</h1>
-            <div id="table">
-                <table>
-                    <thead>
-                        <tr>
-                            <td>Rank</td>
-                            <td>Nombre</td>
-                            <td>Puntos</td>
-                            <td>En último juego</td>
-                            <td>Fecha</td>
-                        <tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>    
-            </div>
-            <button onclick="indexManager.hideStadistics();">Cerrar</button>
+            <div id="table"></div>
+            <button class="closeWindow" onclick="indexManager.hideStadistics();">Cerrar</button>
         </div>
     </div>
 

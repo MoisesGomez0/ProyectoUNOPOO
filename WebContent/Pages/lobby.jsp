@@ -11,6 +11,7 @@ pageEncoding="UTF-8"%>
     <script src="../scripts/Animator.js"></script>
     <script src="../scripts/CookiesManager.js"></script>
     <script src="../scripts/index.js"></script>
+    <script src="../scripts/SoundManager.js"></script>
     <link rel="stylesheet" type="text/css" href="../styles/lobby.css">
     <link rel="stylesheet" type="text/css" href="../styles/index.css">
 </head>

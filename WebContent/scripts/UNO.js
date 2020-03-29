@@ -14,22 +14,44 @@ function FrontManager(json) {
         }
         else {
             this.upgradeHands();
+            this.upgradeDiscardPile();
         }
 
-        this.upgradeDiscardPile();
-
-        if (am.isLastPlayable()) {
+        if (am.isDFourChallenge()) {
             backScreenDecision.classList.add("active");
-        } else {
-        	if(!am.isOnPlay(name)){
+            this.showMessage
+        } else if(!am.isOnPlay(name)){
+        		console.log("estoy en juego por eso actualizo")
                 clearInterval(idSetIntervalUpdate);
                 updateFront();
-        	}
+        }else{
+        	this.verifyColor();
+        }
         }
 
-
+    this.verifyColor =function(){
+    	if((am.getLastDiscard().split("_")[0] == "WILD" || am.getLastDiscard().split("_")[0] == "DFOUR") && 
+    			!droppeable){
+    		droppeable == true;
+    		var color = info.currentColor;
+    		switch (color) {
+			case "RED":
+				this.showMessage("Cambio de color!!!<br>El nuevo color es ROJO.");
+				break;
+			case "GREEN":
+				this.showMessage("Cambio de color!!!<br>El nuevo color es VERDE.");
+				break;
+			case "BLUE":
+				this.showMessage("Cambio de color!!!<br>El nuevo color es AZUL.");
+				break;
+			case "YELLOW":
+				this.showMessage("Cambio de color!!!<br>El nuevo color es AMARILLO.");
+				break;
+			default:
+				break;
+			}
+    	}
     }
-
 
     /**Actualiza la carta mostrada en la discardPile.*/
     this.upgradeDiscardPile = function () {
@@ -107,7 +129,19 @@ function FrontManager(json) {
 
         }
     }
-
+    
+    this.showMessage = function(message){
+    	gameMessage.classList.add("active");
+    	gameMessage.innerHTML = message;
+    	console.trace("Mostrar mensaje")
+    	setTimeout(frontManager.hideMessage,3000)
+    }
+    
+    this.hideMessage = function(){
+    	gameMessage.classList.remove("active");
+    	console.trace("ocultar mensaje");
+    	gameMessage.innerHTML = "";
+    }
 
 }
 /**Objeto encargado de administrar la acciones del usuario en la ejecución del juego*/
@@ -192,7 +226,6 @@ function ActionManager() {
     this.isAvaiable = function (cardTest) {
         cardTest = cardTest.split("_");
         var lastCard = this.getLastDiscard().split("_");
-
         return cardTest[0] == lastCard[0] || cardTest[1] == info.currentColor || cardTest[1] == "BLACK";
 
     }
@@ -206,6 +239,7 @@ function ActionManager() {
     this.playerTakeCard = function () {
         if (this.isOnPlay(name)) {
             dataManager.sendToBack("playerTakeCard");
+    		sm.playCard();	            		
         }
     }
 
@@ -274,7 +308,7 @@ function ActionManager() {
      * Verifica si el jugador puede tirar la última carta tomada del deck
      * de ser así retorna true, lo contrario retorna false.
      * */
-    this.isLastPlayable = function () {
+    this.isDFourChallenge = function () {
         var lastDiscardPileCard = this.getLastDiscard().split("_");
         if (this.isOnPlay(name)) {
             if (lastDiscardPileCard[0] == "DFOUR" && info.onChallenge) {

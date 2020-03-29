@@ -8,4 +8,16 @@ function SoundManager(){
         audio.src = soundName;
         audio.play();
     }
+    
+    this.playError = function(){
+    	var audio = new Audio();
+    	audio.src = "../soundFX/windowsXPError.mp3";
+    	audio.play();
+    }
+    
+    this.playButton = function(){
+    	var audio = new Audio();
+    	audio.src = "../soundFX/windowsXPError.mp3";
+    	audio.play();
+    }
 }

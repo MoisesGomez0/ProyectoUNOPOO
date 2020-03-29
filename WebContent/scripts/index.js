@@ -32,10 +32,12 @@ function IndexManager(){
      * de error 
      */
     this.showError = function(message = false){
+        sm = new SoundManager();
         if(message){
             errorMessage.innerHTML = message;
         }
         errorBackScreen.classList.add("active");
+        sm.playError();
     }
 
     /**Oculta los elementos en pantalla donde el usuario host escribe datos. */
@@ -84,9 +86,5 @@ function IndexManager(){
             this.showError();
         }
     }
-
-
-
-
     
 }

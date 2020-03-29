@@ -33,20 +33,23 @@
 	String challenge = request.getParameter("challenge");
 	
 	if (action.equals("playerTakeCard")) { /**El jugador toma una carta.*/
-		out.print(game.playerTakeCard());
+		out.print(String.format("{\"droppeable\":%s}",game.playerTakeCard()));
 
 	}else if(action.equals("playerDropCard")){ /**El jugador suelta una carta.*/
 		Card card = new Card(droppedCard);
 		EColor color = EColor.parse(selectedColor);
 		game.playerDropCard(card, color);
-		out.print("cardDropped");
+		out.print("{\"cardDropped\":true}");
 	}else if(action.equals("challenge")){
-		game.challengeDFOUR(Boolean.parseBoolean(challenge));
+		out.print(game.challengeDFOUR(Boolean.parseBoolean(challenge)));
 	}else if(action.equals("playerPressUNO")){
 		game.playerPressUNO();
-		
 	}else if(action.equals("nextPlayer")){
 		game.nextPlayer();
+	}else if(action.equals("endGame")){
+		FileManager fm = new FileManager();
+		fm.deleteFile("game.json");
+		fm.deleteFile("logIn.json");
 	}
 	game.saveMemory();
 %>
