@@ -17,7 +17,7 @@ function SoundManager(){
     
     this.playButton = function(){
     	var audio = new Audio();
-    	audio.src = "../soundFX/windowsXPError.mp3";
+    	audio.src = "../soundFX/overButton.mp3";
     	audio.play();
     }
 }
