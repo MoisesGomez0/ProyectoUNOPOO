@@ -67,7 +67,7 @@ function IndexManager(){
     this.verifyAndRedirectHost = function(){
         if(hostName.value != ""){
             cookiesManager.setCookie("name",hostName.value);
-            location = "logInMaker.jsp";
+            this.startHostRutine();
         }else{
             this.showError();
         }
@@ -81,10 +81,52 @@ function IndexManager(){
         if(guestName.value != "" && gameId.value != ""){
             cookiesManager.setCookie("name",guestName.value);
             cookiesManager.setCookie("gameId",gameId.value);
-            location = "lobby.jsp";
+            this.startGuestRutine();
         }else{
             this.showError();
         }
     }
     
+    this.startHostRutine = function(){
+    	loadingScreenHost.classList.add("active");
+    	
+    	var cookiesManager = new CookiesManager();
+
+        var name = cookiesManager.getCookie("name");
+        nPlayers = 2;
+        var logInMaker = new LogInManager(name,nPlayers);
+        var animator = new Animator();
+        
+        animator.writeMachine("Cargando...", "#loadingBox");
+        animator.splashText("#loadingBox");
+
+        logInMaker.generateGameId();
+        logInMaker.generateData();
+
+        document.querySelector("#code").innerHTML = logInMaker.gameId;
+
+        logInMaker.saveData();
+        
+        logInMaker.verifyLoginAndRedirec();
+    }
+    
+    this.startGuestRutine = function(){
+        var goBack = function(){
+            location = "index.jsp";
+        }
+        loadingScreenGuest.classList.add("active");
+        var indexManager = new IndexManager();
+        var animator = new Animator();
+        var cookiesManager = new CookiesManager();
+        
+        var name = cookiesManager.getCookie("name");
+        var gameId = cookiesManager.getCookie("gameId");
+        
+        var logInManager = new LogInManager(name, 0, gameId);
+
+        animator.writeMachine("Cargando...","#loadingBox");
+        animator.splashText("#loadingBox");
+
+        logInManager.getIn();
+    }
 }

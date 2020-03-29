@@ -11,8 +11,12 @@
     <link rel="stylesheet" type="text/css" href="../styles/index.css">
     <script src="../jquery-3.4.1.min.js"></script>
     <script src="../scripts/index.js"></script>
+    <script src="../scripts/LogInManager.js"></script>
     <script src="../scripts/CookiesManager.js"></script>
     <script src="../scripts/SoundManager.js"></script>
+    <script src="../scripts/Animator.js"></script>
+    <script src="../scripts/RandomGenerator.js"></script>
+    
 
     <script>
         var intervalID;
@@ -29,7 +33,8 @@
     <div id="unoImgContainer">
         <img id="unoImg" src="../images/UNO.png">
     </div>
-    <button id="newGame" class="initBtn" onmouseover="sm.playError();" onclick="indexManager.showInputHost();">Nuevo Juego</button>
+    <button id="newGame" class="initBtn" onmouseover="sm.playError();" onclick="indexManager.showInputHost();">Nuevo
+        Juego</button>
     <br>
     <button id="getInToGame" class="initBtn" onclick="indexManager.showInputGuest();">Entrar a juego Existente</button>
     <br>
@@ -73,6 +78,39 @@
         <div id="errorPop" class="popUp">
             <h1 id="errorMessage">Debes llenar los datos necesarios</h1>
             <button class="formBtn" onclick="indexManager.hideError();">Aceptar</button>
+        </div>
+    </div>
+
+    <div id="loadingScreenHost" class="backScreen">
+        <div id="loadingPop" class="popUp">
+            <div class="message">
+                <h1 class="message">Comparte este código con tus amigos</h1>
+                <br>
+                <h2 class="message" id="code"></h2>
+                <br>
+                <h2 class="message" id="loadingBox"></h2>
+                <br>
+                <h2 class="message">Estamos preparando todo</h2>
+            </div>
+        </div>
+    </div>
+
+    <div id="loadingScreenGuest" class="backScreen">
+        <div id="loadingPop" class="popUp">
+            <div class="message">
+                <h1 class="message">Estamos preparando todo</h1>
+                <br>
+                <h2 class="message" id="loadingBox"></h2>
+                <br>
+                <h2 class="message">Tu oponente no esta listos.</h2>
+            </div>
+
+            <div id="errorBackScreen" class="backScreen">
+                <div id="errorPop" class="popUp">
+                    <h1 id="errorMessage"></h1>
+                    <button class="formBtn" onclick="indexManager.hideError(); goBack();">Aceptar</button>
+                </div>
+            </div>
         </div>
     </div>
 
