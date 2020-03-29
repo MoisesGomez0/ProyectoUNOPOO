@@ -20,4 +20,10 @@ function SoundManager(){
     	audio.src = "../soundFX/overButton.mp3";
     	audio.play();
     }
+    
+    this.playPressButton = function(){
+    	var audio = new Audio();
+    	audio.src = "../soundFX/pressButton.mp3";
+    	audio.play();
+    }
 }

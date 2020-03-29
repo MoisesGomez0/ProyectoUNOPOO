@@ -33,12 +33,11 @@
     <div id="unoImgContainer">
         <img id="unoImg" src="../images/UNO.png">
     </div>
-    <button id="newGame" class="initBtn" onmouseover="sm.playError();" onclick="indexManager.showInputHost();">Nuevo
-        Juego</button>
+    <button id="newGame" class="initBtn" onmouseover="sm.playButton();" onclick="indexManager.showInputHost();sb.playPressButton();">Nuevo Juego</button>
     <br>
-    <button id="getInToGame" class="initBtn" onclick="indexManager.showInputGuest();">Entrar a juego Existente</button>
+    <button id="getInToGame" class="initBtn" onmouseover="sm.playButton();" onclick="indexManager.showInputGuest();sb.playPressButton();">Entrar a juego Existente</button>
     <br>
-    <button id="scoreTable" class="initBtn" onclick="indexManager.showStadistics();">Estadísicas de puntuación</button>
+    <button id="scoreTable" class="initBtn" onmouseover="sm.playButton();" onclick="indexManager.showStadistics();sb.playPressButton();">Estadísicas de puntuación</button>
 
     <div id="backScreenHost" class="backScreen">
         <div id="hostPopUp" class="popUp">

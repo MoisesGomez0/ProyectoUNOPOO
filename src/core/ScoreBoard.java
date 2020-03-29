@@ -70,11 +70,11 @@ public class ScoreBoard {
 			player.setDate(date);
 			player.setLastResult(lastPoints);
 			player.setPoints(player.getPoints() + lastPoints);
-			player.setRank(this.calculetateRank(player.getPoints()));
 		} catch (IllegalArgumentException e) {/**Si no encuentra al jugador.*/
 			ScoreBoardPlayer player = new ScoreBoardPlayer(0, name, lastPoints, lastPoints, date);
 			player.setRank(this.calculetateRank(player.getPoints()));/**Último en el ranking.*/
 			this.players.add(player);
+			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -127,6 +127,7 @@ public class ScoreBoard {
 	
 	private String load(String file) {
 		FileManager fm = new FileManager();
+		System.out.println(fm.wpath());
 		return fm.read(file);
 	}
 	
@@ -238,7 +239,6 @@ public class ScoreBoard {
 	//Pruebas de la clase.
 	public static void main(String[] args) {
 		ScoreBoard sb = new ScoreBoard();
-		sb.updatePlayer("joner", 20);
 		sb.saveMemory();
 	}
 }

@@ -8,13 +8,11 @@
 	boolean onChallenge = Boolean.getBoolean(request.getParameter("onChallenge"));/**Si el jugador actual puede retar.*/
 	boolean clockWise = Boolean.parseBoolean(request.getParameter("clockWise"));/**Sentido del juego.*/
 	
-	
 	String hostPlayerName = request.getParameter("hostPlayerName"); /**Nombre del jugador que crea la partida.*/
 	boolean hostPlayerUNO = Boolean.parseBoolean(request.getParameter("hostPlayerUNO"));
 	int hostPlayerId = 0; /**ID del jugador que crea la partida. Siempre es 0.*/
 	Hand hostPlayerHand = new Hand(request.getParameter("hostPLayerHand")); /**Mano del jugador que crea la partida.*/
 	Player hostPlayer = new Player(hostPlayerName,hostPlayerId,hostPlayerHand,hostPlayerUNO);/**Jugador que crea la partida.*/
-	
 	
 	String guestPlayerName = request.getParameter("guestPlayerName");/**Nombre del jugador que entra en la partida.*/
 	boolean guestPlayerUNO = Boolean.parseBoolean(request.getParameter("guestPlayerUNO"));
