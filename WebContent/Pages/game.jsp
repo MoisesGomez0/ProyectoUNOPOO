@@ -43,7 +43,7 @@
 	}else if(action.equals("challenge")){
 		out.print(game.challengeDFOUR(Boolean.parseBoolean(challenge)));
 	}else if(action.equals("playerPressUNO")){
-		game.playerPressUNO();
+		out.print(String.format("{\"playerPressUNO\":%s}",!game.playerPressUNO()));
 	}else if(action.equals("nextPlayer")){
 		game.nextPlayer();
 	}else if(action.equals("endGame")){

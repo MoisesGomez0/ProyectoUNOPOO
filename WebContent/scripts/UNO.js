@@ -19,33 +19,36 @@ function FrontManager(json) {
 
         if (am.isDFourChallenge()) {
             backScreenDecision.classList.add("active");
-            this.showMessage
         } else if(!am.isOnPlay(name)){
-        		console.log("estoy en juego por eso actualizo")
                 clearInterval(idSetIntervalUpdate);
                 updateFront();
-        }else{
+                
+        }
+        if(am.isOnPlay(name)){
         	this.verifyColor();
+        	hand.classList.add("active");
+        	oponentCards.classList.remove("active");
+        	
+        }else{
+        	hand.classList.remove("active")
+        	oponentCards.classList.add("active")
         }
-        }
-
+    }
     this.verifyColor =function(){
-    	if((am.getLastDiscard().split("_")[0] == "WILD" || am.getLastDiscard().split("_")[0] == "DFOUR") && 
-    			!droppeable){
-    		droppeable == true;
+    	if((am.getLastDiscard().split("_")[0] == "WILD" || am.getLastDiscard().split("_")[0] == "DFOUR") && !onDesition){
     		var color = info.currentColor;
     		switch (color) {
 			case "RED":
-				this.showMessage("Cambio de color!!!<br>El nuevo color es ROJO.");
+				this.showMessage("El Color actual es Rojo",color);
 				break;
 			case "GREEN":
-				this.showMessage("Cambio de color!!!<br>El nuevo color es VERDE.");
+				this.showMessage("El Color actual es Verde",color);
 				break;
 			case "BLUE":
-				this.showMessage("Cambio de color!!!<br>El nuevo color es AZUL.");
+				this.showMessage("El color actual es Azul",color);
 				break;
 			case "YELLOW":
-				this.showMessage("Cambio de color!!!<br>El nuevo color es AMARILLO.");
+				this.showMessage("El color actual es Amarillo",color);
 				break;
 			default:
 				break;
@@ -130,16 +133,17 @@ function FrontManager(json) {
         }
     }
     
-    this.showMessage = function(message){
+    this.showMessage = function(message,color = null){
+    	if(color){
+			gameMessage.style.backgroundColor = color;
+    	}
     	gameMessage.classList.add("active");
-    	gameMessage.innerHTML = message;
-    	console.trace("Mostrar mensaje")
-    	setTimeout(frontManager.hideMessage,3000)
+    	gameMessage.innerHTML += message;
+    	setTimeout(frontManager.hideMessage,3300)
     }
     
     this.hideMessage = function(){
     	gameMessage.classList.remove("active");
-    	console.trace("ocultar mensaje");
     	gameMessage.innerHTML = "";
     }
 

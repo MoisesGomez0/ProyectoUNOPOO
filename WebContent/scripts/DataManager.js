@@ -73,16 +73,18 @@ function DataManager() {
 	            if(callback != null && callback != undefined && callback.trim() != ""){
 	            	callback = JSON.parse(callback);
 	            	if(callback.droppeable){
-	            		droppeable = true;
+	            		onDesition = true;
 	            		backScreenDrop.classList.add("active");
 	            	}else if(callback.cardDropped){
 	            		sm.playCard();
 	            	}else if(callback.winnerName){
-	            		if(callback.winnerName == name){
+	            		if(callback.winnerName != name){
 	            			frontManager.showMessage("Ganaste el reto.");
 	            		}else{
-	            			frontManager.showMessage("Perdiste el reto.");
+	            			frontManager.showMessage("<br>Perdiste el reto.");
 	            		}
+	            	}else if(callback.playerPressUNO){
+	            		frontManager.showMessage("No debiste presionar UNO","red");
 	            	}
 	            }
 		});

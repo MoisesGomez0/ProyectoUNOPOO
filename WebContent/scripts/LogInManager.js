@@ -67,6 +67,7 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 		$.get("getContent.jsp", { "file": "logIn.json" }, function (data) {
 			if (data == "fail") {
 				indexManager.showError("No encontramos lo archivos necesarios, llama a soporte técnico de MAL inc.");
+		    	loadingScreenGuest.classList.remove("active");
 				return false;
 			} else {
 				data = JSON.parse(data.trim());
@@ -76,12 +77,14 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 							location = "UNO.jsp"
 							return true;
 						} else {
+					    	loadingScreenGuest.classList.remove("active");
 							indexManager.showError("Al parecer tu nombre no está registrado en la partida.");
 							return false;
 						}
 					} else {
 						if (data.players[0] == playerName) {
 							indexManager.showError(`El anfitrión tambien se llama ${playerName}, elige otro nombre.`);
+					    	loadingScreenGuest.classList.remove("active");
 
 						} else {
 							data.players.push(playerName);
@@ -92,6 +95,8 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 					}
 				} else {
 					indexManager.showError("El código de la partida no es correcto.");
+			    	loadingScreenGuest.classList.remove("active");
+
 				}
 			}
 		});

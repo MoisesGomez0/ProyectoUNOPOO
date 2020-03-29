@@ -21,7 +21,11 @@
 </head>
 
 <body>
+	<div class="font"><img id="backgroundImg" src="../images/GAME_FONT_01.jpg"></div>
+	
+
     <div id="oponentCards"></div>
+    <button id="personalize" onclick="backScreenChoosePicture.classList.add('active')" >Personalizar</button>
     <div id="deck" class="card" onclick="am.playerTakeCard();"> <img class="card" id="deck" src="../images/UNO.png"></div>
     <div id="discardPile" ></div>
     <div id="hand"></div>
@@ -53,8 +57,8 @@
         <div id="hostPopUp" class="popUp">
                 <h1>UNO</h1>
                 <h2>¿Querés tirar la carta?</h2>
-                <button id="YES" class="decisionBtn" onclick="am.dropConditionalCard(this.id)">Si</button>
-                <button id="NO" class="decisionBtn" onclick="am.dropConditionalCard(this.id)">NO</button>
+                <button id="YES" class="decisionBtn" onclick="am.dropConditionalCard(this.id); onDesition= false">Si</button>
+                <button id="NO" class="decisionBtn" onclick="am.dropConditionalCard(this.id);  onDesition= false">NO</button>
         </div>
     </div>
     
@@ -67,10 +71,25 @@
     </div>
     
     <div id="gameMessage" class="gameMessage" >
-    	<button onclick="gameMessage.classList.remove('active')" >Cerrar</button>
     </div>
     
-    
+    <div id="backScreenChoosePicture" class="backScreen">
+    	<div id="picturesPopUp" class="popUp" >
+		<h1>Escoge el fondo</h1>
+    		<img style="width:15vw; height:15vh" onclick="backgroundImg.src=this.src;" src="../images/GAME_FONT_01.jpg">
+    		<br>
+    		<hr>
+    		<img style="width:15vw; height:15vh" onclick="backgroundImg.src=this.src;" src="../images/GAME_FONT_02.jpg">
+    		<br>    		
+    		<hr>
+    		<img style="width:15vw; height:15vh" onclick="backgroundImg.src=this.src;" src="../images/GAME_FONT_03.jpg">
+    		<br>
+    		<hr>
+    		<img style="width:15vw; height:15vh" onclick="backgroundImg.src=this.src;" src="../images/GAME_FONT_04.jpg">
+    		<br>
+  			<button onclick="backScreenChoosePicture.classList.remove('active')" >Cerrar</button>
+    	</div>
+    </div>
 
 
 
@@ -86,7 +105,7 @@
         var frontManager = new FrontManager(info);
         var dataManager = new DataManager();
         var idSetIntervalUpdate = null;
-        var droppeable = true;
+        var onDesition = false;
         updateFront();
         
         function updateFront(){
