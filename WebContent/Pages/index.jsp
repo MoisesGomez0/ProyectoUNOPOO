@@ -5,7 +5,7 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="author" content="Moises">
+    <meta name="author" content="MAL">
     <meta name="description" content="Página de inicio del juego">
     <title>UNO</title>
     <link rel="stylesheet" type="text/css" href="../styles/index.css">
@@ -33,11 +33,13 @@
     <div id="unoImgContainer">
         <img id="unoImg" src="../images/UNO.png">
     </div>
-    <button id="newGame" class="initBtn" onmouseover="sm.playButton();" onclick="indexManager.showInputHost();sb.playPressButton();">Nuevo Juego</button>
+    <button id="newGame" class="initBtn" onmouseover="sm.playButton();" onclick="indexManager.showInputHost();sm.playPressButton();">Nuevo Juego</button>
     <br>
-    <button id="getInToGame" class="initBtn" onmouseover="sm.playButton();" onclick="indexManager.showInputGuest();sb.playPressButton();">Entrar a juego Existente</button>
+    <button id="getInToGame" class="initBtn" onmouseover="sm.playButton();" onclick="indexManager.showInputGuest();sm.playPressButton();">Entrar a juego Existente</button>
     <br>
-    <button id="scoreTable" class="initBtn" onmouseover="sm.playButton();" onclick="indexManager.showStadistics();sb.playPressButton();">Estadísicas de puntuación</button>
+    <button id="scoreTable" class="initBtn" onmouseover="sm.playButton();" onclick="indexManager.showStadistics();sm.playPressButton();">Estadísicas de puntuación</button>
+    <br>
+    <button id="credits" class="initBtn" onmouseover="sm.playButton();" onclick="sm.playPressButton();creditsScreen.classList.add('active');">Créditos</button>
 
     <div id="backScreenHost" class="backScreen">
         <div id="hostPopUp" class="popUp">
@@ -110,6 +112,23 @@
                     <button class="formBtn" onclick="indexManager.hideError(); goBack();">Aceptar</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="creditsScreen" class="backScreen">
+        <div id="creditsPop" class="popUp" >
+            <h1>Créditos</h1>
+            <h2>Desarrolladores</h2>
+            <p>Ana Hernández</p>
+            <p>Leonardo Mass</p>
+            <p>Moisés Gómez</p>
+            <h2>Recursos de Audio</h2>
+            <p><a href="https:\\www.zapsplat.com">ZapSplat.com</a></p>
+            <br>
+            <hr>
+            <h6>UNAH-IS I PAC 2020</h6>
+            <h6><a href="mailto:gmoises926@gmail.com">Contactar</a></h6>
+            <button onclick="creditsScreen.classList.remove('active')" >Cerrar</button>
         </div>
     </div>
 

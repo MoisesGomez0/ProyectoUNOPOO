@@ -5,10 +5,17 @@ function DataManager() {
 	 * */
 	this.update = function () {
 		$.get("getContent.jsp", { "file": "game.json" }, function (data) {
-			data = JSON.parse(data.trim());
+			try{
+				data = JSON.parse(data.trim());
 				clearInterval(idSetIntervalUpdate);
 				info = data;
 				frontManager.updateCards();
+			}catch(e){
+				console.trace();
+				clearInterval(idSetIntervalUpdate);
+				frontManager.updateCards();
+
+			}
 			
 		});
 	}
@@ -20,7 +27,7 @@ function DataManager() {
 	 * */
 	this.cardsToParameter = function (data) {
 		var result = "";
-
+		
 		if (data.length == 0) {
 			return `${data[data.length - 1]}`
 		}
@@ -44,7 +51,8 @@ function DataManager() {
 	 * juganda que involucre una carta +4.
 	 * */
 	this.sendToBack = function (action,card,selectedColor,challenge) {
-		updateFront();
+			updateFront();			
+
 		$.get("game.jsp",
 			{
 				"gameId": info.id,
@@ -87,6 +95,15 @@ function DataManager() {
 	            		frontManager.showMessage("No debiste presionar UNO","red");
 	            	}
 	            }
+		});
+	}
+	
+	/**Encargado de hacer las peticiones AJAX para eliminar los archivos remanentes del juego*/
+	this.destroy = function(){
+		clearInterval(idSetIntervalUpdate);
+
+		$.get("destroyer.jsp",{"destroy":"destroy"},function(callback){
+			console.trace(callback);
 		});
 	}
 

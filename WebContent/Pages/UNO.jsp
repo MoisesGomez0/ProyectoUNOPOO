@@ -1,4 +1,4 @@
-<%@page import="clases.FileManager"%>
+<%@page import="core.FileManager"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -6,6 +6,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="author" content="MAL">
+    <meta name="description" content="Pantalla de juego">
     <title>UNO</title>
     <script src="../jquery-3.4.1.min.js"></script>
     <script src="../scripts/DataManager.js"></script>
@@ -66,7 +68,7 @@
         <div id="hostPopUp" class="popUp">
                 <h1>UNO</h1>
                 <h2 id="lastMessage"></h2>
-                <button class="decisionBtn" onclick="location='index.jsp'">Volver a inicio</button>
+                <button class="decisionBtn" onclick="dataManager.destroy();setTimeout(location='index.jsp',5000);console.log('presioné el boton')">Volver a inicio</button>
         </div>
     </div>
     

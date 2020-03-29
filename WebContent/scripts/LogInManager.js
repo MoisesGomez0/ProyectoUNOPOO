@@ -55,7 +55,7 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 					clearInterval(intervalId);
 				}
 			})
-		}, 100);
+		}, 750);
 
 	}
 

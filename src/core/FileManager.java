@@ -11,59 +11,33 @@ import java.io.InputStreamReader;
  * 
  * @author moises
  * @version 0.1.0
- * @apiNote CUAL ES LA RUTA!!!!
  * 
  * */
 public class FileManager {
 	
 	private String pathToWork = "";
 	
-	public void deleteFile(String name) {
-		File file = new File(name);
-		file.delete();
-	}
-	
-	
-	/**
-	 * Constructor donde se puede establece una ruta específica.
-	 * @param path ruta.
-	 */
 	public FileManager(String path) {
 		this.pathToWork = path;
 	}
 	
-	/**
-	 * Constructor vacio de la clase.
-	 * */
 	public FileManager() {}	
 	
 	public String getPathToWork() {
 		return this.pathToWork;
 	}
 	
-	/**
-	 * Establece la dirección donde se guardaran los archivos una vez el objeto está instanciado.
-	 * @param pathToWork ruta.
-	 * */
 	public void setPathToWork(String pathToWork) {
 		this.pathToWork = pathToWork;
 	}
 	
-	/**
-	 * @return retorna la ruta donde se están guardando los archivos.
-	 */
 	public String wpath() {
 		File f = new File(pathToWork + ".");
 		return f.getAbsolutePath();
 	}
 	
 	
-	/**
-	 * 
-	 * Recibe el nombre de un archivo, lee el contenido y lo retorna como un String.
-	 * @param fileName nombre del archivo.
-	 * @return contenido del archivo.
-	 */
+	
 	public String read(String fileName) {
 		StringBuilder content = new StringBuilder("");
 		try {
@@ -81,26 +55,16 @@ public class FileManager {
 				br.close();
 			}
 		}catch(Exception e){
-			
+			return "fail";
 		}
-		
+		System.out.println(content.toString());
 		return content.toString();
 	}
 	
-	/**
-	 * Escribe un archivo en la memoria, si ya existe lo remplaza.
-	 * @param fileName Nombre del archivo a crear.
-	 * @param content Contenido a escribir dentro del archivo.
-	 */
 	public void write(String fileName, String content) {
 		this.create(fileName, content);
 	}
 	
-	/**
-	 * Escribe un archivo en la memoria, si ya existe lo remplaza.
-	 * @param fileName Nombre del archivo a crear.
-	 * @param content Contenido a escribir dentro del archivo.
-	 */
 	public void create(String fileName, String content) {
 		try {
 		FileOutputStream fos = new FileOutputStream(pathToWork+fileName);
@@ -115,9 +79,8 @@ public class FileManager {
 		}
 	}
 	
-	/**Pruebas de la clase.*/
-	public static void main(String[] args) {
-		FileManager fm = new FileManager("src/memory/");
-		fm.write("game.json", "No hay tal cosa.");
+	public boolean deleteFile(String fileName) {
+		File file = new File(fileName);
+		return file.delete();
 	}
 }

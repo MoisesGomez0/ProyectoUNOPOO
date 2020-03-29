@@ -8,21 +8,21 @@ function IndexManager(){
      * un jugador que será el host de una partida.
      */
     this.showInputHost= function(){
-        backScreenHost.classList.add("active");
-        hostPopUp.classList.add("active");
+        document.querySelector("#backScreenHost").classList.add("active");
+        document.querySelector("#hostPopUp").classList.add("active");
     }
 
     /**Muestra al usuario los campos de texto parque introdusca datos de un jugador 
      * que va a entrar a una partida.
      */
     this.showInputGuest = function(){
-        backScreenGuest.classList.add("active");
+        document.querySelector("#backScreenGuest").classList.add("active");
     }
     /**Muestra al usuario las estádisticas del juego*/
     this.showStadistics = function(){
     	$.get("scoreBoard.jsp",{},function(data){
     		table.innerHTML = data;
-    		backScreenScore.classList.add("active");
+    		document.querySelector("#backScreenScore").classList.add("active");
     	})
         
     }
@@ -36,28 +36,28 @@ function IndexManager(){
         if(message){
             errorMessage.innerHTML = message;
         }
-        errorBackScreen.classList.add("active");
+        document.querySelector("#errorBackScreen").classList.add("active");
         sm.playError();
     }
 
     /**Oculta los elementos en pantalla donde el usuario host escribe datos. */
     this.hideInputHost = function(){
-        backScreenHost.classList.remove("active");
+        document.querySelector("#backScreenHost").classList.remove("active");
     }
 
     /**Oculta los elementos en pantalla donde el usuario guest escribe datos. */
     this.hideInputGuest = function(){
-        backScreenGuest.classList.remove("active");
+        document.querySelector("#backScreenGuest").classList.remove("active");
     }
 
     /**Oculta el mensaje de error. */
     this.hideError = function(){
-        errorBackScreen.classList.remove("active");
+        document.querySelector("#errorBackScreen").classList.remove("active");
     }
 
     /**Oculta las estadisticas del juego */
     this.hideStadistics = function(){
-        backScreenScore.classList.remove("active");
+        document.querySelector("#backScreenScore").classList.remove("active");
 
     }
 

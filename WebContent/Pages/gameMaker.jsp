@@ -4,7 +4,7 @@
 <%@page import="core.Player"%>
 <%@page import="core.Game"%>
 <%@page import="core.Deck"%>
-<%@page import="clases.FileManager"%>
+<%@page import="core.FileManager"%>
 <%
 	
 	Game game = new Game(
