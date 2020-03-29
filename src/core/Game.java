@@ -291,14 +291,16 @@ public class Game {
 	/**
 	 * El jugador preciona el botón UNO.
 	 */
-	public void playerPressUNO() {
+	public boolean playerPressUNO() {
 		
 		if(this.currentPlayer().getHand().getCards().size() != 2) {
 			this.currentPlayer().drawTwo();
 			this.nextPlayer();
+			return false;
 
 		}else {
 			this.currentPlayer().setUNO(true);
+			return true;
 				
 		}
 		
