@@ -65,11 +65,12 @@ function IndexManager(){
      * lo redirecciona a una pantalla de espera.
      */
     this.verifyAndRedirectHost = function(){
-        if(hostName.value != ""){
+        if(hostName.value != "" && hostName.value != null && hostName.value != undefined){
             cookiesManager.setCookie("name",hostName.value);
             this.startHostRutine();
         }else{
             this.showError();
+            cookiesManager.setCookie("name","");
         }
     }
 
@@ -78,12 +79,14 @@ function IndexManager(){
      * 
      */
     this.verifyAndRedirectGuest = function(){
-        if(guestName.value != "" && gameId.value != ""){
+        if(guestName.value != "" && gameId.value != "" && guestName.value != null && gameId.value != null && guestName.value != undefined && gameId.value != undefined){
             cookiesManager.setCookie("name",guestName.value);
             cookiesManager.setCookie("gameId",gameId.value);
             this.startGuestRutine();
         }else{
             this.showError();
+            cookiesManager.setCookie("name","");
+            cookiesManager.setCookie("gameId","");
         }
     }
     

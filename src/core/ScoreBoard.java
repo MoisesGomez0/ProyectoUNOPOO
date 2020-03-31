@@ -164,15 +164,16 @@ public class ScoreBoard {
 			}
 		}
 		
-		if(newPlayers.get(newPlayers.size()-1).getName().equals(newPlayers.get(newPlayers.size()-2))) { /**Elimina el ultimo repetido.*/
-			newPlayers.remove(newPlayers.size()-1);
+		if (newPlayers.size() > 1) {
+			if(newPlayers.get(newPlayers.size()-1).getName().equals(newPlayers.get(newPlayers.size()-2).getName())) { /**Elimina el ultimo repetido.*/
+				newPlayers.remove(newPlayers.size()-1);
+			}		
 		}
 		
 		this.players = newPlayers;
 		result.setPlayers(newPlayers);
 		
 		return result;
-		
 	}
 	
 	/**
