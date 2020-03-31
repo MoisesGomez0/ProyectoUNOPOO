@@ -49,6 +49,7 @@
     <div id="backScreenDecision" class="backScreen">
         <div id="hostPopUp" class="popUp">
                 <h1>UNO</h1>
+                <h1>+4</h1>
                 <h2>¿Retás a tu oponente?</h2>
                 <button id="YES" class="decisionBtn" onclick="am.chooseDecision(this.id)">Si</button>
                 <button id="NO" class="decisionBtn" onclick="am.chooseDecision(this.id)">NO</button>
@@ -58,6 +59,7 @@
     <div id="backScreenDrop" class="backScreen">
         <div id="hostPopUp" class="popUp">
                 <h1>UNO</h1>
+                <h2>Podés soltar la última carta que tomaste.</h2>
                 <h2>¿Querés tirar la carta?</h2>
                 <button id="YES" class="decisionBtn" onclick="am.dropConditionalCard(this.id); onDesition= false">Si</button>
                 <button id="NO" class="decisionBtn" onclick="am.dropConditionalCard(this.id);  onDesition= false">NO</button>

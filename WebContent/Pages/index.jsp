@@ -61,7 +61,7 @@
             <br>
             <input id="gameId" type="text" placeholder="Código del juego">
             <br>
-            <button onclick="indexManager.verifyAndRedirectGuest()" class="formBtn">Entrar en juego</button>
+            <button onclick="indexManager.verifyAndRedirectGuest();" class="formBtn">Entrar en juego</button>
             <br>
             <button class="formBtn closeWindow" onclick="indexManager.hideInputGuest();">Cancelar</button>
         </div>
@@ -103,7 +103,7 @@
                 <br>
                 <h2 class="message" id="loadingBox"></h2>
                 <br>
-                <h2 class="message">Tu oponente no esta listos.</h2>
+                <h2 class="message">Tu oponente no esta listo.</h2>
             </div>
 
             <div id="errorBackScreen" class="backScreen">
