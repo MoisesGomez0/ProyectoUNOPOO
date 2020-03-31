@@ -1,5 +1,10 @@
 package core;
 
+/**
+ * Guarda la información de cada jugador que ha jugador una partida de UNO.
+ * @author leonardo
+ *
+ */
 public class ScoreBoardPlayer {
 	
 	private int rank;

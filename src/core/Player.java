@@ -1,5 +1,10 @@
 package core;
 
+/**
+ * Maneja todas las acciones y las cartas que tiene un jugador en un a partida UNO.
+ * @author leonardo
+ *
+ */
 public class Player {
 
 	private String name;

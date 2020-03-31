@@ -5,7 +5,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
+/**
+ * Administra los puntos de los jugadores.
+ * @author leonardo
+ *
+ */
 public class ScoreBoard {
 	
 	private ArrayList<ScoreBoardPlayer> players = new ArrayList<>();
@@ -124,6 +128,11 @@ public class ScoreBoard {
 		return 0; 
 	}
 	
+	/**
+	 * Lee un archivo json con la información de la tabla.
+	 * @param file Nombre del archivo.
+	 * @return El contenido del archivo.
+	 */
 	private String load(String file) {
 		FileManager fm = new FileManager();
 		return fm.read(file);
@@ -166,12 +175,19 @@ public class ScoreBoard {
 		
 	}
 	
+	/**
+	 * Guarda en memoria la información de la tabla.
+	 */
 	public void saveMemory() {
 		this.sortByPoints();
 		FileManager fm = new FileManager("");
 		fm.write("scoreBoard.json", this.toString());
 	}
 	
+	/**
+	 * Escribe la información de la tabla en formato json.
+	 * @return El contenido de la tabla.
+	 */
 	@Override
 	public String toString() {
 		StringBuilder result = new StringBuilder("");
@@ -197,6 +213,11 @@ public class ScoreBoard {
 		return result.toString();
 	}
 	
+	/**
+	 * Genera una tabla HTML con la información de la tabla ordenada de manera descendente
+	 * según los puntos del jugador.
+	 * @return Una tabla HTML.
+	 */
 	public String toHTML() {
 		this.sortByPoints();
 		StringBuilder result = new StringBuilder("<table><thead><tr><td>Rank</td><td>Nombre</td><td>Puntos</td><td>En último juego</td>");
@@ -220,6 +241,11 @@ public class ScoreBoard {
 		return result.toString();
 	}
 	
+	/**
+	 * Genera una ScoreBoard de un String en formato json.
+	 * @param json Json que contiene la información.
+	 * @return La ScoreBoard instanciada.
+	 */
 	public static ScoreBoard parse(String json) {
 		return new ScoreBoard(json);
 	}
