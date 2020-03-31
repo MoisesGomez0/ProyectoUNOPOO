@@ -166,13 +166,4 @@ public class Player {
 	public void setUNO(boolean uNO) {
 		UNO = uNO;
 	}
-	/**Pruebas de la clase.*/
-	public static void main(String[] args) {
-		Player p = new Player();
-		p.getHand().getCards().add(RandomGenerator.UNOCard());
-		p.getHand().getCards().add(RandomGenerator.UNOCard());
-		p.getHand().getCards().add(RandomGenerator.UNOCard());
-		p.getHand().getCards().add(RandomGenerator.UNOCard());
-		System.out.println(p.toJSON(1));
-	}
 }

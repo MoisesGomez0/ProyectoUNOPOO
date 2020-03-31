@@ -19,6 +19,12 @@ public class Game {
 	private Deck deck = new Deck();
 	private DiscardPile discardPile = new DiscardPile(getDeck());
 	
+	/**
+	 * Constructor de la clase.
+	 * @param id ID de la partida.
+	 * @param p1 El hostPlayer.
+	 * @param p2 El guestPlayer.
+	 */
 	public Game(String id, Player p1, Player p2) {
 		this.setId(id);
 		this.setHostPlayer(p1);
@@ -27,6 +33,19 @@ public class Game {
 		this.getGuestPlayer().setId(1);
 	}
 	
+	/**
+	 * Constructor para intanciar una partida desde un JSON.
+	 * @param id
+	 * @param currentPlayerId
+	 * @param currentColor
+	 * @param endGame
+	 * @param onChallenge
+	 * @param clockWise
+	 * @param p1
+	 * @param p2
+	 * @param deck
+	 * @param discardPile
+	 */
 	public Game(String id,
 				int currentPlayerId,
 				EColor currentColor,
@@ -145,9 +164,8 @@ public class Game {
 	 * El jugador en turno toma una carta.
 	 * @param playerId Id del jugador en turno.
 	 */
-	
 	public boolean playerTakeCard() {
-		
+		/**Si la baraja está vacía.*/
 		String firstCardColor = this.deck.getCards().get(0).getColor().getName();
 		String firstCardValue = this.deck.getCards().get(0).getValue().getName();
 		String lastDiscardPileValue = this.discardPile.getCards().get(this.discardPile.getCards().size()-1).getValue().getName();
@@ -156,13 +174,23 @@ public class Game {
 		if (!this.currentColor.getName().equals(firstCardColor) &&
 			!lastDiscardPileValue.contentEquals(firstCardValue) &&
 			!firstCardColor.equals(EColor.BLACK.getName())) {
-			
 			this.currentPlayer().takeCard();
 			this.ifDoesNotUNOSwitchToFalse();
 			this.nextPlayer();	
 		}else {
 			this.currentPlayer().takeCard();
 			return true;
+		}
+		
+		if (this.deck.getCards().size()<=10) {
+			Deck newDeck= new Deck();
+			newDeck.shuffle();
+			this.deck.getCards().addAll(newDeck.getCards());
+			Card lastCard = this.discardPile.getCards().get(this.discardPile.getCards().size()-1);
+			Card preLastCard = this.discardPile.getCards().get(this.discardPile.getCards().size()-2);
+			this.discardPile.getCards().clear(); /**Se eliminan las cartas de la discardPile.*/
+			this.discardPile.getCards().add(preLastCard); /**Se añade la penultima carta a la discarPile.*/
+			this.discardPile.getCards().add(lastCard); /**Se añade la ultima carta a la discardPile.*/
 		}
 		
 		return false;
@@ -242,9 +270,13 @@ public class Game {
 		
 		this.endGame();/**Verifica si termina la partida.*/
 		return currentPlayer.getId();
-		
 	}
 	
+	/**
+	 * Realiza las penalizaciones de un reto por una carta Draw Four.
+	 * @param decision false si no retó al oponente.
+	 * @return Un String en formato JSON para espeficar quien ganó el reto.
+	 */
 	public String challengeDFOUR(boolean decision) {
 		Card lastCard = this.discardPile.getCards().get(this.discardPile.getCards().size()-1); /**Última carta.*/
 		Card prevLastCard = this.discardPile.getCards().get(this.discardPile.getCards().size()-2); /**Penúltima carta.*/
@@ -306,6 +338,11 @@ public class Game {
 		
 	}
 	
+	/**
+	 * Calcula los puntos del ganador al final de la partida.
+	 * Los puntos dependen de las cartas del perdedor.
+	 * @return Un arreglo con el nombre del jugador ganador y los puntos que gana
+	 */
 	private String[] calculatePoints() {
 		String[] resultString = new String[2];
 		int result = 0;
@@ -326,6 +363,7 @@ public class Game {
 		}
 		return resultString;
 	}
+	
 	/**
 	 * Termina la partida.
 	 */
@@ -352,6 +390,7 @@ public class Game {
 			
 		}
 	}
+	
 	/**
 	 * Guarda la partida en un archivo JSON en memoria.
 	 */
@@ -359,6 +398,7 @@ public class Game {
 		FileManager fm = new FileManager();
 		fm.write("game.json", this.toString());
 	}
+	
 	/**
 	 * Genera una representación JSON del objeto.
 	 */
@@ -383,6 +423,7 @@ public class Game {
 		
 		return result.toString();
 	}
+	
 	
 	/**
 	 * 
@@ -549,21 +590,4 @@ public class Game {
 		this.endGame = endGame;
 	}
 
-	/**Pruebas de la clase.*/
-	public static void main(String[] args) {
-		Player p1 = new Player("josn",new Hand());
-		Player p2 = new Player("jon",new Hand());
-		
-		Game game = new Game("1a46bt", p1, p2);
-		game.generateGame();
-		
-		game.saveMemory();
-		
-		
-		/**
-		FileManager fm = new FileManager();
-		System.out.println(fm.wpath());
-		*/
-		
-	}
 }

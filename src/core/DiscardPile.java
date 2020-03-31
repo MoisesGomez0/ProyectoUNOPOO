@@ -63,15 +63,4 @@ public class DiscardPile extends Deck{
 		this.deck = deck;
 	}
 	
-	public static void main(String[] args) {
-		Deck a = new Deck();
-		DiscardPile ad = new DiscardPile(a);
-		DiscardPile bd = ad;
-		System.out.println(ad.equals(bd));
-		
-		bd = new DiscardPile(a.shuffle());
-		System.out.println(ad.equals(bd));
-		
-		
-	}
 }

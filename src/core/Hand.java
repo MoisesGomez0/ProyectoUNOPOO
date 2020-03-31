@@ -119,18 +119,4 @@ public class Hand extends Deck{
 		this.discardPile = discardPile;
 	}
 
-	//Pruebas con la clase.
-    public static void main(String[] args){
-    	Deck deck = new Deck();
-    	DiscardPile discardPile = new DiscardPile(deck);
-    	
-    	deck.shuffle();
-    	discardPile.receiveFirstCard();
-    	
-    	Hand a = new Hand(deck);
-    	Hand b = new Hand(deck);
-    	
-    	System.out.println(a.equals(b));
-    }
-
 }

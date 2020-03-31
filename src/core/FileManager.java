@@ -17,6 +17,10 @@ public class FileManager {
 	
 	private String pathToWork = "";
 	
+	/**
+	 * 
+	 * @param path Indica la ruta donde se leerán y crarán archivos.
+	 */
 	public FileManager(String path) {
 		this.pathToWork = path;
 	}
@@ -37,7 +41,11 @@ public class FileManager {
 	}
 	
 	
-	
+	/**
+	 * Lee un archivo.
+	 * @param fileName Nombre del archivo a leer.
+	 * @return El contenido del archivo.
+	 */
 	public String read(String fileName) {
 		StringBuilder content = new StringBuilder("");
 		try {
@@ -60,11 +68,20 @@ public class FileManager {
 		System.out.println(content.toString());
 		return content.toString();
 	}
-	
+	/**
+	 * Ecribe en un archivo.
+	 * @param fileName Nombre del archivo en que se escribirán los datos.
+	 * @param content Contenido que se le agrega al archivo.
+	 */
 	public void write(String fileName, String content) {
 		this.create(fileName, content);
 	}
 	
+	/**
+	 * Ecribe en un archivo.
+	 * @param fileName Nombre del archivo en que se escribirán los datos.
+	 * @param content Contenido que se le agrega al archivo.
+	 */
 	public void create(String fileName, String content) {
 		try {
 		FileOutputStream fos = new FileOutputStream(pathToWork+fileName);
@@ -79,6 +96,11 @@ public class FileManager {
 		}
 	}
 	
+	/**
+	 * Elimina un archivo.
+	 * @param fileName Nombre del archivo a eliminar.
+	 * @return true si eliminó el archivo con éxito.
+	 */
 	public boolean deleteFile(String fileName) {
 		File file = new File(fileName);
 		return file.delete();

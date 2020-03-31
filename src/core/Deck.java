@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 
 /**
- *
+ * Baraja para una partida de UNO.
+ * Maneja objetos de tipo Card.
  * @author Leonardo
  */
 public class Deck {
@@ -98,6 +99,11 @@ public class Deck {
     	return result;    	
     }
     
+    /**
+     * 
+     * @param card Carta que se requiere.
+     * @return La carta dentro de cards.
+     */
     public Card giveCard(Card card){
     	/**Resultado de la busqueda de la carta en la baraja. (false si no se encuntra la carta en la baraja.*/
     	int searchResult = this.searchCard(card.getValue(), card.getColor());
@@ -189,7 +195,7 @@ public class Deck {
     	if (this.cards.size() == 1) {
     		result.append(String.format("%s%s\n", "\t".repeat(1),this.cards.get(0)));
     	}else {
-    		for (Card card : getCards().subList(0, this.cards.size()-2)) {
+    		for (Card card : getCards().subList(0, this.cards.size()-1)) {
     			result.append(String.format("%s%s,\n", "\t".repeat(1),card));
     		}  		
     		result.append(String.format("%s%s\n", "\t".repeat(1),this.cards.get(size-1)));
@@ -230,31 +236,5 @@ public class Deck {
 	public ArrayList<Card> getCards() {
 		return cards;
 	}
-
-	/**Pruebas con la clase.*/
-    public static void main(String[] args){
-       /* 
-    	ArrayList<String> a = new ArrayList<>();
-    	ArrayList<String> b = new ArrayList<>();
-    	
-    	System.out.println(a.equals(b));
-    	
-    	b.add("buenas tardes.");
-    	
-    	System.out.println(a.equals(b));
-    	
-    	a.add("buenas tardes.");
-    	
-    	System.out.println(a.equals(b));
-    	
-    	Deck deck = new Deck();
-    	
-    	//deck.shuffle();
-    	System.out.println("======Shuffle=====");
-    	System.out.println(deck);
-		*/
-
-    }
-
 
 }

@@ -1,7 +1,7 @@
 package core;
 
 /**
- *
+ * Carta para un juego de UNO.
  * @author Leonardo
  */
 public class Card {
@@ -24,6 +24,11 @@ public class Card {
         
             
     }
+    
+    /**
+     * Constructor sobrecargado.
+     * @param card Nombre en de la carta. Es validado con una expresión regular.
+     */
     public Card(String card) {
     	if (!card.matches(String.format("^%s$", ERegex.CARD))) {
     		throw new IllegalArgumentException("Formato para Card no es el adecuado.");
@@ -92,23 +97,5 @@ public class Card {
 	public void setValue(EValue value) {
 		this.value = value;
 	}
-
-
-
-	//Pruebas con la clase.
-    public static void main(String[] args){
-    	String a = "CERO_GREEN";
-    	
-    	Card card1= new Card("CERO_RED");
-    	Card card2 = new Card("CERO_GREEN");
-    	System.out.println(card1.equals(card2));
-    	System.out.println(card2.equals(new Card(a)));
-    	System.out.println("==");
-    	
-    }
-
-
-
-
 
 }

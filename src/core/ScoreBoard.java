@@ -121,13 +121,11 @@ public class ScoreBoard {
 			}
 		}
 		
-		
 		return 0; 
 	}
 	
 	private String load(String file) {
 		FileManager fm = new FileManager();
-		System.out.println(fm.wpath());
 		return fm.read(file);
 	}
 	
@@ -155,6 +153,10 @@ public class ScoreBoard {
 					break;
 				}
 			}
+		}
+		
+		if(newPlayers.get(newPlayers.size()-1).getName().equals(newPlayers.get(newPlayers.size()-2))) { /**Elimina el ultimo repetido.*/
+			newPlayers.remove(newPlayers.size()-1);
 		}
 		
 		this.players = newPlayers;
@@ -236,9 +238,5 @@ public class ScoreBoard {
 		this.players = players;
 	}
 
-	//Pruebas de la clase.
-	public static void main(String[] args) {
-		ScoreBoard sb = new ScoreBoard();
-		sb.saveMemory();
-	}
+	
 }

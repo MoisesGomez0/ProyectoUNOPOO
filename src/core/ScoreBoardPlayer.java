@@ -158,7 +158,4 @@ public class ScoreBoardPlayer {
 		this.date = date;
 	}
 
-	//Pruebas de la clase.
-	public static void main(String[] args) {
-	}
 }
