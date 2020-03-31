@@ -46,10 +46,10 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 	this.verifyLoginAndRedirec = function () {
 		var id = this.gameId;
 		var intervalId = setInterval(function () {
-			$.get("getContent.jsp", { "file": "logIn.json" }, function (data) {
+			$.post("getContent.jsp", { "file": "logIn.json" }, function (data) {
 				data = JSON.parse(data.trim());
 				if (data.players.length == data.nPlayers) {
-					$.get("gameMaker.jsp", { "hostPlayer": data.players[0], "guestPlayer": data.players[1], "gameId": id }, function (data) {
+					$.post("gameMaker.jsp", { "hostPlayer": data.players[0], "guestPlayer": data.players[1], "gameId": id }, function (data) {
 						location = "UNO.jsp"
 					});
 					clearInterval(intervalId);
@@ -64,7 +64,7 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 		var playerName = this.name;
 		var id = this.gameId;
 		var isIn = this.isIn;
-		$.get("getContent.jsp", { "file": "logIn.json" }, function (data) {
+		$.post("getContent.jsp", { "file": "logIn.json" }, function (data) {
 			if (data == "fail") {
 				indexManager.showError("No encontramos lo archivos necesarios, llama a soporte técnico de MAL inc.");
 		    	loadingScreenGuest.classList.remove("active");
@@ -88,7 +88,7 @@ function LogInManager(name = null, nPlayers = 0, gameId = null) {
 
 						} else {
 							data.players.push(playerName);
-							$.get("write.jsp", { "file": "logIn.json", "content": JSON.stringify(data), "override": true }, function (info) {
+							$.post("write.jsp", { "file": "logIn.json", "content": JSON.stringify(data), "override": true }, function (info) {
 								location = "UNO.jsp";
 							});
 						}
