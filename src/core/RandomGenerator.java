@@ -115,7 +115,6 @@ public abstract class RandomGenerator {
      * 
      * @return Un número o símbolo aleatorio para las cartas que NO son especiales (cartas que no sean de color negro).
      */
-    @SuppressWarnings("unused")
 	public static EValue noBlackCardNumbers() {
         EValue[] value = {
         		EValue.CERO,
